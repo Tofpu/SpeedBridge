@@ -1,0 +1,5 @@
+name: SpeedBridge
+version: ${project.version}
+main: me.tofpu.speedbridge.SpeedBridge
+api-version: 1.17
+authors: [ Tofpu ]
