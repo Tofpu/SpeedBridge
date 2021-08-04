@@ -12,7 +12,7 @@ public class UserService implements IUserService {
     private final List<IUser> users = new ArrayList<>();
 
     @Override
-    public IUser createUser(final UUID uuid){
+    public IUser createUser(final UUID uuid) {
         final IUser user = new User(uuid);
         this.users.add(user);
 
@@ -20,20 +20,20 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void removeUser(final IUser user){
+    public void removeUser(final IUser user) {
         this.users.remove(user);
     }
 
     @Override
-    public IUser getOrDefault(final UUID uuid){
+    public IUser getOrDefault(final UUID uuid) {
         IUser user = searchForUUID(uuid);
         if (user == null) createUser(uuid);
         return user;
     }
 
     @Override
-    public IUser searchForUUID(final UUID uuid){
-        for (final IUser user : this.users){
+    public IUser searchForUUID(final UUID uuid) {
+        for (final IUser user : this.users) {
             if (user.getUuid() == uuid) return user;
         }
         return null;

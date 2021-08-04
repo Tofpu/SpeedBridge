@@ -15,26 +15,26 @@ public class IslandController {
         this.islandService = islandService;
     }
 
-    public void addIsland(@NotNull final Island island){
+    public void addIsland(@NotNull final Island island) {
         this.islandService.addIsland(island);
     }
 
-    public void removeIsland(@NotNull final Island island){
+    public void removeIsland(@NotNull final Island island) {
         this.islandService.removeIsland(island);
     }
 
     @Nullable
-    public Island getIslandBySlot(@NotNull final int slot){
+    public Island getIslandBySlot(@NotNull final int slot) {
         return this.islandService.getIslandBySlot(slot);
     }
 
     @Nullable
-    public Island getIslandByUser(@NotNull final IUser user){
+    public Island getIslandByUser(@NotNull final IUser user) {
         return this.islandService.getIslandByUser(user);
     }
 
     @NotNull
-    public List<Island> getAvailableIslands(){
+    public List<Island> getAvailableIslands() {
         return this.islandService.getAvailableIslands();
     }
 }

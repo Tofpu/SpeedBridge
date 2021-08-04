@@ -22,7 +22,7 @@ public class Timer {
     }
 
     @NotNull
-    public long getResult(){
+    public long getResult() {
         return end - start;
     }
 }

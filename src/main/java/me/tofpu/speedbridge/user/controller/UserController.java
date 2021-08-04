@@ -14,7 +14,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    public IUser createUser(@NotNull final UUID uuid){
+    public IUser createUser(@NotNull final UUID uuid) {
         return this.userService.createUser(uuid);
     }
 
@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @NotNull
-    public IUser getOrDefault(@NotNull final UUID uuid){
+    public IUser getOrDefault(@NotNull final UUID uuid) {
         return this.userService.createUser(uuid);
     }
 

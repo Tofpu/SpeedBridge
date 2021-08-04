@@ -6,7 +6,9 @@ import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.impl.Island;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.user.IUser;
+import me.tofpu.speedbridge.user.properties.UserProperties;
 import me.tofpu.speedbridge.user.service.IUserService;
+import me.tofpu.speedbridge.user.timer.Timer;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -23,13 +25,14 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public boolean join(@NotNull final Player player){
+    public boolean join(@NotNull final Player player) {
         final List<Island> islands = islandService.getAvailableIslands();
         if (islands.size() < 1) return false;
 
         final IIsland island = islands.get(0);
         final IUser user = userService.getOrDefault(player.getUniqueId());
 
+        user.getProperties().setIslandSlot(island.getSlot());
         island.setTakenBy(user);
         player.teleport(island.getLocation());
         // TODO: SEND MESSAGE THAT THEY JOINED!
@@ -38,15 +41,34 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public boolean leave(@NotNull final Player player){
+    public boolean leave(@NotNull final Player player) {
         final IUser user = userService.searchForUUID(player.getUniqueId());
         if (user == null) return false;
 
+        user.getProperties().setIslandSlot(null);
         final Island island = this.islandService.getIslandByUser(user);
         island.setTakenBy(null);
         // TODO: TELEPORT PLAYER TO LOBBY!
         // TODO: SEND MESSAGE THAT THEY'VE LEFT!
 
         return true;
+    }
+
+    @Override
+    public void updateTimer(@NotNull final Player player, @NotNull final Timer timer) {
+        final IUser user = userService.searchForUUID(player.getUniqueId());
+        if (user == null){
+            return;
+        }
+
+        final UserProperties properties = user.getProperties();
+        if (properties.getTimer().getResult() <= timer.getResult()){
+            // TODO: SEND MESSAGE THAT THEY HAVEN'T BEATEN THEIR LOWEST RECORD.
+
+        } else {
+            // TODO: SEND MESSAGE THAT THEY HAVE BEATEN THEIR LOWEST RECORD.
+            properties.setTimer(timer);
+        }
+        // TODO: TELEPORT PLAYER BACK TO POINT A
     }
 }

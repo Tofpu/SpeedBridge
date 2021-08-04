@@ -6,7 +6,7 @@ import me.tofpu.speedbridge.user.properties.UserProperties;
 
 import java.util.UUID;
 
-public class User extends UserProperties implements IUser {
+public final class User extends UserProperties implements IUser {
     private final UUID uuid;
 
     public User(@NotNull final UUID uuid) {
@@ -14,8 +14,10 @@ public class User extends UserProperties implements IUser {
     }
 
     public User(@NotNull final UUID uuid, @NotNull final UserProperties userProperties) {
-        super(0);
+        super();
         this.uuid = uuid;
+        this.setIslandSlot(userProperties.getIslandSlot());
+        this.setTimer(userProperties.getTimer());
     }
 
     @Override
@@ -24,7 +26,7 @@ public class User extends UserProperties implements IUser {
     }
 
     @Override
-    public UserProperties getUserProperties() {
+    public UserProperties getProperties() {
         return this;
     }
 }

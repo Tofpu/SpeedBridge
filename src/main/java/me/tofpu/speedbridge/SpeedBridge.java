@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class SpeedBridge extends JavaPlugin {
     private final Game game;
 
-    public SpeedBridge(){
+    public SpeedBridge() {
         this.game = new Game();
     }
 

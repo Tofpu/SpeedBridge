@@ -10,5 +10,5 @@ public interface IUser {
     public UUID getUuid();
 
     @NotNull
-    public UserProperties getUserProperties();
+    public UserProperties getProperties();
 }

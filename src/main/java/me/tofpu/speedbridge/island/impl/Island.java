@@ -5,8 +5,11 @@ import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.user.IUser;
 import org.bukkit.Location;
 
+// TODO:
+// create a properties class, extend it and basically store locations and stuff there
 public class Island implements IIsland {
     private final int slot;
+
     private Location location;
     private IUser takenBy;
 
@@ -25,7 +28,7 @@ public class Island implements IIsland {
     }
 
     @Override
-    public boolean isAvailable(){
+    public boolean isAvailable() {
         return takenBy == null;
     }
 
@@ -43,7 +46,6 @@ public class Island implements IIsland {
     public boolean hasLocation() {
         return location != null;
     }
-
 
     @Override
     public int getSlot() {

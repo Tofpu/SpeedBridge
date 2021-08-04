@@ -8,9 +8,14 @@ public class UserProperties {
     private Integer islandSlot;
     private Timer timer;
 
-    public UserProperties(){}
+    public UserProperties() {
+    }
 
     public UserProperties(@NotNull final int islandSlot) {
+        this.islandSlot = islandSlot;
+    }
+
+    public void setIslandSlot(@NotNull final Integer islandSlot) {
         this.islandSlot = islandSlot;
     }
 
