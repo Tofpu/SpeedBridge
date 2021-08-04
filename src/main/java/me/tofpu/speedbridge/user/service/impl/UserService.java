@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge.user.service.impl;
 
 import me.tofpu.speedbridge.user.IUser;
+import me.tofpu.speedbridge.user.impl.User;
 import me.tofpu.speedbridge.user.service.IUserService;
 
 import java.util.ArrayList;
@@ -11,13 +12,23 @@ public class UserService implements IUserService {
     private final List<IUser> users = new ArrayList<>();
 
     @Override
-    public void addUser(final IUser user){
+    public IUser createUser(final UUID uuid){
+        final IUser user = new User(uuid);
         this.users.add(user);
+
+        return user;
     }
 
     @Override
     public void removeUser(final IUser user){
         this.users.remove(user);
+    }
+
+    @Override
+    public IUser getOrDefault(final UUID uuid){
+        IUser user = searchForUUID(uuid);
+        if (user == null) createUser(uuid);
+        return user;
     }
 
     @Override

@@ -5,8 +5,6 @@ import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.user.IUser;
 import org.bukkit.Location;
 
-import java.util.UUID;
-
 public class Island implements IIsland {
     private final int slot;
     private Location location;

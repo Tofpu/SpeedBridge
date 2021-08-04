@@ -40,7 +40,7 @@ public class IslandService implements IIslandService {
     public List<Island> getAvailableIslands(){
         final List<Island> islands = new ArrayList<>();
         for (final Island island : this.islands){
-            if (island.isAvailable()){
+            if (island.isAvailable() && island.hasLocation()){
                 islands.add(island);
             }
         }
