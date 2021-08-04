@@ -1,5 +1,6 @@
 package me.tofpu.speedbridge;
 
+import me.tofpu.speedbridge.command.CommandManager;
 import me.tofpu.speedbridge.island.impl.Island;
 import me.tofpu.speedbridge.island.controller.IslandController;
 import me.tofpu.speedbridge.island.service.IIslandService;
@@ -9,11 +10,12 @@ import me.tofpu.speedbridge.user.controller.UserController;
 import me.tofpu.speedbridge.user.impl.User;
 import me.tofpu.speedbridge.user.service.IUserService;
 import me.tofpu.speedbridge.user.service.impl.UserService;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.UUID;
 
+// TODO:
+// Add a game package, game service & game controller!
 public final class SpeedBridge extends JavaPlugin {
     private final IslandController islandController;
     private final UserController userController;
@@ -29,6 +31,7 @@ public final class SpeedBridge extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        getCommand("speedbridge").setExecutor(new CommandManager(islandController, userController));
 
         // TES1
         final Island island = new Island(10);

@@ -6,11 +6,10 @@ import me.tofpu.speedbridge.user.IUser;
 import org.bukkit.Location;
 
 public interface IIsland {
-    public void setTakenBy(@NotNull IUser takenBy);
+    public void setTakenBy(@NotNull final IUser takenBy);
 
-    public void setLocation(@NotNull Location location);
+    public void setLocation(@NotNull final Location location);
 
-    @NotNull
     public boolean isAvailable();
 
     @Nullable
@@ -18,6 +17,8 @@ public interface IIsland {
 
     @Nullable
     public Location getLocation();
+
+    public boolean hasLocation();
 
     @NotNull
     public int getSlot();

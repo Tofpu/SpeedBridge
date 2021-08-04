@@ -42,6 +42,12 @@ public class Island implements IIsland {
     }
 
     @Override
+    public boolean hasLocation() {
+        return location != null;
+    }
+
+
+    @Override
     public int getSlot() {
         return slot;
     }
