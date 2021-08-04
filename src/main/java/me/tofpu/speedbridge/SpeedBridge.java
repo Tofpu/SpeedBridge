@@ -43,6 +43,7 @@ public final class SpeedBridge extends JavaPlugin {
         this.userController.addUser(user);
 
         final IUser userResult = this.userController.searchForUUID(uuid);
+
     }
 
     @Override

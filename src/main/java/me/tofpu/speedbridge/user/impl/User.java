@@ -6,17 +6,16 @@ import me.tofpu.speedbridge.user.properties.UserProperties;
 
 import java.util.UUID;
 
-public class User implements IUser {
+public class User extends UserProperties implements IUser {
     private final UUID uuid;
-    private final UserProperties userProperties;
 
     public User(@NotNull final UUID uuid) {
         this(uuid, new UserProperties());
     }
 
     public User(@NotNull final UUID uuid, @NotNull final UserProperties userProperties) {
+        super(0);
         this.uuid = uuid;
-        this.userProperties = userProperties;
     }
 
     @Override
@@ -26,6 +25,6 @@ public class User implements IUser {
 
     @Override
     public UserProperties getUserProperties() {
-        return userProperties;
+        return this;
     }
 }
