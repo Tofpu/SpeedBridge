@@ -15,21 +15,21 @@ public class UserProperties {
         this.islandSlot = islandSlot;
     }
 
-    public void setIslandSlot(@NotNull final Integer islandSlot) {
-        this.islandSlot = islandSlot;
-    }
-
-    public void setTimer(@NotNull final Timer timer) {
-        this.timer = timer;
-    }
-
     @Nullable
     public Integer getIslandSlot() {
         return islandSlot;
     }
 
+    public void setIslandSlot(@NotNull final Integer islandSlot) {
+        this.islandSlot = islandSlot;
+    }
+
     @Nullable
     public Timer getTimer() {
         return timer;
+    }
+
+    public void setTimer(@NotNull final Timer timer) {
+        this.timer = timer;
     }
 }
