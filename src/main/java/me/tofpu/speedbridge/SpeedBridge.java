@@ -17,10 +17,7 @@ public final class SpeedBridge extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        getCommand("speedbridge").setExecutor(new CommandManager(
-                this.game.getIslandService(),
-                this.game.getUserService(),
-                this.game.getGameService()));
+        getCommand("speedbridge").setExecutor(new CommandManager(this.game.getGameService()));
     }
 
     @Override

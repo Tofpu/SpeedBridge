@@ -10,13 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandManager implements CommandExecutor {
-    private final IIslandService islandService;
-    private final IUserService userService;
     private final IGameService gameService;
 
-    public CommandManager(@NotNull final IIslandService islandService, @NotNull final IUserService userService, @NotNull final IGameService gameService) {
-        this.islandService = islandService;
-        this.userService = userService;
+    public CommandManager(@NotNull final IGameService gameService) {
         this.gameService = gameService;
     }
 
