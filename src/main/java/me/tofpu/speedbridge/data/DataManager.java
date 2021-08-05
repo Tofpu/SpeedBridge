@@ -63,6 +63,12 @@ public class DataManager {
         return userService.load(userAdapter, uuid, files[2]);
     }
 
+    public void unloadUser(@NotNull final UUID uuid) {
+        final IUser user = userService.searchForUUID(uuid);
+        if (user == null) return;
+        userService.removeUser(user);
+    }
+
     public void save() {
         islandService.saveAll(islandAdapter, files[1]);
         userService.saveAll(userAdapter, files[2]);

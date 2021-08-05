@@ -4,6 +4,9 @@ import me.tofpu.speedbridge.command.CommandManager;
 import me.tofpu.speedbridge.config.CachedConfig;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.game.Game;
+import me.tofpu.speedbridge.listener.PlayerJoinListener;
+import me.tofpu.speedbridge.listener.PlayerMoveListener;
+import me.tofpu.speedbridge.listener.PlayerQuitListener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -33,6 +36,9 @@ public final class SpeedBridge extends JavaPlugin {
         getCommand("speedbridge").setExecutor(new CommandManager(this.game.getGameController(), this.game.getGameService()));
 
         final PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(new PlayerJoinListener(dataManager), this);
+        pluginManager.registerEvents(new PlayerQuitListener(dataManager), this);
+        pluginManager.registerEvents(new PlayerMoveListener(this.game.getUserService(), this.game.getIslandService(), this.game.getGameService()), this);
     }
 
     @Override

@@ -11,7 +11,10 @@ import me.tofpu.speedbridge.user.service.IUserService;
 import me.tofpu.speedbridge.user.timer.Timer;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 // LEADERBOARD?
 //
@@ -19,7 +22,9 @@ public class GameService implements IGameService {
     private final IIslandService islandService;
     private final IUserService userService;
 
-    public GameService(IIslandService islandService, IUserService userService) {
+    private final Map<UUID, Timer> userTimer = new HashMap<>();
+
+    public GameService(@NotNull final IIslandService islandService, @NotNull final IUserService userService) {
         this.islandService = islandService;
         this.userService = userService;
     }
@@ -57,13 +62,29 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public void updateTimer(@NotNull final Player player, @NotNull final Timer timer) {
+    public void addTimer(@NotNull final IUser user) {
+        final Timer timer = new Timer(user.getProperties().getIslandSlot());
+
+        this.userTimer.put(user.getUuid(), timer);
+    }
+
+    @Override
+    public boolean hasTimer(@NotNull final IUser user) {
+        return this.userTimer.containsKey(user.getUuid());
+    }
+
+    @Override
+    public void updateTimer(@NotNull final Player player) {
         final IUser user = userService.searchForUUID(player.getUniqueId());
         if (user == null) {
             return;
         }
 
         final UserProperties properties = user.getProperties();
+        final Timer timer = userTimer.get(player.getUniqueId());
+        timer.setEnd(System.currentTimeMillis());
+        timer.complete();
+
         if (properties.getTimer().getResult() <= timer.getResult()) {
             // TODO: SEND MESSAGE THAT THEY HAVEN'T BEATEN THEIR LOWEST RECORD.
 
