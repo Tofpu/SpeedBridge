@@ -3,7 +3,6 @@ package me.tofpu.speedbridge.user.service.impl;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.sun.istack.internal.NotNull;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.impl.User;
 import me.tofpu.speedbridge.user.service.IUserService;
@@ -50,7 +49,7 @@ public class UserService implements IUserService {
     @Override
     public void saveAll(final TypeAdapter<IUser> adapter, final File directory) {
         if (!directory.exists()) directory.mkdirs();
-        for (final IUser user : this.users){
+        for (final IUser user : this.users) {
             final File file = new File(directory, user.getUuid().toString() + ".json");
             if (!file.exists()) {
                 try {

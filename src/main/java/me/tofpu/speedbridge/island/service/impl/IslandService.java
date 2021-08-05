@@ -55,7 +55,7 @@ public class IslandService implements IIslandService {
 
     @Override
     public void saveAll(final TypeAdapter<IIsland> adapter, final File directory) {
-        for (final IIsland island : this.islands){
+        for (final IIsland island : this.islands) {
             final File file = new File(directory, "island-" + island.getSlot() + ".json");
             if (!file.exists()) {
                 try {
@@ -76,7 +76,7 @@ public class IslandService implements IIslandService {
 
     @Override
     public void loadAll(TypeAdapter<IIsland> adapter, File directory) {
-        for (final File file : directory.listFiles()){
+        for (final File file : directory.listFiles()) {
             try {
                 addIsland(adapter.fromJson(new FileReader(file)));
             } catch (IOException e) {

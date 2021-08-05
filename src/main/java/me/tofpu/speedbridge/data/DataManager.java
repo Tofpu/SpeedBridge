@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.sun.istack.internal.NotNull;
-import me.tofpu.speedbridge.island.adapter.IslandAdapter;
 import me.tofpu.speedbridge.data.adapter.location.LocationAdapter;
 import me.tofpu.speedbridge.island.IIsland;
+import me.tofpu.speedbridge.island.adapter.IslandAdapter;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.adapter.UserAdapter;
@@ -48,22 +48,22 @@ public class DataManager {
                 .create();
     }
 
-    public void initialize(){
-        for (final File file : files){
+    public void initialize() {
+        for (final File file : files) {
             if (!file.exists()) file.mkdirs();
         }
     }
 
-    public void loadIslands(){
+    public void loadIslands() {
         islandService.loadAll(islandAdapter, files[1]);
     }
 
-    public IUser loadUser(@NotNull final UUID uuid){
+    public IUser loadUser(@NotNull final UUID uuid) {
         if (!files[0].exists()) return null;
         return userService.load(userAdapter, uuid, files[2]);
     }
 
-    public void save(){
+    public void save() {
         islandService.saveAll(islandAdapter, files[1]);
         userService.saveAll(userAdapter, files[2]);
     }

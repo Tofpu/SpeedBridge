@@ -6,7 +6,7 @@ public class Timer {
     private final int slot;
     private final double result;
 
-    public Timer(@NotNull final int slot, @NotNull final double result){
+    public Timer(@NotNull final int slot, @NotNull final double result) {
         this.slot = slot;
         this.result = result;
 

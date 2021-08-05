@@ -22,5 +22,5 @@ public interface IUserService {
     public void saveAll(@NotNull final TypeAdapter<IUser> adapter, @NotNull final File directory);
 
     @Nullable
-    public IUser load(@NotNull final TypeAdapter<IUser> adapter,@NotNull final UUID uuid, @NotNull final File directory);
+    public IUser load(@NotNull final TypeAdapter<IUser> adapter, @NotNull final UUID uuid, @NotNull final File directory);
 }
