@@ -15,7 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 // Handle commands (DONE)
 // Complete all the to-do's
 // Create a queue system (refer to discord requester for more info)
-// Listen to PlayerJoinEvent, PlayerLeaveEvent & PlayerPressurePlate or whatever, to load & de-load data, and for getting timed.
+// Listen to PlayerJoinEvent, PlayerLeaveEvent & PlayerPressurePlate or whatever, to load & de-load data, and for getting timed. (DONE)
 // Save Islands & Users data (USE GSON) (DONE)
 // Have the island & user controllers load data instead! (CANCELLED, USED DATAMANAGER & RESPECTIVE SERVICES INSTEAD)
 public final class SpeedBridge extends JavaPlugin {

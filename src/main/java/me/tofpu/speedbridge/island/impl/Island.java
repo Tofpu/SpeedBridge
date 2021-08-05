@@ -1,6 +1,5 @@
 package me.tofpu.speedbridge.island.impl;
 
-import com.sun.istack.internal.NotNull;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
 import me.tofpu.speedbridge.user.IUser;
@@ -29,7 +28,7 @@ public class Island extends IslandProperties implements IIsland {
     }
 
     @Override
-    public void setTakenBy(@NotNull final IUser takenBy) {
+    public void setTakenBy(final IUser takenBy) {
         this.takenBy = takenBy;
     }
 
@@ -39,7 +38,7 @@ public class Island extends IslandProperties implements IIsland {
     }
 
     @Override
-    public void setLocation(@NotNull final Location location) {
+    public void setLocation(final Location location) {
         this.location = location;
     }
 

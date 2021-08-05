@@ -1,6 +1,5 @@
 package me.tofpu.speedbridge.game.service.impl;
 
-import com.sun.istack.internal.NotNull;
 import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.IIsland;
@@ -24,13 +23,13 @@ public class GameService implements IGameService {
 
     private final Map<UUID, Timer> userTimer = new HashMap<>();
 
-    public GameService(@NotNull final IIslandService islandService, @NotNull final IUserService userService) {
+    public GameService(final IIslandService islandService, final IUserService userService) {
         this.islandService = islandService;
         this.userService = userService;
     }
 
     @Override
-    public Result join(@NotNull final Player player) {
+    public Result join(final Player player) {
         final IUser user = userService.getOrDefault(player.getUniqueId());
         if (user != null && user.getProperties().getIslandSlot() != null) return Result.DENY;
 
@@ -48,7 +47,7 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public Result leave(@NotNull final Player player) {
+    public Result leave(final Player player) {
         final IUser user = userService.searchForUUID(player.getUniqueId());
         if (user == null) return Result.DENY;
 
@@ -62,19 +61,19 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public void addTimer(@NotNull final IUser user) {
+    public void addTimer(final IUser user) {
         final Timer timer = new Timer(user.getProperties().getIslandSlot());
 
         this.userTimer.put(user.getUuid(), timer);
     }
 
     @Override
-    public boolean hasTimer(@NotNull final IUser user) {
+    public boolean hasTimer(final IUser user) {
         return this.userTimer.containsKey(user.getUuid());
     }
 
     @Override
-    public void updateTimer(@NotNull final Player player) {
+    public void updateTimer(final Player player) {
         final IUser user = userService.searchForUUID(player.getUniqueId());
         if (user == null) {
             return;

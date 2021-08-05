@@ -1,7 +1,5 @@
 package me.tofpu.speedbridge.user.properties;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import me.tofpu.speedbridge.user.timer.Timer;
 
 public class UserProperties {
@@ -11,25 +9,25 @@ public class UserProperties {
     public UserProperties() {
     }
 
-    public UserProperties(@NotNull final int islandSlot) {
+    public UserProperties(final int islandSlot) {
         this.islandSlot = islandSlot;
     }
 
-    @Nullable
+
     public Integer getIslandSlot() {
         return islandSlot;
     }
 
-    public void setIslandSlot(@NotNull final Integer islandSlot) {
+    public void setIslandSlot(final Integer islandSlot) {
         this.islandSlot = islandSlot;
     }
 
-    @Nullable
+
     public Timer getTimer() {
         return timer;
     }
 
-    public void setTimer(@NotNull final Timer timer) {
+    public void setTimer(final Timer timer) {
         this.timer = timer;
     }
 }

@@ -1,6 +1,5 @@
 package me.tofpu.speedbridge.command;
 
-import com.sun.istack.internal.NotNull;
 import me.tofpu.speedbridge.game.controller.GameController;
 import me.tofpu.speedbridge.game.controller.stage.SetupStage;
 import me.tofpu.speedbridge.game.result.Result;
@@ -14,7 +13,7 @@ public class CommandManager implements CommandExecutor {
     private final GameController gameController;
     private final IGameService gameService;
 
-    public CommandManager(@NotNull final GameController gameController, @NotNull final IGameService gameService) {
+    public CommandManager(final GameController gameController, final IGameService gameService) {
         this.gameController = gameController;
         this.gameService = gameService;
     }

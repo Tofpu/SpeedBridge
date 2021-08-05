@@ -1,6 +1,5 @@
 package me.tofpu.speedbridge.listener;
 
-import com.sun.istack.internal.NotNull;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
@@ -18,7 +17,7 @@ public class PlayerMoveListener implements Listener {
     private final IIslandService islandService;
     private final IGameService gameService;
 
-    public PlayerMoveListener(@NotNull final IUserService userService, @NotNull final IIslandService islandService, @NotNull final IGameService gameService) {
+    public PlayerMoveListener(final IUserService userService, final IIslandService islandService, final IGameService gameService) {
         this.userService = userService;
         this.islandService = islandService;
         this.gameService = gameService;

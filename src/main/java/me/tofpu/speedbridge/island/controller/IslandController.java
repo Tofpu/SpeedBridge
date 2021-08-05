@@ -1,7 +1,5 @@
 package me.tofpu.speedbridge.island.controller;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.impl.Island;
 import me.tofpu.speedbridge.island.service.IIslandService;
@@ -16,25 +14,25 @@ public class IslandController {
         this.islandService = islandService;
     }
 
-    public void addIsland(@NotNull final Island island) {
+    public void addIsland(final Island island) {
         this.islandService.addIsland(island);
     }
 
-    public void removeIsland(@NotNull final Island island) {
+    public void removeIsland(final Island island) {
         this.islandService.removeIsland(island);
     }
 
-    @Nullable
-    public IIsland getIslandBySlot(@NotNull final int slot) {
+
+    public IIsland getIslandBySlot(final int slot) {
         return this.islandService.getIslandBySlot(slot);
     }
 
-    @Nullable
-    public IIsland getIslandByUser(@NotNull final IUser user) {
+
+    public IIsland getIslandByUser(final IUser user) {
         return this.islandService.getIslandByUser(user);
     }
 
-    @NotNull
+
     public List<IIsland> getAvailableIslands() {
         return this.islandService.getAvailableIslands();
     }

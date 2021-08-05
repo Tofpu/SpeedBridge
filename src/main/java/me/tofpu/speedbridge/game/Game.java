@@ -1,6 +1,5 @@
 package me.tofpu.speedbridge.game;
 
-import com.sun.istack.internal.NotNull;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.game.controller.GameController;
 import me.tofpu.speedbridge.game.service.IGameService;
@@ -21,7 +20,7 @@ public class Game {
 
     private final DataManager dataManager;
 
-    public Game(@NotNull final File directory) {
+    public Game(final File directory) {
         this.islandService = new IslandService();
         this.userService = new UserService();
 
@@ -31,22 +30,22 @@ public class Game {
         this.dataManager = new DataManager(directory, islandService, userService);
     }
 
-    @NotNull
+
     public IIslandService getIslandService() {
         return islandService;
     }
 
-    @NotNull
+
     public IUserService getUserService() {
         return userService;
     }
 
-    @NotNull
+
     public GameController getGameController() {
         return gameController;
     }
 
-    @NotNull
+
     public IGameService getGameService() {
         return gameService;
     }

@@ -1,7 +1,5 @@
 package me.tofpu.speedbridge.user.timer;
 
-import com.sun.istack.internal.NotNull;
-
 public class Timer {
     private final int slot;
 
@@ -10,18 +8,18 @@ public class Timer {
 
     private double result;
 
-    public Timer(@NotNull final int slot) {
+    public Timer(final int slot) {
         this.slot = slot;
         this.start = System.currentTimeMillis();
         this.result = 0;
     }
 
-    public Timer(@NotNull final int slot, @NotNull final double result) {
+    public Timer(final int slot, final double result) {
         this.slot = slot;
         this.result = result;
     }
 
-    public Timer(@NotNull final int slot, @NotNull final long start, @NotNull final long end) {
+    public Timer(final int slot, final long start, final long end) {
         this(slot, end - start);
     }
 
@@ -37,12 +35,12 @@ public class Timer {
         this.result = end - start;
     }
 
-    @NotNull
+
     public int getSlot() {
         return slot;
     }
 
-    @NotNull
+
     public double getResult() {
         return result;
     }

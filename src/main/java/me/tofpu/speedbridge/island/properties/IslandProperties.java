@@ -1,7 +1,5 @@
 package me.tofpu.speedbridge.island.properties;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import org.bukkit.Location;
 
 public class IslandProperties {
@@ -11,7 +9,7 @@ public class IslandProperties {
     public IslandProperties() {
     }
 
-    public IslandProperties(@NotNull final Location locationA, @NotNull final Location locationB) {
+    public IslandProperties(final Location locationA, final Location locationB) {
         this.locationA = locationA;
         this.locationB = locationB;
     }
@@ -24,21 +22,21 @@ public class IslandProperties {
         return locationB != null;
     }
 
-    @Nullable
+
     public Location getLocationA() {
         return locationA;
     }
 
-    public void setLocationA(@NotNull final Location locationA) {
+    public void setLocationA(final Location locationA) {
         this.locationA = locationA;
     }
 
-    @Nullable
+
     public Location getLocationB() {
         return locationB;
     }
 
-    public void setLocationB(@NotNull final Location locationB) {
+    public void setLocationB(final Location locationB) {
         this.locationB = locationB;
     }
 }
