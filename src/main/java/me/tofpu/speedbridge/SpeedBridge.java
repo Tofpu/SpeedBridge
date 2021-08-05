@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge;
 
 import me.tofpu.speedbridge.command.CommandManager;
+import me.tofpu.speedbridge.config.CachedConfig;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.game.Game;
 import org.bukkit.plugin.PluginManager;
@@ -21,6 +22,8 @@ public final class SpeedBridge extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         saveDefaultConfig();
+
+        CachedConfig.initialize(this.getConfig());
 
         this.game = new Game(getDataFolder());
         final DataManager dataManager = this.game.getDataManager();
