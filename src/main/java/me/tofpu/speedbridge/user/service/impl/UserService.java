@@ -1,9 +1,17 @@
 package me.tofpu.speedbridge.user.service.impl;
 
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import com.sun.istack.internal.NotNull;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.impl.User;
 import me.tofpu.speedbridge.user.service.IUserService;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -37,5 +45,40 @@ public class UserService implements IUserService {
             if (user.getUuid() == uuid) return user;
         }
         return null;
+    }
+
+    @Override
+    public void saveAll(final TypeAdapter<IUser> adapter, final File directory) {
+        if (!directory.exists()) directory.mkdirs();
+        for (final IUser user : this.users){
+            final File file = new File(directory, user.getUuid().toString() + ".json");
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                final JsonWriter writer = new JsonWriter(new FileWriter(file));
+                adapter.write(writer, user);
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public IUser load(final TypeAdapter<IUser> adapter, final UUID uuid, final File directory) {
+        final File file = new File(directory, uuid.toString() + ".json");
+        if (!file.exists()) return null;
+
+        try {
+            return adapter.read(new JsonReader(new FileReader(file)));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

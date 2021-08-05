@@ -3,26 +3,26 @@ package me.tofpu.speedbridge.user.timer;
 import com.sun.istack.internal.NotNull;
 
 public class Timer {
-    private final long start;
-    private final long end;
+    private final int slot;
+    private final double result;
 
-    public Timer(@NotNull final long start, @NotNull final long end) {
-        this.start = start;
-        this.end = end;
+    public Timer(@NotNull final int slot, @NotNull final double result){
+        this.slot = slot;
+        this.result = result;
+
+    }
+
+    public Timer(@NotNull final int slot, @NotNull final long start, @NotNull final long end) {
+        this(slot, end - start);
     }
 
     @NotNull
-    public long getStart() {
-        return start;
+    public int getSlot() {
+        return slot;
     }
 
     @NotNull
-    public long getEnd() {
-        return end;
-    }
-
-    @NotNull
-    public long getResult() {
-        return end - start;
+    public double getResult() {
+        return result;
     }
 }

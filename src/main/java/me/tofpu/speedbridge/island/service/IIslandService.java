@@ -1,10 +1,12 @@
 package me.tofpu.speedbridge.island.service;
 
+import com.google.gson.TypeAdapter;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.user.IUser;
 
+import java.io.File;
 import java.util.List;
 
 public interface IIslandService {
@@ -20,4 +22,8 @@ public interface IIslandService {
 
     @NotNull
     public List<IIsland> getAvailableIslands();
+
+    public void saveAll(@NotNull final TypeAdapter<IIsland> adapter, @NotNull final File directory);
+
+    public void loadAll(@NotNull final TypeAdapter<IIsland> adapter, @NotNull final File directory);
 }

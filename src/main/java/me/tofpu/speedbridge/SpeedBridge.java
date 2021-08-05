@@ -1,7 +1,9 @@
 package me.tofpu.speedbridge;
 
 import me.tofpu.speedbridge.command.CommandManager;
+import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.game.Game;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 // TODO:
@@ -10,24 +12,31 @@ import org.bukkit.plugin.java.JavaPlugin;
 // Complete all the to-do's
 // Create a queue system (refer to discord requester for more info)
 // Listen to PlayerJoinEvent, PlayerLeaveEvent & PlayerPressurePlate or whatever, to load & de-load data, and for getting timed.
-// Save Islands & Users data (USE GSON)
-// Have the island & user controllers load data instead!
+// Save Islands & Users data (USE GSON) (DONE)
+// Have the island & user controllers load data instead! (CANCELLED, USED DATAMANAGER & RESPECTIVE SERVICES INSTEAD)
 public final class SpeedBridge extends JavaPlugin {
-    private final Game game;
-
-    public SpeedBridge() {
-        this.game = new Game();
-    }
+    private Game game;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
+        saveDefaultConfig();
+
+        this.game = new Game(getDataFolder());
+        final DataManager dataManager = this.game.getDataManager();
+        dataManager.initialize();
+        dataManager.loadIslands();
+
         getCommand("speedbridge").setExecutor(new CommandManager(this.game.getGameController(), this.game.getGameService()));
+
+        final PluginManager pluginManager = getServer().getPluginManager();
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        final DataManager dataManager = this.game.getDataManager();
+        dataManager.save();
     }
 
     public Game getGame() {
