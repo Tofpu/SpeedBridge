@@ -22,7 +22,6 @@ public class UserProperties {
         this.islandSlot = islandSlot;
     }
 
-
     public Timer getTimer() {
         return timer;
     }

@@ -4,9 +4,10 @@ import me.tofpu.speedbridge.command.CommandManager;
 import me.tofpu.speedbridge.config.CachedConfig;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.game.Game;
+import me.tofpu.speedbridge.listener.PlayerInteractListener;
 import me.tofpu.speedbridge.listener.PlayerJoinListener;
-import me.tofpu.speedbridge.listener.PlayerMoveListener;
 import me.tofpu.speedbridge.listener.PlayerQuitListener;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -38,7 +39,10 @@ public final class SpeedBridge extends JavaPlugin {
         final PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new PlayerJoinListener(dataManager), this);
         pluginManager.registerEvents(new PlayerQuitListener(dataManager), this);
-        pluginManager.registerEvents(new PlayerMoveListener(this.game.getUserService(), this.game.getIslandService(), this.game.getGameService()), this);
+        pluginManager.registerEvents(new PlayerInteractListener(this.game.getUserService(), this.game.getIslandService(), this.game.getGameService()), this);
+
+        // /RELOAD BUG FIX
+        Bukkit.getOnlinePlayers().forEach(player -> dataManager.loadUser(player.getUniqueId()));
     }
 
     @Override

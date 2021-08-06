@@ -1,6 +1,6 @@
 package me.tofpu.speedbridge.user.service;
 
-import com.google.gson.TypeAdapter;
+import com.google.gson.Gson;
 import me.tofpu.speedbridge.user.IUser;
 
 import java.io.File;
@@ -11,14 +11,11 @@ public interface IUserService {
 
     public void removeUser(final IUser user);
 
-
     public IUser getOrDefault(final UUID uuid);
-
 
     public IUser searchForUUID(final UUID uuid);
 
-    public void saveAll(final TypeAdapter<IUser> adapter, final File directory);
+    public void saveAll(final Gson gson, final File directory);
 
-
-    public IUser load(final TypeAdapter<IUser> adapter, final UUID uuid, final File directory);
+    public IUser load(final Gson gson, final UUID uuid, final File directory);
 }

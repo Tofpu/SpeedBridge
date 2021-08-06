@@ -23,25 +23,40 @@ public class Timer {
         this(slot, end - start);
     }
 
+    public void complete() {
+        final long total = end - start;
+        this.result = (double) total / 1000;
+    }
+
+    public int getSlot() {
+        return slot;
+    }
+
+    public double getResult() {
+        return result;
+    }
+
+    public long getStart() {
+        return start;
+    }
+
     public void setStart(long start) {
         this.start = start;
+    }
+
+    public long getEnd() {
+        return end;
     }
 
     public void setEnd(long end) {
         this.end = end;
     }
 
-    public void complete() {
-        this.result = end - start;
-    }
-
-
-    public int getSlot() {
-        return slot;
-    }
-
-
-    public double getResult() {
-        return result;
+    @Override
+    public String toString() {
+        return "Timer{" +
+                "slot=" + slot +
+                ", result=" + result +
+                '}';
     }
 }

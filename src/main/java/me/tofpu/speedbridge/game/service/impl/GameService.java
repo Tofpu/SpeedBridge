@@ -9,6 +9,7 @@ import me.tofpu.speedbridge.user.properties.UserProperties;
 import me.tofpu.speedbridge.user.service.IUserService;
 import me.tofpu.speedbridge.user.timer.Timer;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,7 @@ public class GameService implements IGameService {
     @Override
     public Result join(final Player player) {
         final IUser user = userService.getOrDefault(player.getUniqueId());
-        if (user != null && user.getProperties().getIslandSlot() != null) return Result.DENY;
+        if (user.getProperties().getIslandSlot() != null) return Result.DENY;
 
         final List<IIsland> islands = islandService.getAvailableIslands();
         if (islands.size() < 1) return Result.FULL;
@@ -75,23 +76,24 @@ public class GameService implements IGameService {
     @Override
     public void updateTimer(final Player player) {
         final IUser user = userService.searchForUUID(player.getUniqueId());
-        if (user == null) {
-            return;
-        }
+        if (user == null) return;
 
         final UserProperties properties = user.getProperties();
-        final Timer timer = userTimer.get(player.getUniqueId());
-        timer.setEnd(System.currentTimeMillis());
-        timer.complete();
+        final Timer gameTimer = userTimer.get(player.getUniqueId());
+        gameTimer.setEnd(System.currentTimeMillis());
+        gameTimer.complete();
 
-        if (properties.getTimer().getResult() <= timer.getResult()) {
+        final Timer lowestTimer = properties.getTimer();
+        if (lowestTimer != null && lowestTimer.getResult() <= gameTimer.getResult()) {
             // TODO: SEND MESSAGE THAT THEY HAVEN'T BEATEN THEIR LOWEST RECORD.
 
         } else {
             // TODO: SEND MESSAGE THAT THEY HAVE BEATEN THEIR LOWEST RECORD.
-            properties.setTimer(timer);
+            properties.setTimer(gameTimer);
         }
+        userTimer.remove(player.getUniqueId());
         // TODO: SEND MESSAGE MAYBE?
+        player.setVelocity(new Vector(0, 0, 0));
         player.teleport(islandService.getIslandBySlot(user.getProperties().getIslandSlot()).getLocation());
     }
 }

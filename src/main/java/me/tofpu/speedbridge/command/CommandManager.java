@@ -63,7 +63,7 @@ public class CommandManager implements CommandExecutor {
                     return false;
                 }
 
-                switch (this.gameController.setupIsland(player, SetupStage.valueOf(args[2].toUpperCase().replace("_", "-")))) {
+                switch (this.gameController.setupIsland(player, SetupStage.valueOf(args[2].toUpperCase().replace("-", "_")))) {
                     case SUCCESS:
                         //TODO: SEND MESSAGE SAYING SUCCESS!
                         break;

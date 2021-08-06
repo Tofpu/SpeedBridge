@@ -2,7 +2,6 @@ package me.tofpu.speedbridge.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
 import me.tofpu.speedbridge.data.adapter.location.LocationAdapter;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.adapter.IslandAdapter;
@@ -16,10 +15,13 @@ import java.io.File;
 import java.util.UUID;
 
 public class DataManager {
-    private final Gson gson;
-
-    private final TypeAdapter<IIsland> islandAdapter;
-    private final TypeAdapter<IUser> userAdapter;
+    public final static Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(Location.class, new LocationAdapter())
+            .registerTypeAdapter(IIsland.class, new IslandAdapter())
+            .registerTypeAdapter(IUser.class, new UserAdapter())
+            .setPrettyPrinting()
+            .serializeNulls()
+            .create();
 
     private final IIslandService islandService;
     private final IUserService userService;
@@ -35,16 +37,6 @@ public class DataManager {
 
         this.islandService = islandService;
         this.userService = userService;
-
-        TypeAdapter<Location> locationAdapter = new LocationAdapter();
-        this.islandAdapter = new IslandAdapter(locationAdapter);
-        this.userAdapter = new UserAdapter();
-
-        this.gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapter(Location.class, locationAdapter)
-                .registerTypeAdapter(IIsland.class, islandAdapter)
-                .create();
     }
 
     public void initialize() {
@@ -54,12 +46,12 @@ public class DataManager {
     }
 
     public void loadIslands() {
-        islandService.loadAll(islandAdapter, files[1]);
+        islandService.loadAll(GSON, files[1]);
     }
 
     public IUser loadUser(final UUID uuid) {
         if (!files[0].exists()) return null;
-        return userService.load(userAdapter, uuid, files[2]);
+        return userService.load(GSON, uuid, files[2]);
     }
 
     public void unloadUser(final UUID uuid) {
@@ -69,7 +61,7 @@ public class DataManager {
     }
 
     public void save() {
-        islandService.saveAll(islandAdapter, files[1]);
-        userService.saveAll(userAdapter, files[2]);
+        islandService.saveAll(GSON, files[1]);
+        userService.saveAll(GSON, files[2]);
     }
 }

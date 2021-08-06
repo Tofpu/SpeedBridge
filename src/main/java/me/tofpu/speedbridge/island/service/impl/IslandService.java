@@ -1,7 +1,6 @@
 package me.tofpu.speedbridge.island.service.impl;
 
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonWriter;
+import com.google.gson.Gson;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.user.IUser;
@@ -54,7 +53,7 @@ public class IslandService implements IIslandService {
     }
 
     @Override
-    public void saveAll(final TypeAdapter<IIsland> adapter, final File directory) {
+    public void saveAll(final Gson gson, final File directory) {
         for (final IIsland island : this.islands) {
             final File file = new File(directory, "island-" + island.getSlot() + ".json");
             if (!file.exists()) {
@@ -65,9 +64,9 @@ public class IslandService implements IIslandService {
                 }
             }
             try {
-                final JsonWriter writer = new JsonWriter(new FileWriter(file));
-                adapter.write(writer, island);
-                writer.close();
+                try (final FileWriter writer = new FileWriter(file)) {
+                    writer.write(gson.toJson(island, IIsland.class));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -75,13 +74,15 @@ public class IslandService implements IIslandService {
     }
 
     @Override
-    public void loadAll(TypeAdapter<IIsland> adapter, File directory) {
+    public void loadAll(final Gson gson, File directory) {
         for (final File file : directory.listFiles()) {
             try {
-                addIsland(adapter.fromJson(new FileReader(file)));
+                if (!file.getName().endsWith(".json")) continue;
+                final IIsland island = gson.fromJson(new FileReader(file), IIsland.class);
+                if (island == null) continue;
+                addIsland(island);
             } catch (IOException e) {
                 e.printStackTrace();
-                continue;
             }
         }
     }

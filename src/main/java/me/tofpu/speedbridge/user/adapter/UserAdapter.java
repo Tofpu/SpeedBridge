@@ -2,6 +2,7 @@ package me.tofpu.speedbridge.user.adapter;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.impl.User;
@@ -15,14 +16,17 @@ public class UserAdapter extends TypeAdapter<IUser> {
     @Override
     public void write(JsonWriter out, IUser value) throws IOException {
         out.beginObject();
-        out.value("uniqueId").value(value.getUuid().toString());
+        out.name("uniqueId").value(value.getUuid().toString());
 
-        out.beginArray();
+        out.name("properties")
+                .beginArray()
+                .beginObject();
         final UserProperties properties = value.getProperties();
         final Timer timer = properties.getTimer();
-        out.value("island").value(timer.getSlot());
-        out.value("result").value(timer.getResult());
-        out.endArray();
+        out.name("island").value(timer == null ? null : timer.getSlot());
+        out.name("result").value(timer == null ? null : timer.getResult())
+                .endObject()
+                .endArray();
 
         out.endObject();
     }
@@ -34,17 +38,26 @@ public class UserAdapter extends TypeAdapter<IUser> {
         in.nextName();
         final IUser user = new User(UUID.fromString(in.nextString()));
 
+        in.nextName();
         in.beginArray();
+        in.beginObject();
         final UserProperties properties = user.getProperties();
         in.nextName();
-        final int slot = in.nextInt();
+
+        Integer slot = null;
+        if (in.peek() != JsonToken.NULL) slot = in.nextInt();
+        else in.nextNull();
 
         in.nextName();
-        final Timer timer = new Timer(slot, in.nextDouble());
-        properties.setTimer(timer);
+        Double aDouble = null;
+        if (in.peek() != JsonToken.NULL) aDouble = in.nextDouble();
+        else in.nextNull();
+
+        if (slot != null && aDouble != null) properties.setTimer(new Timer(slot, aDouble));
+        in.endObject();
         in.endArray();
 
         in.endObject();
-        return null;
+        return user;
     }
 }

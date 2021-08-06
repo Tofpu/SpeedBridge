@@ -1,6 +1,6 @@
 package me.tofpu.speedbridge.island.service;
 
-import com.google.gson.TypeAdapter;
+import com.google.gson.Gson;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.user.IUser;
 
@@ -18,7 +18,7 @@ public interface IIslandService {
 
     public List<IIsland> getAvailableIslands();
 
-    public void saveAll(final TypeAdapter<IIsland> adapter, final File directory);
+    public void saveAll(final Gson gson, final File directory);
 
-    public void loadAll(final TypeAdapter<IIsland> adapter, final File directory);
+    public void loadAll(final Gson gson, final File directory);
 }

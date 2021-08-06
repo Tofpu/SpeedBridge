@@ -1,8 +1,6 @@
 package me.tofpu.speedbridge.user.service.impl;
 
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.google.gson.Gson;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.impl.User;
 import me.tofpu.speedbridge.user.service.IUserService;
@@ -34,20 +32,20 @@ public class UserService implements IUserService {
     @Override
     public IUser getOrDefault(final UUID uuid) {
         IUser user = searchForUUID(uuid);
-        if (user == null) createUser(uuid);
+        if (user == null) user = createUser(uuid);
         return user;
     }
 
     @Override
     public IUser searchForUUID(final UUID uuid) {
         for (final IUser user : this.users) {
-            if (user.getUuid() == uuid) return user;
+            if (user.getUuid().equals(uuid)) return user;
         }
         return null;
     }
 
     @Override
-    public void saveAll(final TypeAdapter<IUser> adapter, final File directory) {
+    public void saveAll(final Gson gson, final File directory) {
         if (!directory.exists()) directory.mkdirs();
         for (final IUser user : this.users) {
             final File file = new File(directory, user.getUuid().toString() + ".json");
@@ -59,9 +57,9 @@ public class UserService implements IUserService {
                 }
             }
             try {
-                final JsonWriter writer = new JsonWriter(new FileWriter(file));
-                adapter.write(writer, user);
-                writer.close();
+                try (final FileWriter writer = new FileWriter(file)) {
+                    writer.write(gson.toJson(user, IUser.class));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -69,13 +67,13 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public IUser load(final TypeAdapter<IUser> adapter, final UUID uuid, final File directory) {
+    public IUser load(final Gson gson, final UUID uuid, final File directory) {
         final File file = new File(directory, uuid.toString() + ".json");
         if (!file.exists()) return null;
 
         final IUser user;
         try {
-            user = adapter.read(new JsonReader(new FileReader(file)));
+            user = gson.fromJson(new FileReader(file), IUser.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
