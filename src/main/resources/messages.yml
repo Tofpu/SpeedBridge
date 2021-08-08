@@ -1,6 +1,7 @@
-  // DEFAULT PLACEHOLDERS
-    // %recorc%
+# DEFAULT PLACEHOLDERS
+# %recorc%
+# test
 
-  messages:
-    joined: "&aGood Luck!"
-    left: "&eYour fastest record is currently &a%record% &eseconds!"
+messages:
+  joined: "&aGood Luck!"
+  left: "&eYour fastest record is currently &a%record% &eseconds!"

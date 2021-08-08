@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.user.IUser;
+import org.bukkit.Location;
+import org.bukkit.Material;
 
 import java.io.File;
 import java.io.FileReader;
@@ -53,8 +55,26 @@ public class IslandService implements IIslandService {
     }
 
     @Override
+    public void resetBlocks(final IIsland island) {
+        for (final Location location : island.getPlacedBlocks()) {
+            island.getLocation().getWorld().getBlockAt(location).setType(Material.AIR);
+        }
+    }
+
+    @Override
+    public void resetIsland(final int slot) {
+        final IIsland island = getIslandBySlot(slot);
+        if (island == null) return;
+
+        resetBlocks(island);
+        island.setTakenBy(null);
+    }
+
+    @Override
     public void saveAll(final Gson gson, final File directory) {
         for (final IIsland island : this.islands) {
+            resetBlocks(island);
+
             final File file = new File(directory, "island-" + island.getSlot() + ".json");
             if (!file.exists()) {
                 try {

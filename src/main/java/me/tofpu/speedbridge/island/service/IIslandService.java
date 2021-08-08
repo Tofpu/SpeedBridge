@@ -18,6 +18,10 @@ public interface IIslandService {
 
     public List<IIsland> getAvailableIslands();
 
+    public void resetBlocks(final IIsland island);
+
+    public void resetIsland(final int slot);
+
     public void saveAll(final Gson gson, final File directory);
 
     public void loadAll(final Gson gson, final File directory);

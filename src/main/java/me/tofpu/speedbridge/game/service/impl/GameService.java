@@ -8,7 +8,10 @@ import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.properties.UserProperties;
 import me.tofpu.speedbridge.user.service.IUserService;
 import me.tofpu.speedbridge.user.timer.Timer;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
@@ -41,6 +44,11 @@ public class GameService implements IGameService {
 
         user.getProperties().setIslandSlot(island.getSlot());
         island.setTakenBy(user);
+
+        final Inventory inventory = player.getInventory();
+        inventory.clear();
+        inventory.addItem(new ItemStack(Material.WOOL, 64));
+
         player.teleport(island.getLocation());
         // TODO: SEND MESSAGE THAT THEY JOINED!
 
@@ -51,14 +59,24 @@ public class GameService implements IGameService {
     public Result leave(final Player player) {
         final IUser user = userService.searchForUUID(player.getUniqueId());
         if (user == null) return Result.DENY;
+        player.getInventory().clear();
 
+        islandService.resetIsland(user.getProperties().getIslandSlot());
         user.getProperties().setIslandSlot(null);
-        final IIsland island = this.islandService.getIslandByUser(user);
-        island.setTakenBy(null);
         // TODO: TELEPORT PLAYER TO LOBBY!
         // TODO: SEND MESSAGE THAT THEY'VE LEFT!
 
         return Result.SUCCESS;
+    }
+
+    @Override
+    public boolean isPlaying(final Player player) {
+        final IUser user;
+        if ((user = userService.searchForUUID(player.getUniqueId())) == null) return false;
+        final Integer islandSlot = user.getProperties().getIslandSlot();
+        if (islandSlot == null) return false;
+
+        return islandService.getIslandBySlot(islandSlot) != null;
     }
 
     @Override
@@ -91,7 +109,10 @@ public class GameService implements IGameService {
             // TODO: SEND MESSAGE THAT THEY HAVE BEATEN THEIR LOWEST RECORD.
             properties.setTimer(gameTimer);
         }
+
         userTimer.remove(player.getUniqueId());
+        islandService.resetBlocks(islandService.getIslandBySlot(user.getProperties().getIslandSlot()));
+
         // TODO: SEND MESSAGE MAYBE?
         player.setVelocity(new Vector(0, 0, 0));
         player.teleport(islandService.getIslandBySlot(user.getProperties().getIslandSlot()).getLocation());

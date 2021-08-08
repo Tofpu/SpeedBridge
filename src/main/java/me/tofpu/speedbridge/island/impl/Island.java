@@ -5,9 +5,13 @@ import me.tofpu.speedbridge.island.properties.IslandProperties;
 import me.tofpu.speedbridge.user.IUser;
 import org.bukkit.Location;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // TODO:
 // create a properties class, extend it and basically store locations and stuff there
 public class Island extends IslandProperties implements IIsland {
+    private final List<Location> placedBlocks = new ArrayList<>();
     private final int slot;
 
     private Location location;
@@ -50,6 +54,11 @@ public class Island extends IslandProperties implements IIsland {
     @Override
     public int getSlot() {
         return slot;
+    }
+
+    @Override
+    public List<Location> getPlacedBlocks() {
+        return placedBlocks;
     }
 
     @Override

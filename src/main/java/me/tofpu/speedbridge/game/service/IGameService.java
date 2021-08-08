@@ -9,6 +9,8 @@ public interface IGameService {
 
     public Result leave(final Player player);
 
+    public boolean isPlaying(final Player player);
+
     public void addTimer(final IUser user);
 
     public boolean hasTimer(final IUser user);

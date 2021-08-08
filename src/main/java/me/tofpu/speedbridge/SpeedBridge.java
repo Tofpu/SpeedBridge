@@ -4,9 +4,10 @@ import me.tofpu.speedbridge.command.CommandManager;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.file.config.Config;
 import me.tofpu.speedbridge.game.Game;
-import me.tofpu.speedbridge.listener.PlayerInteractListener;
-import me.tofpu.speedbridge.listener.PlayerJoinListener;
-import me.tofpu.speedbridge.listener.PlayerQuitListener;
+import me.tofpu.speedbridge.game.service.IGameService;
+import me.tofpu.speedbridge.island.service.IIslandService;
+import me.tofpu.speedbridge.listener.*;
+import me.tofpu.speedbridge.user.service.IUserService;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,12 +33,18 @@ public final class SpeedBridge extends JavaPlugin {
         dataManager.initialize();
         dataManager.loadIslands();
 
-        getCommand("speedbridge").setExecutor(new CommandManager(this.game.getGameController(), this.game.getGameService()));
+        final IUserService userService = getGame().getUserService();
+        final IIslandService islandService = getGame().getIslandService();
+        final IGameService gameService = getGame().getGameService();
+
+        getCommand("speedbridge").setExecutor(new CommandManager(this.game.getGameController(), gameService));
 
         final PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new PlayerJoinListener(dataManager), this);
-        pluginManager.registerEvents(new PlayerQuitListener(dataManager), this);
-        pluginManager.registerEvents(new PlayerInteractListener(this.game.getUserService(), this.game.getIslandService(), this.game.getGameService()), this);
+        pluginManager.registerEvents(new PlayerQuitListener(userService, islandService, dataManager), this);
+        pluginManager.registerEvents(new PlayerInteractListener(userService, islandService, gameService), this);
+        pluginManager.registerEvents(new BlockPlaceListener(userService, islandService, gameService), this);
+        pluginManager.registerEvents(new BlockBreakListener(userService, islandService, gameService), this);
 
         // /RELOAD BUG FIX
         Bukkit.getOnlinePlayers().forEach(player -> dataManager.loadUser(player.getUniqueId()));
