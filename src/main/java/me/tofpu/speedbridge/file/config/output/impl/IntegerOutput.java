@@ -1,9 +1,9 @@
-package me.tofpu.speedbridge.filetype.type.output.impl;
+package me.tofpu.speedbridge.file.config.output.impl;
 
-import me.tofpu.speedbridge.filetype.type.output.Output;
+import me.tofpu.speedbridge.file.config.output.Output;
 
 public class IntegerOutput implements Output<Integer> {
-    public static Integer of(final Object input){
+    public static Integer of(final Object input) {
         return new IntegerOutput().output(input);
     }
 
@@ -11,7 +11,7 @@ public class IntegerOutput implements Output<Integer> {
     public Integer output(Object output) {
         try {
             return Integer.parseInt(StringOutput.of(output));
-        } catch (NumberFormatException exception){
+        } catch (NumberFormatException exception) {
             return null;
         }
     }

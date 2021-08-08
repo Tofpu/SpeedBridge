@@ -1,0 +1,6 @@
+  // DEFAULT PLACEHOLDERS
+    // %recorc%
+
+  messages:
+    joined: "&aGood Luck!"
+    left: "&eYour fastest record is currently &a%record% &eseconds!"

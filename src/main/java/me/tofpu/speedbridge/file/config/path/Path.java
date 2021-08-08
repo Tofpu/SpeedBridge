@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.filetype.type.path;
+package me.tofpu.speedbridge.file.config.path;
 
 public enum Path {
     SETTINGS_MAX_SLOTS("settings.max-slots");

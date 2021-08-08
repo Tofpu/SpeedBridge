@@ -2,7 +2,7 @@ package me.tofpu.speedbridge;
 
 import me.tofpu.speedbridge.command.CommandManager;
 import me.tofpu.speedbridge.data.DataManager;
-import me.tofpu.speedbridge.filetype.type.FileType;
+import me.tofpu.speedbridge.file.config.Config;
 import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.listener.PlayerInteractListener;
 import me.tofpu.speedbridge.listener.PlayerJoinListener;
@@ -25,9 +25,7 @@ public final class SpeedBridge extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        saveDefaultConfig();
-
-        FileType.initialize(getConfig());
+        Config.initialize(this);
 
         this.game = new Game(getDataFolder());
         final DataManager dataManager = this.game.getDataManager();
