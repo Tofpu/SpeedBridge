@@ -29,7 +29,7 @@ public final class SpeedBridge extends JavaPlugin {
         Config.initialize(this);
 
         this.game = new Game(getDataFolder());
-        final DataManager dataManager = this.game.getDataManager();
+        final DataManager dataManager = getGame().getDataManager();
         dataManager.initialize();
         dataManager.loadIslands();
 
@@ -41,7 +41,7 @@ public final class SpeedBridge extends JavaPlugin {
 
         final PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new PlayerJoinListener(dataManager), this);
-        pluginManager.registerEvents(new PlayerQuitListener(userService, islandService, dataManager), this);
+        pluginManager.registerEvents(new PlayerQuitListener(userService, islandService, gameService, dataManager), this);
         pluginManager.registerEvents(new PlayerInteractListener(userService, islandService, gameService), this);
         pluginManager.registerEvents(new BlockPlaceListener(userService, islandService, gameService), this);
         pluginManager.registerEvents(new BlockBreakListener(userService, islandService, gameService), this);

@@ -1,17 +1,22 @@
 package me.tofpu.speedbridge.game.service.impl;
 
+import me.tofpu.speedbridge.SpeedBridge;
 import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.IIsland;
+import me.tofpu.speedbridge.island.properties.property.TwoSection;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.properties.UserProperties;
 import me.tofpu.speedbridge.user.service.IUserService;
 import me.tofpu.speedbridge.user.timer.Timer;
+import me.tofpu.speedbridge.util.Cuboid;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
@@ -19,13 +24,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-// LEADERBOARD?
-//
 public class GameService implements IGameService {
     private final IIslandService islandService;
     private final IUserService userService;
 
     private final Map<UUID, Timer> userTimer = new HashMap<>();
+    private final Map<UUID, BukkitTask> userCheck = new HashMap<>();
 
     public GameService(final IIslandService islandService, final IUserService userService) {
         this.islandService = islandService;
@@ -50,6 +54,20 @@ public class GameService implements IGameService {
         inventory.addItem(new ItemStack(Material.WOOL, 64));
 
         player.teleport(island.getLocation());
+
+        final TwoSection selection = island.getProperties().get("selection");
+        final Cuboid cuboid = new Cuboid(selection.getSectionA(), selection.getSectionB());
+        this.userCheck.put(player.getUniqueId(),
+                Bukkit.getScheduler()
+                        .runTaskTimer(
+                                SpeedBridge.getProvidingPlugin(SpeedBridge.class),
+                                () -> {
+                                    if (!cuboid.isIn(player.getLocation())) {
+                                        reset(player);
+                                    }
+                                },
+                                20, 10));
+
         // TODO: SEND MESSAGE THAT THEY JOINED!
 
         return Result.SUCCESS;
@@ -63,6 +81,10 @@ public class GameService implements IGameService {
 
         islandService.resetIsland(user.getProperties().getIslandSlot());
         user.getProperties().setIslandSlot(null);
+
+        userTimer.remove(player.getUniqueId());
+        userCheck.get(player.getUniqueId()).cancel();
+        userCheck.remove(player.getUniqueId());
         // TODO: TELEPORT PLAYER TO LOBBY!
         // TODO: SEND MESSAGE THAT THEY'VE LEFT!
 
@@ -110,10 +132,17 @@ public class GameService implements IGameService {
             properties.setTimer(gameTimer);
         }
 
+        // TODO: SEND MESSAGE MAYBE?
+        reset(player);
+    }
+
+    @Override
+    public void reset(Player player) {
+        final IUser user = userService.searchForUUID(player.getUniqueId());
+
         userTimer.remove(player.getUniqueId());
         islandService.resetBlocks(islandService.getIslandBySlot(user.getProperties().getIslandSlot()));
 
-        // TODO: SEND MESSAGE MAYBE?
         player.setVelocity(new Vector(0, 0, 0));
         player.teleport(islandService.getIslandBySlot(user.getProperties().getIslandSlot()).getLocation());
     }

@@ -3,6 +3,7 @@ package me.tofpu.speedbridge.listener;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
+import me.tofpu.speedbridge.island.properties.property.TwoSection;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.service.IUserService;
@@ -27,18 +28,17 @@ public class PlayerInteractListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     private void onPlayerInteract(final PlayerInteractEvent event) {
         if (!event.hasBlock() || event.getAction() != Action.PHYSICAL) return;
-
         final Player player = event.getPlayer();
-        final IUser user;
-        if ((user = userService.searchForUUID(player.getUniqueId())) == null) return;
 
+        if (!gameService.isPlaying(player)) return;
+        final IUser user = userService.searchForUUID(player.getUniqueId());
         final IIsland island = islandService.getIslandBySlot(user.getProperties().getIslandSlot());
-        final IslandProperties properties = island.getProperties();
 
+        final TwoSection section = island.getProperties().get("point");
         final Location pressurePlate = event.getClickedBlock().getLocation();
-        if (isEqual(pressurePlate, properties.getLocationA())) {
+        if (isEqual(pressurePlate, section.getSectionA())) {
             gameService.addTimer(user);
-        } else if (gameService.hasTimer(user) && isEqual(pressurePlate, properties.getLocationB())) {
+        } else if (gameService.hasTimer(user) && isEqual(pressurePlate, section.getSectionB())) {
             gameService.updateTimer(player);
         }
     }

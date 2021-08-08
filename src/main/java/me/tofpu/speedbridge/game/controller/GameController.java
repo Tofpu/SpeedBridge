@@ -5,6 +5,7 @@ import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.impl.Island;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
+import me.tofpu.speedbridge.island.properties.property.TwoSection;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -33,16 +34,23 @@ public class GameController {
         final IIsland island = islandMap.get(player.getUniqueId());
         if (island == null) return Result.DENY;
 
+        final String[] args = stage.name().split("_");
         final Location location = player.getLocation();
         switch (stage) {
             case SPAWN:
                 island.setLocation(location);
                 break;
             case POINT_A:
-                island.getProperties().setLocationA(location);
+                island.getProperties().get(args[0]).setSectionA(location);
                 break;
             case POINT_B:
-                island.getProperties().setLocationB(location);
+                island.getProperties().get(args[0]).setSectionB(location);
+                break;
+            case SELECTION_A:
+                island.getProperties().get(args[0]).setSectionA(location);
+                break;
+            case SELECTION_B:
+                island.getProperties().get(args[0]).setSectionB(location);
                 break;
         }
         return Result.SUCCESS;
@@ -53,7 +61,9 @@ public class GameController {
         if (island == null) return Result.DENY;
 
         final IslandProperties properties = island.getProperties();
-        if (island.hasLocation() && properties.hasLocationA() && properties.hasLocationB()) {
+        final TwoSection sectionPoint = properties.get("point");
+        final TwoSection sectionSelection = properties.get("selection");
+        if (island.hasLocation() && sectionPoint.hasSectionA() && sectionPoint.hasSectionB() && sectionSelection.hasSectionA() && sectionSelection.hasSectionB()) {
             islandService.addIsland(island);
             islandMap.remove(player.getUniqueId());
             return Result.SUCCESS;

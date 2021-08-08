@@ -16,4 +16,6 @@ public interface IGameService {
     public boolean hasTimer(final IUser user);
 
     public void updateTimer(final Player player);
+
+    public void reset(final Player player);
 }

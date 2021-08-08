@@ -1,42 +1,27 @@
 package me.tofpu.speedbridge.island.properties;
 
-import org.bukkit.Location;
+import me.tofpu.speedbridge.island.properties.impl.IslandPoint;
+import me.tofpu.speedbridge.island.properties.impl.IslandSelection;
+import me.tofpu.speedbridge.island.properties.property.TwoSection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IslandProperties {
-    private Location locationA;
-    private Location locationB;
+    private final List<TwoSection> twoSections;
 
     public IslandProperties() {
+        this.twoSections = new ArrayList<>();
     }
 
-    public IslandProperties(final Location locationA, final Location locationB) {
-        this.locationA = locationA;
-        this.locationB = locationB;
+    public TwoSection get(final String identifier){
+        for (final TwoSection twoSection : twoSections){
+            if (twoSection.getIdentifier().equalsIgnoreCase(identifier)) return twoSection;
+        }
+        return null;
     }
 
-    public boolean hasLocationA() {
-        return locationA != null;
-    }
-
-    public boolean hasLocationB() {
-        return locationB != null;
-    }
-
-
-    public Location getLocationA() {
-        return locationA;
-    }
-
-    public void setLocationA(final Location locationA) {
-        this.locationA = locationA;
-    }
-
-
-    public Location getLocationB() {
-        return locationB;
-    }
-
-    public void setLocationB(final Location locationB) {
-        this.locationB = locationB;
+    public List<TwoSection> getTwoSections() {
+        return twoSections;
     }
 }
