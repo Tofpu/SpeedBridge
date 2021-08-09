@@ -1,6 +1,6 @@
 package me.tofpu.speedbridge.user.properties;
 
-import me.tofpu.speedbridge.user.timer.Timer;
+import me.tofpu.speedbridge.user.properties.timer.Timer;
 
 public class UserProperties {
     private Integer islandSlot;
@@ -12,7 +12,6 @@ public class UserProperties {
     public UserProperties(final int islandSlot) {
         this.islandSlot = islandSlot;
     }
-
 
     public Integer getIslandSlot() {
         return islandSlot;

@@ -1,5 +1,5 @@
 package me.tofpu.speedbridge.game.controller.stage;
 
 public enum SetupStage {
-    SLOT, SPAWN, POINT_A, POINT_B, SELECTION_A, SELECTION_B;
+    SPAWN, POINT_A, POINT_B, SELECTION_A, SELECTION_B;
 }

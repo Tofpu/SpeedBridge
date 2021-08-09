@@ -1,6 +1,6 @@
 package me.tofpu.speedbridge.island.mode.manager;
 
-import me.tofpu.speedbridge.file.config.Config;
+import me.tofpu.speedbridge.data.file.config.Config;
 import me.tofpu.speedbridge.island.mode.Mode;
 import org.bukkit.configuration.ConfigurationSection;
 

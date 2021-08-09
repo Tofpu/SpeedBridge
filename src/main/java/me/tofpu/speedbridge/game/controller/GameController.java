@@ -28,9 +28,6 @@ public class GameController {
     }
 
     public Result setupIsland(final Player player, SetupStage stage) {
-        // /speedbridge create (slot) | /speedbridge create 10 (DONE)
-        // /speedbridge set (slot) spawn/point-a/point-b |
-        // /speedbridge finish
         final IIsland island = islandMap.get(player.getUniqueId());
         if (island == null) return Result.DENY;
 

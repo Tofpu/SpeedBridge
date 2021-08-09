@@ -7,7 +7,7 @@ import com.google.gson.stream.JsonWriter;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.impl.User;
 import me.tofpu.speedbridge.user.properties.UserProperties;
-import me.tofpu.speedbridge.user.timer.Timer;
+import me.tofpu.speedbridge.user.properties.timer.Timer;
 
 import java.io.IOException;
 import java.util.UUID;

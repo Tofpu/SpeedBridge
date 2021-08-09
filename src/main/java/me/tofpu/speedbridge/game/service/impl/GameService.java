@@ -11,7 +11,7 @@ import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.properties.UserProperties;
 import me.tofpu.speedbridge.user.service.IUserService;
-import me.tofpu.speedbridge.user.timer.Timer;
+import me.tofpu.speedbridge.user.properties.timer.Timer;
 import me.tofpu.speedbridge.util.Cuboid;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
