@@ -6,6 +6,7 @@ import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.mode.manager.ModeManager;
 import me.tofpu.speedbridge.lobby.service.ILobbyService;
+import me.tofpu.speedbridge.util.Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,14 +31,20 @@ public class CommandManager implements CommandExecutor {
         }
         final Player player = (Player) sender;
 
-        if (args.length < 1) return false;
+        if (args.length == 0) return false;
         switch (args[0]) {
             case "join":
                 // TODO: HAVE A CHECK LATER
+                final boolean length = args.length > 1;
+
                 Result joinResult;
 
-                if (args.length > 1) joinResult = gameService.join(player, ModeManager.getModeManager().get(args[1]));
-                else joinResult = gameService.join(player);
+                if (length) {
+                    final Integer integer = Util.parseInt(args[1]);
+
+                    if (integer != null) joinResult = gameService.join(player, integer);
+                    else joinResult = gameService.join(player, ModeManager.getModeManager().get(args[1]));
+                } else joinResult = gameService.join(player);
 
                 if (joinResult == Result.DENY) {
                     //TODO: SEND MESSAGE, THAT THEY'VE ALREADY JOINED!

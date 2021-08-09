@@ -46,6 +46,19 @@ public class GameService implements IGameService {
     }
 
     @Override
+    public Result join(final Player player, final int slot) {
+        if (!lobbyService.hasLobbyLocation()) {
+            //TODO: SEND MESSAGE SAYING YOU HAVE TO HAVE A LOBBY LOCATION SET!
+            return Result.INVALID_LOBBY;
+        }
+
+        final IUser user = userService.getOrDefault(player.getUniqueId());
+        if (user.getProperties().getIslandSlot() != null) return Result.DENY;
+
+        return join(user, islandService.getIslandBySlot(slot));
+    }
+
+    @Override
     public Result join(final Player player, final Mode mode) {
         if (!lobbyService.hasLobbyLocation()) {
             //TODO: SEND MESSAGE SAYING YOU HAVE TO HAVE A LOBBY LOCATION SET!
@@ -58,10 +71,24 @@ public class GameService implements IGameService {
         final List<IIsland> islands = mode == null ? islandService.getAvailableIslands() : islandService.getAvailableIslands(mode);
         if (islands.size() < 1) return Result.FULL;
 
-        final IIsland island = islands.get(0);
+        return join(user, islands.get(0));
+    }
+
+    @Override
+    public Result join(final IUser user, IIsland island) {
+        if (!lobbyService.hasLobbyLocation()) {
+            //TODO: SEND MESSAGE SAYING YOU HAVE TO HAVE A LOBBY LOCATION SET!
+            return Result.INVALID_LOBBY;
+        }
+
+        if (island == null) return Result.DENY;
+        else if (!island.isAvailable()) return Result.FULL;
 
         user.getProperties().setIslandSlot(island.getSlot());
         island.setTakenBy(user);
+
+        final Player player = Bukkit.getPlayer(user.getUuid());
+        if (player == null) return Result.DENY;
 
         final Inventory inventory = player.getInventory();
         inventory.clear();
