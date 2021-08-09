@@ -1,6 +1,6 @@
 settings:
   max-slots: 20
 
-queues:
+modes:
   normal: 0-10
   hard: 11-20

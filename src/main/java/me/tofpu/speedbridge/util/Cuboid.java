@@ -9,6 +9,7 @@ public class Cuboid {
     private final int yMax;
     private final int zMin;
     private final int zMax;
+
     public Cuboid(final Location point1, final Location point2) {
         this.xMin = Math.min(point1.getBlockX(), point2.getBlockX());
         this.xMax = Math.max(point1.getBlockX(), point2.getBlockX());

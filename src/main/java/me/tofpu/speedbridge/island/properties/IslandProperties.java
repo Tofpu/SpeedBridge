@@ -1,6 +1,8 @@
 package me.tofpu.speedbridge.island.properties;
 
-import me.tofpu.speedbridge.island.properties.property.TwoSection;
+import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
+import me.tofpu.speedbridge.island.properties.twosection.impl.IslandPoint;
+import me.tofpu.speedbridge.island.properties.twosection.impl.IslandSelection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,8 @@ public class IslandProperties {
 
     public IslandProperties() {
         this.twoSections = new ArrayList<>();
+        this.twoSections.add(new IslandPoint());
+        this.twoSections.add(new IslandSelection());
     }
 
     public TwoSection get(final String identifier) {

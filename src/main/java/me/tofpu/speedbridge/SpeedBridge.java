@@ -5,6 +5,7 @@ import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.file.config.Config;
 import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.game.service.IGameService;
+import me.tofpu.speedbridge.island.mode.manager.ModeManager;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.listener.*;
 import me.tofpu.speedbridge.lobby.service.ILobbyService;
@@ -31,7 +32,10 @@ public final class SpeedBridge extends JavaPlugin {
 
         this.game = new Game(getDataFolder());
         final DataManager dataManager = getGame().getDataManager();
+
         dataManager.initialize();
+        ModeManager.getModeManager().initialize();
+
         dataManager.load();
 
         final IUserService userService = getGame().getUserService();

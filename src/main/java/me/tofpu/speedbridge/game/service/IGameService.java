@@ -1,11 +1,14 @@
 package me.tofpu.speedbridge.game.service;
 
 import me.tofpu.speedbridge.game.result.Result;
+import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.user.IUser;
 import org.bukkit.entity.Player;
 
 public interface IGameService {
     public Result join(final Player player);
+
+    public Result join(final Player player, final Mode mode);
 
     public Result leave(final Player player);
 

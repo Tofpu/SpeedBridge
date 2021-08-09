@@ -1,21 +1,24 @@
-package me.tofpu.speedbridge.island.properties.impl;
+package me.tofpu.speedbridge.island.properties.twosection.impl;
 
-import me.tofpu.speedbridge.island.properties.property.TwoSection;
+import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
 import org.bukkit.Location;
 
-public class IslandSelection implements TwoSection {
-    private final String identifier;
+public class TwoSectionSimple implements TwoSection {
+    private String identifier = "";
 
     private Location sectionA;
     private Location sectionB;
 
-    public IslandSelection() {
-        this.identifier = "selection";
+    public TwoSectionSimple() {
     }
 
     @Override
     public String getIdentifier() {
         return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     @Override
@@ -46,5 +49,14 @@ public class IslandSelection implements TwoSection {
     @Override
     public boolean hasSectionB() {
         return sectionB != null;
+    }
+
+    @Override
+    public String toString() {
+        return "TwoSectionSimple{" +
+                "identifier='" + identifier + '\'' +
+                ", sectionA=" + sectionA +
+                ", sectionB=" + sectionB +
+                '}';
     }
 }

@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.island.properties.property;
+package me.tofpu.speedbridge.island.properties.twosection;
 
 import org.bukkit.Location;
 

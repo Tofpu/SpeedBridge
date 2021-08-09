@@ -1,5 +1,6 @@
 package me.tofpu.speedbridge.island;
 
+import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
 import me.tofpu.speedbridge.user.IUser;
 import org.bukkit.Location;
@@ -20,6 +21,8 @@ public interface IIsland {
     public boolean hasLocation();
 
     public int getSlot();
+
+    public Mode getMode();
 
     public List<Location> getPlacedBlocks();
 

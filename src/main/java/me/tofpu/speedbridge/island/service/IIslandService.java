@@ -2,6 +2,7 @@ package me.tofpu.speedbridge.island.service;
 
 import com.google.gson.Gson;
 import me.tofpu.speedbridge.island.IIsland;
+import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.user.IUser;
 
 import java.io.File;
@@ -17,6 +18,8 @@ public interface IIslandService {
     public IIsland getIslandByUser(final IUser takenBy);
 
     public List<IIsland> getAvailableIslands();
+
+    public List<IIsland> getAvailableIslands(final Mode mode);
 
     public void resetBlocks(final IIsland island);
 

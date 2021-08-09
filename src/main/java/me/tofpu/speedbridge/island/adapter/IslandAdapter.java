@@ -7,9 +7,7 @@ import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.impl.Island;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
-import me.tofpu.speedbridge.island.properties.impl.IslandPoint;
-import me.tofpu.speedbridge.island.properties.impl.IslandSelection;
-import me.tofpu.speedbridge.island.properties.property.TwoSection;
+import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
 import org.bukkit.Location;
 
 import java.io.IOException;
@@ -27,10 +25,12 @@ public class IslandAdapter extends TypeAdapter<IIsland> {
 
         final IslandProperties properties = value.getProperties();
         for (int i = 0; i < properties.getTwoSections().size(); i++) {
+            final TwoSection section = properties.getTwoSections().get(i);
+            if (!section.hasSectionA() || !section.hasSectionA()) continue;
+
             out.name(i + "").beginArray();
             out.beginObject();
 
-            final TwoSection section = properties.getTwoSections().get(i);
             out.name(section.getIdentifier() + "-a");
             write(section.getSectionA(), out);
             out.name(section.getIdentifier() + "-b");
@@ -66,26 +66,23 @@ public class IslandAdapter extends TypeAdapter<IIsland> {
             in.beginArray();
             in.beginObject();
 
-            TwoSection sectionSimple = null;
+
             while (in.hasNext()) {
                 final String[] input = in.nextName().split("-");
                 final Location location = toLocation(adapter, in);
 
-                if (sectionSimple == null && input[0].equalsIgnoreCase("point")) sectionSimple = new IslandPoint();
-                else if (sectionSimple == null && input[0].equalsIgnoreCase("selection"))
-                    sectionSimple = new IslandSelection();
+
+                final TwoSection section = properties.get(input[0]);
                 switch (input[1]) {
                     case "a":
-                        sectionSimple.setSectionA(location);
+                        section.setSectionA(location);
                         break;
                     case "b":
-                        sectionSimple.setSectionB(location);
+                        section.setSectionB(location);
                         break;
                 }
             }
-            properties.getTwoSections().add(sectionSimple);
 
-            sectionSimple = null;
             in.endObject();
             in.endArray();
         }

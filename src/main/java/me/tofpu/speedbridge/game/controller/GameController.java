@@ -5,7 +5,7 @@ import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.impl.Island;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
-import me.tofpu.speedbridge.island.properties.property.TwoSection;
+import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

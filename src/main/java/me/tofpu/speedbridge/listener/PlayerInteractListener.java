@@ -2,7 +2,7 @@ package me.tofpu.speedbridge.listener;
 
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.IIsland;
-import me.tofpu.speedbridge.island.properties.property.TwoSection;
+import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.service.IUserService;

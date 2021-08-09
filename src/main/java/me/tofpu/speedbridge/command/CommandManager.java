@@ -4,6 +4,7 @@ import me.tofpu.speedbridge.game.controller.GameController;
 import me.tofpu.speedbridge.game.controller.stage.SetupStage;
 import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.IGameService;
+import me.tofpu.speedbridge.island.mode.manager.ModeManager;
 import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,7 +34,11 @@ public class CommandManager implements CommandExecutor {
         switch (args[0]) {
             case "join":
                 // TODO: HAVE A CHECK LATER
-                final Result joinResult = gameService.join(player);
+                Result joinResult;
+
+                if (args.length > 1) joinResult = gameService.join(player, ModeManager.getModeManager().get(args[1]));
+                else joinResult = gameService.join(player);
+
                 if (joinResult == Result.DENY) {
                     //TODO: SEND MESSAGE, THAT THEY'VE ALREADY JOINED!
                 } else if (joinResult == Result.FULL) {
@@ -89,6 +94,7 @@ public class CommandManager implements CommandExecutor {
                         //TODO: SEND MESSAGE SAYING THEY HAVE NOT CREATED AN ISLAND!
                         break;
                 }
+                break;
             case "finish":
                 final Result finishResult = this.gameController.finishSetup(player);
                 if (finishResult == Result.SUCCESS) {

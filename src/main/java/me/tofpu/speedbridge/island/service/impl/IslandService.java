@@ -2,6 +2,7 @@ package me.tofpu.speedbridge.island.service.impl;
 
 import com.google.gson.Gson;
 import me.tofpu.speedbridge.island.IIsland;
+import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.user.IUser;
 import org.bukkit.Location;
@@ -50,6 +51,16 @@ public class IslandService implements IIslandService {
             if (island.isAvailable() && island.hasLocation()) {
                 islands.add(island);
             }
+        }
+        return islands;
+    }
+
+    @Override
+    public List<IIsland> getAvailableIslands(final Mode mode) {
+        final List<IIsland> islands = new ArrayList<>();
+        for (final IIsland island : this.islands) {
+            if (island.getMode().getIdentifier().equals(mode.getIdentifier())
+                    && island.isAvailable() && island.hasLocation()) islands.add(island);
         }
         return islands;
     }
