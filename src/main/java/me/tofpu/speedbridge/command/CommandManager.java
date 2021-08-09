@@ -61,6 +61,11 @@ public class CommandManager implements CommandExecutor {
                 break;
             case "create":
                 if (args.length < 2) return false;
+                if (gameService.isPlaying(player)){
+                    //TODO: SEND MESSAGE SAYING YOU CANNOT EDIT ISLANDS WHILE PLAYING!
+                    return false;
+                }
+
                 final Integer createSlot = tryParse(args[1]);
                 if (createSlot == null) {
                     //TODO: SEND MESSAGE SAYING YOU HAVE TO INSERT NUMBERS ONLY!
@@ -76,6 +81,10 @@ public class CommandManager implements CommandExecutor {
 //                player.teleport()
                 break;
             case "set":
+                if (gameService.isPlaying(player)){
+                    //TODO: SEND MESSAGE SAYING YOU CANNOT EDIT ISLANDS WHILE PLAYING!
+                    return false;
+                }
                 if (args.length == 2) {
                     switch (args[1]) {
                         case "lobby":
@@ -103,6 +112,11 @@ public class CommandManager implements CommandExecutor {
                 }
                 break;
             case "finish":
+                if (gameService.isPlaying(player)){
+                    //TODO: SEND MESSAGE SAYING YOU CANNOT EDIT ISLANDS WHILE PLAYING!
+                    return false;
+                }
+
                 final Result finishResult = this.gameController.finishSetup(player);
                 if (finishResult == Result.SUCCESS) {
                     //TODO: SEND MESSAGE SAYING IT'S BEEN COMPLETED!
