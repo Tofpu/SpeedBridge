@@ -51,6 +51,8 @@ public final class SpeedBridge extends JavaPlugin {
         pluginManager.registerEvents(new PlayerInteractListener(userService, islandService, gameService), this);
         pluginManager.registerEvents(new BlockPlaceListener(userService, islandService, gameService), this);
         pluginManager.registerEvents(new BlockBreakListener(userService, islandService, gameService), this);
+        pluginManager.registerEvents(new EntityDamageListener(gameService), this);
+        pluginManager.registerEvents(new FoodLevelChangeListener(gameService), this);
 
         // /RELOAD BUG FIX
         Bukkit.getOnlinePlayers().forEach(player -> dataManager.loadUser(player.getUniqueId()));
