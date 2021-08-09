@@ -14,6 +14,7 @@ import me.tofpu.speedbridge.user.service.IUserService;
 import me.tofpu.speedbridge.user.timer.Timer;
 import me.tofpu.speedbridge.util.Cuboid;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -92,6 +93,12 @@ public class GameService implements IGameService {
 
         final Inventory inventory = player.getInventory();
         inventory.clear();
+
+        player.getActivePotionEffects().clear();
+        player.setGameMode(GameMode.SURVIVAL);
+        player.setHealth(player.getMaxHealth());
+        player.setFoodLevel(20);
+
         inventory.addItem(new ItemStack(Material.WOOL, 64));
 
         player.teleport(island.getLocation());
