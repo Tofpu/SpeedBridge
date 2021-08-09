@@ -9,7 +9,8 @@ public class TwoSectionSimple implements TwoSection {
     private Location sectionA;
     private Location sectionB;
 
-    public TwoSectionSimple() {}
+    public TwoSectionSimple() {
+    }
 
     @Override
     public String getIdentifier() {

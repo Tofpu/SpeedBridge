@@ -6,6 +6,7 @@ import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.properties.property.TwoSection;
 import me.tofpu.speedbridge.island.service.IIslandService;
+import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.properties.UserProperties;
 import me.tofpu.speedbridge.user.service.IUserService;
@@ -27,17 +28,24 @@ import java.util.UUID;
 public class GameService implements IGameService {
     private final IIslandService islandService;
     private final IUserService userService;
+    private final ILobbyService lobbyService;
 
     private final Map<UUID, Timer> userTimer = new HashMap<>();
     private final Map<UUID, BukkitTask> userCheck = new HashMap<>();
 
-    public GameService(final IIslandService islandService, final IUserService userService) {
+    public GameService(final IIslandService islandService, final IUserService userService, final ILobbyService lobbyService) {
         this.islandService = islandService;
         this.userService = userService;
+        this.lobbyService = lobbyService;
     }
 
     @Override
     public Result join(final Player player) {
+        if (!lobbyService.hasLobbyLocation()) {
+            //TODO: SEND MESSAGE SAYING YOU HAVE TO HAVE A LOBBY LOCATION SET!
+            return Result.INVALID_LOBBY;
+        }
+
         final IUser user = userService.getOrDefault(player.getUniqueId());
         if (user.getProperties().getIslandSlot() != null) return Result.DENY;
 
@@ -63,7 +71,7 @@ public class GameService implements IGameService {
                                 SpeedBridge.getProvidingPlugin(SpeedBridge.class),
                                 () -> {
                                     if (!cuboid.isIn(player.getLocation())) {
-                                        reset(player);
+                                        reset(user);
                                     }
                                 },
                                 20, 10));
@@ -86,6 +94,7 @@ public class GameService implements IGameService {
         userCheck.get(player.getUniqueId()).cancel();
         userCheck.remove(player.getUniqueId());
         // TODO: TELEPORT PLAYER TO LOBBY!
+        player.teleport(lobbyService.getLobbyLocation());
         // TODO: SEND MESSAGE THAT THEY'VE LEFT!
 
         return Result.SUCCESS;
@@ -114,12 +123,11 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public void updateTimer(final Player player) {
-        final IUser user = userService.searchForUUID(player.getUniqueId());
+    public void updateTimer(final IUser user) {
         if (user == null) return;
 
         final UserProperties properties = user.getProperties();
-        final Timer gameTimer = userTimer.get(player.getUniqueId());
+        final Timer gameTimer = userTimer.get(user.getUuid());
         gameTimer.setEnd(System.currentTimeMillis());
         gameTimer.complete();
 
@@ -133,16 +141,25 @@ public class GameService implements IGameService {
         }
 
         // TODO: SEND MESSAGE MAYBE?
-        reset(player);
+        reset(user);
     }
 
     @Override
-    public void reset(Player player) {
-        final IUser user = userService.searchForUUID(player.getUniqueId());
+    public void resetTimer(final IUser user) {
+        if (user == null) return;
 
-        userTimer.remove(player.getUniqueId());
+        userTimer.remove(user.getUuid());
         islandService.resetBlocks(islandService.getIslandBySlot(user.getProperties().getIslandSlot()));
+    }
 
+    @Override
+    public void reset(final IUser user) {
+        if (user == null) return;
+
+        resetTimer(user);
+
+        final Player player = Bukkit.getPlayer(user.getUuid());
+        if (player == null) return;
         player.setVelocity(new Vector(0, 0, 0));
         player.teleport(islandService.getIslandBySlot(user.getProperties().getIslandSlot()).getLocation());
     }

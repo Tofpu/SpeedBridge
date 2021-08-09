@@ -9,14 +9,10 @@ import me.tofpu.speedbridge.island.impl.Island;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
 import me.tofpu.speedbridge.island.properties.impl.IslandPoint;
 import me.tofpu.speedbridge.island.properties.impl.IslandSelection;
-import me.tofpu.speedbridge.island.properties.impl.TwoSectionSimple;
 import me.tofpu.speedbridge.island.properties.property.TwoSection;
 import org.bukkit.Location;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class IslandAdapter extends TypeAdapter<IIsland> {
     @Override
@@ -65,19 +61,20 @@ public class IslandAdapter extends TypeAdapter<IIsland> {
         in.beginObject();
 
         final IslandProperties properties = island.getProperties();
-        while (in.hasNext()){
+        while (in.hasNext()) {
             final String index = in.nextName();
             in.beginArray();
             in.beginObject();
 
             TwoSection sectionSimple = null;
-            while (in.hasNext()){
+            while (in.hasNext()) {
                 final String[] input = in.nextName().split("-");
                 final Location location = toLocation(adapter, in);
 
                 if (sectionSimple == null && input[0].equalsIgnoreCase("point")) sectionSimple = new IslandPoint();
-                else if (sectionSimple == null && input[0].equalsIgnoreCase("selection")) sectionSimple = new IslandSelection();
-                switch (input[1]){
+                else if (sectionSimple == null && input[0].equalsIgnoreCase("selection"))
+                    sectionSimple = new IslandSelection();
+                switch (input[1]) {
                     case "a":
                         sectionSimple.setSectionA(location);
                         break;
@@ -99,11 +96,11 @@ public class IslandAdapter extends TypeAdapter<IIsland> {
         return island;
     }
 
-    private void write(final Location location, JsonWriter writer){
+    private void write(final Location location, JsonWriter writer) {
         DataManager.GSON.toJson(location, Location.class, writer);
     }
 
-    private Location toLocation(final TypeAdapter<Location> adapter, final JsonReader reader){
+    private Location toLocation(final TypeAdapter<Location> adapter, final JsonReader reader) {
         try {
             return adapter.read(reader);
         } catch (IOException e) {

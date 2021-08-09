@@ -7,6 +7,7 @@ import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.listener.*;
+import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.user.service.IUserService;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -31,16 +32,17 @@ public final class SpeedBridge extends JavaPlugin {
         this.game = new Game(getDataFolder());
         final DataManager dataManager = getGame().getDataManager();
         dataManager.initialize();
-        dataManager.loadIslands();
+        dataManager.load();
 
         final IUserService userService = getGame().getUserService();
         final IIslandService islandService = getGame().getIslandService();
         final IGameService gameService = getGame().getGameService();
+        final ILobbyService lobbyService = getGame().getLobbyService();
 
-        getCommand("speedbridge").setExecutor(new CommandManager(this.game.getGameController(), gameService));
+        getCommand("speedbridge").setExecutor(new CommandManager(this.game.getGameController(), gameService, lobbyService));
 
         final PluginManager pluginManager = getServer().getPluginManager();
-        pluginManager.registerEvents(new PlayerJoinListener(dataManager), this);
+        pluginManager.registerEvents(new PlayerJoinListener(lobbyService, dataManager), this);
         pluginManager.registerEvents(new PlayerQuitListener(userService, islandService, gameService, dataManager), this);
         pluginManager.registerEvents(new PlayerInteractListener(userService, islandService, gameService), this);
         pluginManager.registerEvents(new BlockPlaceListener(userService, islandService, gameService), this);

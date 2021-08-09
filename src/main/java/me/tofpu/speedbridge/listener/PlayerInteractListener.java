@@ -2,7 +2,6 @@ package me.tofpu.speedbridge.listener;
 
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.IIsland;
-import me.tofpu.speedbridge.island.properties.IslandProperties;
 import me.tofpu.speedbridge.island.properties.property.TwoSection;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.user.IUser;
@@ -37,9 +36,10 @@ public class PlayerInteractListener implements Listener {
         final TwoSection section = island.getProperties().get("point");
         final Location pressurePlate = event.getClickedBlock().getLocation();
         if (isEqual(pressurePlate, section.getSectionA())) {
+            gameService.resetTimer(user);
             gameService.addTimer(user);
         } else if (gameService.hasTimer(user) && isEqual(pressurePlate, section.getSectionB())) {
-            gameService.updateTimer(player);
+            gameService.updateTimer(user);
         }
     }
 

@@ -4,6 +4,7 @@ import me.tofpu.speedbridge.game.controller.GameController;
 import me.tofpu.speedbridge.game.controller.stage.SetupStage;
 import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.IGameService;
+import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,11 +12,14 @@ import org.bukkit.entity.Player;
 
 public class CommandManager implements CommandExecutor {
     private final GameController gameController;
-    private final IGameService gameService;
 
-    public CommandManager(final GameController gameController, final IGameService gameService) {
+    private final IGameService gameService;
+    private final ILobbyService lobbyService;
+
+    public CommandManager(final GameController gameController, final IGameService gameService, final ILobbyService lobbyService) {
         this.gameController = gameController;
         this.gameService = gameService;
+        this.lobbyService = lobbyService;
     }
 
     @Override
@@ -54,7 +58,21 @@ public class CommandManager implements CommandExecutor {
                 gameController.createIsland(player, createSlot);
                 //TODO: SEND MESSAGE SAYING SUCCESS!
                 break;
+            case "lobby":
+                if (gameService.isPlaying(player)) gameService.leave(player);
+                if (lobbyService.hasLobbyLocation()) player.teleport(lobbyService.getLobbyLocation());
+//                player.teleport()
+                break;
             case "set":
+                if (args.length == 2) {
+                    switch (args[1]) {
+                        case "lobby":
+                            //TODO: SEND MESSAGE SAYING SUCCESS!
+                            lobbyService.setLobbyLocation(player.getLocation());
+                            break;
+                    }
+                    return false;
+                }
                 // /speedbridge set (slot) spawn/point-a/point-b
                 if (args.length < 3) return false;
                 final Integer setSlot = tryParse(args[1]);
