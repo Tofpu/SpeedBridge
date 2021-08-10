@@ -3,6 +3,7 @@ package me.tofpu.speedbridge;
 import me.tofpu.speedbridge.command.CommandManager;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.data.file.config.Config;
+import me.tofpu.speedbridge.expansion.BridgeExpansion;
 import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.game.listener.functionality.BlockBreakListener;
 import me.tofpu.speedbridge.game.listener.functionality.BlockPlaceListener;
@@ -41,6 +42,8 @@ public final class SpeedBridge extends JavaPlugin {
         dataManager.initialize();
         ModeManager.getModeManager().initialize();
 
+        registerPlaceholderApi();
+
         dataManager.load();
 
         final IUserService userService = getGame().getUserService();
@@ -68,6 +71,11 @@ public final class SpeedBridge extends JavaPlugin {
         // Plugin shutdown logic
         final DataManager dataManager = this.game.getDataManager();
         dataManager.save();
+    }
+
+    public void registerPlaceholderApi(){
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) return;
+        new BridgeExpansion(getDescription(), getGame().getUserService()).register();
     }
 
     public Game getGame() {

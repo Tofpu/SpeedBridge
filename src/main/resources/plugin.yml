@@ -3,5 +3,8 @@ version: ${project.version}
 main: me.tofpu.speedbridge.SpeedBridge
 api-version: 1.13
 authors: [ Tofpu ]
+
+softdepend:
+  - PlaceholderAPI
 commands:
   speedbridge:
