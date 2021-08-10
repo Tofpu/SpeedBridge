@@ -1,5 +1,12 @@
 package me.tofpu.speedbridge.util;
 
+import me.tofpu.speedbridge.data.file.config.Config;
+import me.tofpu.speedbridge.data.file.config.path.Path;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+import java.util.Map;
+
 public class Util {
     public static Integer parseInt(final String s) {
         final int radix = 10;
@@ -37,5 +44,25 @@ public class Util {
             }
         } else return null;
         return negative ? result : -result;
+    }
+
+    public static void message(final Player player, Path path){
+        message(player, path, null);
+    }
+
+    public static void message(final Player player, Path path, final Map<String, ?> replaceMap){
+        final String message = Config.TranslateOutput.toString(path);
+        if (message == null) return;
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', Util.WordReplacer.replace(message, replaceMap)));
+    }
+
+    public static class WordReplacer {
+        public static String replace(String message, final Map<String, ?> replaceMap){
+            if (replaceMap == null) return message;
+            for (final Map.Entry<String, ?> replace : replaceMap.entrySet()){
+                message = message.replace(replace.getKey(), replace.getValue() + "");
+            }
+            return message;
+        }
     }
 }

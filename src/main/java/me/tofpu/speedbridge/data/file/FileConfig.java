@@ -7,7 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 
 public class FileConfig {
-    private String identifier;
+    private final String identifier;
     private FileConfiguration configuration;
 
     public FileConfig(final SpeedBridge speedBridge, final String identifier) {

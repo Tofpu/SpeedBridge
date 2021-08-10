@@ -7,15 +7,15 @@ import java.io.File;
 import java.util.UUID;
 
 public interface IUserService {
-    public IUser createUser(final UUID uuid);
+    IUser createUser(final UUID uuid);
 
-    public void removeUser(final IUser user);
+    void removeUser(final IUser user);
 
-    public IUser getOrDefault(final UUID uuid);
+    IUser getOrDefault(final UUID uuid);
 
-    public IUser searchForUUID(final UUID uuid);
+    IUser searchForUUID(final UUID uuid);
 
-    public void saveAll(final Gson gson, final File directory);
+    void saveAll(final Gson gson, final File directory);
 
-    public IUser load(final Gson gson, final UUID uuid, final File directory);
+    IUser load(final Gson gson, final UUID uuid, final File directory);
 }

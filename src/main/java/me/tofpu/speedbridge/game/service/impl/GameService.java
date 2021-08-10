@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge.game.service.impl;
 
 import me.tofpu.speedbridge.SpeedBridge;
+import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.IIsland;
@@ -13,6 +14,7 @@ import me.tofpu.speedbridge.user.properties.UserProperties;
 import me.tofpu.speedbridge.user.properties.timer.Timer;
 import me.tofpu.speedbridge.user.service.IUserService;
 import me.tofpu.speedbridge.util.Cuboid;
+import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -78,7 +80,6 @@ public class GameService implements IGameService {
     @Override
     public Result join(final IUser user, IIsland island) {
         if (!lobbyService.hasLobbyLocation()) {
-            //TODO: SEND MESSAGE SAYING YOU HAVE TO HAVE A LOBBY LOCATION SET!
             return Result.INVALID_LOBBY;
         }
 
@@ -174,15 +175,26 @@ public class GameService implements IGameService {
         gameTimer.complete();
 
         final Timer lowestTimer = properties.getTimer();
-        if (lowestTimer != null && lowestTimer.getResult() <= gameTimer.getResult()) {
-            // TODO: SEND MESSAGE THAT THEY HAVEN'T BEATEN THEIR LOWEST RECORD.
 
+        final Player player = Bukkit.getPlayer(user.getUuid());
+
+        final Map<String, Double> replace = new HashMap<>();
+        replace.put("%scored%", gameTimer.getResult());
+        Util.message(player, Path.MESSAGES_SCORED, replace);
+        replace.clear();
+
+        if (lowestTimer != null && lowestTimer.getResult() <= gameTimer.getResult()) {
+            replace.put("%score%", lowestTimer.getResult());
+            Util.message(player, Path.MESSAGES_NOT_BEATEN, replace);
         } else {
-            // TODO: SEND MESSAGE THAT THEY HAVE BEATEN THEIR LOWEST RECORD.
+            double score;
+            if (lowestTimer == null) score = gameTimer.getResult();
+            else score = lowestTimer.getResult();
+
+            replace.put("%calu_score%", score);
+            Util.message(player, Path.MESSAGES_SCORED);
             properties.setTimer(gameTimer);
         }
-
-        // TODO: SEND MESSAGE MAYBE?
         reset(user);
     }
 

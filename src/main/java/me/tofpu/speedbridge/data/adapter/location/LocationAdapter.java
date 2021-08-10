@@ -2,6 +2,7 @@ package me.tofpu.speedbridge.data.adapter.location;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -30,6 +31,7 @@ public class LocationAdapter extends TypeAdapter<Location> {
         in.beginObject();
 
         in.nextName();
+        if (in.peek() == JsonToken.NULL) return null;
         final World world = Bukkit.getWorld(in.nextString());
 
         in.nextName();
@@ -42,10 +44,10 @@ public class LocationAdapter extends TypeAdapter<Location> {
         final double z = in.nextDouble();
 
         in.nextName();
-        final float yaw = (float) in.nextDouble();
+        final float yaw = Float.parseFloat(in.nextString());
 
         in.nextName();
-        final float pitch = (float) in.nextDouble();
+        final float pitch =  Float.parseFloat(in.nextString());
 
         final Location location = new Location(world, x, y, z, yaw, pitch);
         in.endObject();

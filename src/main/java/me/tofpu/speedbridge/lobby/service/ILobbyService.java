@@ -6,13 +6,13 @@ import org.bukkit.Location;
 import java.io.File;
 
 public interface ILobbyService {
-    public Location getLobbyLocation();
+    Location getLobbyLocation();
 
-    public void setLobbyLocation(final Location location);
+    void setLobbyLocation(final Location location);
 
-    public boolean hasLobbyLocation();
+    boolean hasLobbyLocation();
 
-    public void save(final Gson gson, final File file);
+    void save(final Gson gson, final File file);
 
-    public void load(final Gson gson, final File file);
+    void load(final Gson gson, final File file);
 }

@@ -3,17 +3,17 @@ package me.tofpu.speedbridge.island.properties.twosection;
 import org.bukkit.Location;
 
 public interface TwoSection {
-    public String getIdentifier();
+    String getIdentifier();
 
-    public Location getSectionA();
+    Location getSectionA();
 
-    public void setSectionA(final Location sectionA);
+    void setSectionA(final Location sectionA);
 
-    public boolean hasSectionA();
+    boolean hasSectionA();
 
-    public Location getSectionB();
+    Location getSectionB();
 
-    public void setSectionB(final Location sectionB);
+    void setSectionB(final Location sectionB);
 
-    public boolean hasSectionB();
+    boolean hasSectionB();
 }

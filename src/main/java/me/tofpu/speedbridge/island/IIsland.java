@@ -8,23 +8,23 @@ import org.bukkit.Location;
 import java.util.List;
 
 public interface IIsland {
-    public boolean isAvailable();
+    boolean isAvailable();
 
-    public IUser getTakenBy();
+    IUser getTakenBy();
 
-    public void setTakenBy(final IUser takenBy);
+    void setTakenBy(final IUser takenBy);
 
-    public Location getLocation();
+    Location getLocation();
 
-    public void setLocation(final Location location);
+    void setLocation(final Location location);
 
-    public boolean hasLocation();
+    boolean hasLocation();
 
-    public int getSlot();
+    int getSlot();
 
-    public Mode getMode();
+    Mode getMode();
 
-    public List<Location> getPlacedBlocks();
+    List<Location> getPlacedBlocks();
 
-    public IslandProperties getProperties();
+    IslandProperties getProperties();
 }

@@ -1,7 +1,23 @@
-# DEFAULT PLACEHOLDERS
-# %recorc%
-# test
+# Supports PlaceholderAPI
 
 messages:
   joined: "&aGood Luck!"
-  left: "&eYour fastest record is currently &a%record% &eseconds!"
+  left: ""
+  not-available: "&cThe island is not available right now, try again later!"
+  not-playing: "&cYou're not in a game!"
+  already-joined: "&cYou're already joined!"
+  your-score: "&eYour fastest score is: &a%score%&e!"
+
+  cannot-edit: "&cYou cannot edit an island while playing."
+  insert-number: "&cYou can only insert numbers here!"
+  no-lobby: "&cYou have to setup a lobby first!"
+
+  island-creation: "&aSuccess!"
+  lobby-location: "&aSuccess!"
+  invalid-island: "&cThat island does not exist!"
+  island-completed: "&eThe island setup has been completed!"
+  island-incomplete: "&cIncomplete island setup, please double check!"
+
+  not-beaten: "&cYou didn't beat your lowest score yet. (%score% seconds)"
+  beaten-score: "&aYou topped your old score by %calu_score% seconds!"
+  scored: "&eYou just scored &a%scored% &eseconds!"
