@@ -5,6 +5,7 @@ import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.data.file.config.Config;
 import me.tofpu.speedbridge.data.listener.PlayerJoinListener;
 import me.tofpu.speedbridge.data.listener.PlayerQuitListener;
+import me.tofpu.speedbridge.dependency.register.DependencyRegister;
 import me.tofpu.speedbridge.expansion.BridgeExpansion;
 import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.game.listener.functionality.BlockBreakListener;
@@ -65,11 +66,13 @@ public final class SpeedBridge extends JavaPlugin {
         dataManager.initialize();
         ModeManager.getModeManager().initialize();
 
+        DependencyRegister.loadAll(this);
+        dataManager.load();
+
         registerPlaceholderApi();
         registerListeners();
         getCommand("speedbridge").setExecutor(new CommandManager(getGame().getGameController(), getGame().getGameService(), getGame().getLobbyService()));
 
-        dataManager.load();
 
         // RELOAD BUG FIX
         Bukkit.getOnlinePlayers().forEach(player -> dataManager.loadUser(player.getUniqueId()));
@@ -82,7 +85,7 @@ public final class SpeedBridge extends JavaPlugin {
     }
 
     public void registerPlaceholderApi() {
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) return;
+        if (DependencyRegister.get("PlaceholderAPI").getDependency() == null) return;
         getLogger().info("Hooked into PlaceholderAPI");
         new BridgeExpansion(getDescription(), getGame().getUserService()).register();
     }

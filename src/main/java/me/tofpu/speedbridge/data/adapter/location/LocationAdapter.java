@@ -47,7 +47,7 @@ public class LocationAdapter extends TypeAdapter<Location> {
         final float yaw = Float.parseFloat(in.nextString());
 
         in.nextName();
-        final float pitch =  Float.parseFloat(in.nextString());
+        final float pitch = Float.parseFloat(in.nextString());
 
         final Location location = new Location(world, x, y, z, yaw, pitch);
         in.endObject();

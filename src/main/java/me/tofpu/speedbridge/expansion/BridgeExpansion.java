@@ -47,11 +47,15 @@ public class BridgeExpansion extends PlaceholderExpansion {
         final String[] args = params.split("_");
         if (args.length < 1) return "";
 
-        switch (args[1]) {
-            case "record":
-                final IUser user = userService.searchForUUID(player.getUniqueId());
+        final IUser user = userService.searchForUUID(player.getUniqueId());
+        switch (args[0]) {
+            case "score":
                 if (user == null) return "0";
                 return user.getProperties().getTimer().getResult() + "";
+            case "island":
+                Integer slot = null;
+                if (user == null || ((slot = user.getProperties().getIslandSlot()) == null)) return "Lobby";
+                return slot + "";
             default:
                 return "";
         }

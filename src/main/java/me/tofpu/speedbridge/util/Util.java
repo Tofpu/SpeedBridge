@@ -1,7 +1,11 @@
 package me.tofpu.speedbridge.util;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.tofpu.speedbridge.data.file.config.Config;
 import me.tofpu.speedbridge.data.file.config.path.Path;
+import me.tofpu.speedbridge.dependency.Dependency;
+import me.tofpu.speedbridge.dependency.register.DependencyRegister;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -46,20 +50,22 @@ public class Util {
         return negative ? result : -result;
     }
 
-    public static void message(final Player player, Path path){
+    public static void message(final Player player, Path path) {
         message(player, path, null);
     }
 
-    public static void message(final Player player, Path path, final Map<String, ?> replaceMap){
-        final String message = Config.TranslateOutput.toString(path);
+    public static void message(final Player player, Path path, final Map<String, ?> replaceMap) {
+        String message = Config.TranslateOutput.toString(path);
         if (message == null) return;
+        final Dependency<PlaceholderAPIPlugin> placeholderAPI = (Dependency<PlaceholderAPIPlugin>) DependencyRegister.get("PlaceholderAPI");
+        if (placeholderAPI != null) message = PlaceholderAPI.setPlaceholders(player, message);
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', Util.WordReplacer.replace(message, replaceMap)));
     }
 
     public static class WordReplacer {
-        public static String replace(String message, final Map<String, ?> replaceMap){
+        public static String replace(String message, final Map<String, ?> replaceMap) {
             if (replaceMap == null) return message;
-            for (final Map.Entry<String, ?> replace : replaceMap.entrySet()){
+            for (final Map.Entry<String, ?> replace : replaceMap.entrySet()) {
                 message = message.replace(replace.getKey(), replace.getValue() + "");
             }
             return message;

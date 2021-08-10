@@ -51,23 +51,13 @@ public class CommandManager implements CommandExecutor {
                         );
                 } else joinResult = gameService.join(player);
 
-                if (joinResult == Result.SUCCESS)
-                    Util.message(player, Path.MESSAGES_JOINED);
-                else if (joinResult == Result.DENY)
-                    Util.message(player, Path.MESSAGES_ALREADY_JOINED);
-                else if (joinResult == Result.FULL)
-                    Util.message(player, Path.MESSAGES_NOT_AVAILABLE);
-                else if (joinResult == Result.INVALID_LOBBY){
-
-                }
-
                 switch (joinResult) {
                     case SUCCESS:
                         Util.message(player, Path.MESSAGES_JOINED);
                         break;
 
                     case INVALID_LOBBY:
-                        if (player.isOp()){
+                        if (player.isOp()) {
                             Util.message(player, Path.MESSAGES_NO_LOBBY);
                             break;
                         }
@@ -114,7 +104,7 @@ public class CommandManager implements CommandExecutor {
                 Util.message(player, Path.MESSAGES_ISLAND_CREATION);
                 break;
             case "lobby":
-                if (gameService.isPlaying(player)){
+                if (gameService.isPlaying(player)) {
                     gameService.leave(player);
                 }
                 if (lobbyService.hasLobbyLocation()) player.teleport(lobbyService.getLobbyLocation());
