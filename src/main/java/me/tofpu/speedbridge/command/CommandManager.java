@@ -61,7 +61,7 @@ public class CommandManager implements CommandExecutor {
                 break;
             case "create":
                 if (args.length < 2) return false;
-                if (gameService.isPlaying(player)){
+                if (gameService.isPlaying(player)) {
                     //TODO: SEND MESSAGE SAYING YOU CANNOT EDIT ISLANDS WHILE PLAYING!
                     return false;
                 }
@@ -81,7 +81,7 @@ public class CommandManager implements CommandExecutor {
 //                player.teleport()
                 break;
             case "set":
-                if (gameService.isPlaying(player)){
+                if (gameService.isPlaying(player)) {
                     //TODO: SEND MESSAGE SAYING YOU CANNOT EDIT ISLANDS WHILE PLAYING!
                     return false;
                 }
@@ -112,7 +112,7 @@ public class CommandManager implements CommandExecutor {
                 }
                 break;
             case "finish":
-                if (gameService.isPlaying(player)){
+                if (gameService.isPlaying(player)) {
                     //TODO: SEND MESSAGE SAYING YOU CANNOT EDIT ISLANDS WHILE PLAYING!
                     return false;
                 }

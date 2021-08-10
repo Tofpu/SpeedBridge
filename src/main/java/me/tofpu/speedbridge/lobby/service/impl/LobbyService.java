@@ -12,7 +12,8 @@ import java.io.IOException;
 public class LobbyService implements ILobbyService {
     private Location location;
 
-    public LobbyService(){}
+    public LobbyService() {
+    }
 
     @Override
     public Location getLobbyLocation() {

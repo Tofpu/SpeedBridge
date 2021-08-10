@@ -3,7 +3,6 @@ package me.tofpu.speedbridge.game.listener.functionality;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
-import me.tofpu.speedbridge.island.properties.twosection.impl.IslandSelection;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.service.IUserService;
@@ -36,7 +35,7 @@ public class BlockPlaceListener implements Listener {
         final Location location = event.getBlockPlaced().getLocation();
 
         final TwoSection twoSection = island.getProperties().get("selection");
-        if (!Cuboid.of(twoSection.getSectionA(), twoSection.getSectionB()).isIn(location)){
+        if (!Cuboid.of(twoSection.getSectionA(), twoSection.getSectionB()).isIn(location)) {
             //TODO: MESSAGE SAYING YOU CANNOT PLACE BLOCKS OUTSIDE OF THE ISLAND REGION
             event.setCancelled(true);
             return;

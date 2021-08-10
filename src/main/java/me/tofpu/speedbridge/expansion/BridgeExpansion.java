@@ -47,7 +47,7 @@ public class BridgeExpansion extends PlaceholderExpansion {
         final String[] args = params.split("_");
         if (args.length < 1) return "";
 
-        switch (args[1]){
+        switch (args[1]) {
             case "record":
                 final IUser user = userService.searchForUUID(player.getUniqueId());
                 if (user == null) return "0";
