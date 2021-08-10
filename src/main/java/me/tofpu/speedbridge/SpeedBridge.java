@@ -83,6 +83,7 @@ public final class SpeedBridge extends JavaPlugin {
 
     public void registerPlaceholderApi() {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) return;
+        getLogger().info("Hooked into PlaceholderAPI");
         new BridgeExpansion(getDescription(), getGame().getUserService()).register();
     }
 

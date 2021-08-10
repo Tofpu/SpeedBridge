@@ -54,6 +54,11 @@ public class CommandManager implements CommandExecutor {
                 break;
             case "leave":
                 // TODO: HAVE A CHECK LATER
+                if (!gameService.isPlaying(player)) {
+                    //TODO: SEND MESSAGE SAYING YOU'RE NOT IN A GAME!
+                    return false;
+                }
+
                 final Result leaveResult = gameService.leave(player);
                 if (leaveResult == Result.DENY) {
                     //TODO: SEND MESSAGE, THAT THEY'VE NOT JOINED AN ISLAND YET!
