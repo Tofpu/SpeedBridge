@@ -1,7 +1,9 @@
 package me.tofpu.speedbridge.data.listener;
 
 import me.tofpu.speedbridge.data.DataManager;
+import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.lobby.service.ILobbyService;
+import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,9 +23,9 @@ public class PlayerJoinListener implements Listener {
         final Player player = event.getPlayer();
         if (lobbyService.hasLobbyLocation()) player.teleport(lobbyService.getLobbyLocation());
         else if (player.isOp()) {
-            //TODO: SEND MESSAGE SAYING THEY HAVE TO SET A LOBBY!
+            Util.message(player, Path.MESSAGES_NO_LOBBY);
         }
 
-        dataManager.loadUser(event.getPlayer().getUniqueId());
+        lobbyService.getLeaderboard().check(dataManager.loadUser(event.getPlayer().getUniqueId()));
     }
 }

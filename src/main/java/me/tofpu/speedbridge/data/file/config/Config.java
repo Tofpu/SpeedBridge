@@ -1,14 +1,12 @@
 package me.tofpu.speedbridge.data.file.config;
 
 import me.tofpu.speedbridge.SpeedBridge;
-import me.tofpu.speedbridge.data.file.config.extend.ConfigLobby;
 import me.tofpu.speedbridge.data.file.config.extend.ConfigMessages;
 import me.tofpu.speedbridge.data.file.config.extend.ConfigSettings;
 import me.tofpu.speedbridge.data.file.config.output.impl.IntegerOutput;
 import me.tofpu.speedbridge.data.file.config.output.impl.StringOutput;
 import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.data.file.config.type.ReturnType;
-import me.tofpu.speedbridge.data.file.extend.FileLobby;
 import me.tofpu.speedbridge.data.file.extend.FileMessages;
 import me.tofpu.speedbridge.data.file.extend.FileSettings;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -30,7 +28,6 @@ public class Config {
     public static void initialize(final SpeedBridge speedBridge) {
         new ConfigSettings(new FileSettings(speedBridge).getConfiguration()); // SLOT 0
         new ConfigMessages(new FileMessages(speedBridge).getConfiguration()); // SLOT 1
-        new ConfigLobby((new FileLobby(speedBridge).getConfiguration())); // slot 2
     }
 
     public static Config get(final String identifier) {

@@ -21,6 +21,7 @@ public enum Path {
     MESSAGES_ISLAND_INCOMPLETE("messages.island-incomplete"),
 
     MESSAGES_NOT_BEATEN("messages.not-beaten"),
+    MESSAGES_BEATEN_SCORE("messages.beaten-score"),
     MESSAGES_SCORED("messages.scored");
     private final String path;
 

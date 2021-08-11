@@ -168,15 +168,13 @@ public class GameService implements IGameService {
     @Override
     public void updateTimer(final IUser user) {
         if (user == null) return;
-
         final UserProperties properties = user.getProperties();
+        final Timer lowestTimer = properties.getTimer();
+        final Player player = Bukkit.getPlayer(user.getUuid());
+
         final Timer gameTimer = userTimer.get(user.getUuid());
         gameTimer.setEnd(System.currentTimeMillis());
         gameTimer.complete();
-
-        final Timer lowestTimer = properties.getTimer();
-
-        final Player player = Bukkit.getPlayer(user.getUuid());
 
         final Map<String, Double> replace = new HashMap<>();
         replace.put("%scored%", gameTimer.getResult());
@@ -187,13 +185,13 @@ public class GameService implements IGameService {
             replace.put("%score%", lowestTimer.getResult());
             Util.message(player, Path.MESSAGES_NOT_BEATEN, replace);
         } else {
-            double score;
-            if (lowestTimer == null) score = gameTimer.getResult();
-            else score = lowestTimer.getResult();
+            if (lowestTimer != null) {
+                replace.put("%calu_score%", lowestTimer.getResult() - gameTimer.getResult());
+                Util.message(player, Path.MESSAGES_BEATEN_SCORE, replace);
+            }
 
-            replace.put("%calu_score%", score);
-            Util.message(player, Path.MESSAGES_SCORED);
             properties.setTimer(gameTimer);
+            lobbyService.getLeaderboard().check(user);
         }
         reset(user);
     }

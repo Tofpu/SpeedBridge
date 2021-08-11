@@ -50,6 +50,10 @@ public class Util {
         return negative ? result : -result;
     }
 
+    public static String colorize(final String message){
+        return ChatColor.translateAlternateColorCodes('&', message);
+    }
+
     public static void message(final Player player, Path path) {
         message(player, path, null);
     }
@@ -59,7 +63,7 @@ public class Util {
         if (message == null) return;
         final Dependency<PlaceholderAPIPlugin> placeholderAPI = (Dependency<PlaceholderAPIPlugin>) DependencyRegister.get("PlaceholderAPI");
         if (placeholderAPI != null) message = PlaceholderAPI.setPlaceholders(player, message);
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', Util.WordReplacer.replace(message, replaceMap)));
+        player.sendMessage(colorize(Util.WordReplacer.replace(message, replaceMap)));
     }
 
     public static class WordReplacer {

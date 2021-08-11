@@ -87,6 +87,9 @@ public class CommandManager implements CommandExecutor {
                 //TODO: REPLACE THE SCORE
                 Util.message(player, Path.MESSAGES_YOUR_SCORE);
                 break;
+            case "leaderboard":
+                player.sendMessage(lobbyService.getLeaderboard().printLeaderboard());
+                break;
             case "create":
                 if (args.length < 2) return false;
                 if (gameService.isPlaying(player)) {

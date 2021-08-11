@@ -66,13 +66,14 @@ public final class SpeedBridge extends JavaPlugin {
         dataManager.initialize();
         ModeManager.getModeManager().initialize();
 
+        getGame().getLobbyService().getLeaderboard().initialize();
+
         DependencyRegister.loadAll(this);
         dataManager.load();
 
         registerPlaceholderApi();
         registerListeners();
         getCommand("speedbridge").setExecutor(new CommandManager(getGame().getGameController(), getGame().getGameService(), getGame().getLobbyService()));
-
 
         // RELOAD BUG FIX
         Bukkit.getOnlinePlayers().forEach(player -> dataManager.loadUser(player.getUniqueId()));
@@ -82,6 +83,8 @@ public final class SpeedBridge extends JavaPlugin {
     public void onDisable() {
         final DataManager dataManager = this.game.getDataManager();
         dataManager.save();
+
+        getGame().getLobbyService().getLeaderboard().cancel();
     }
 
     public void registerPlaceholderApi() {
