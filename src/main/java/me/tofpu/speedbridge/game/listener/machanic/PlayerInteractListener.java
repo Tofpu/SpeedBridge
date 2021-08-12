@@ -24,9 +24,9 @@ public class PlayerInteractListener implements Listener {
         this.gameService = gameService;
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     private void onPlayerInteract(final PlayerInteractEvent event) {
-        if (!event.hasBlock() || event.getAction() != Action.PHYSICAL) return;
+        if (event.getAction() != Action.PHYSICAL) return;
         final Player player = event.getPlayer();
 
         if (!gameService.isPlaying(player)) return;
@@ -36,9 +36,11 @@ public class PlayerInteractListener implements Listener {
         final TwoSection section = island.getProperties().get("point");
         final Location pressurePlate = event.getClickedBlock().getLocation();
         if (isEqual(pressurePlate, section.getSectionA())) {
+            player.sendMessage("Pressed on point-a");
             gameService.resetTimer(user);
             gameService.addTimer(user);
         } else if (gameService.hasTimer(user) && isEqual(pressurePlate, section.getSectionB())) {
+            player.sendMessage("Pressed on point-b");
             gameService.updateTimer(user);
         }
     }

@@ -2,6 +2,7 @@ package me.tofpu.speedbridge.lobby.adapter;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import me.tofpu.speedbridge.lobby.leaderboard.data.BoardUser;
 
@@ -52,7 +53,8 @@ public class LeaderboardTypeAdapter extends TypeAdapter<List<BoardUser>> {
                         builder.setUuid(UUID.fromString(in.nextString()));
                         break;
                     case "result":
-                        builder.setResult(in.nextDouble());
+                        if (in.peek() != JsonToken.NULL)
+                            builder.setResult(in.nextDouble());
                         break;
                 }
             }

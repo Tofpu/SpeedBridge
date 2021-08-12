@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -50,7 +51,14 @@ public final class Leaderboard {
         if (player == null) return;
         final Timer timer = user.getProperties().getTimer();
 
-        add(new BoardUser(player.getName(), user.getUuid(), timer == null ? null : timer.getResult()));
+        BoardUser boardUser = get(user.getUuid());
+        if (boardUser == null) boardUser = new BoardUser(player.getName(), user.getUuid(), timer == null ? null : timer.getResult());
+        else {
+            if (boardUser.getScore() > timer.getResult()){
+                boardUser.setScore(timer.getResult());
+            }
+        }
+        add(boardUser);
     }
 
     public List<BoardUser> sortGet() {
@@ -80,24 +88,31 @@ public final class Leaderboard {
 //        sort.sort(BoardUser::compareTo);
         return players;
     }
+    public BoardUser get(final UUID uuid){
+        for (final BoardUser user : getCacheLeaderboard()){
+            if (user.getUuid().equals(uuid)) return user;
+        }
+        return null;
+    }
 
     public void add(final BoardUser boardUser) {
         for (final BoardUser user : cacheLeaderboard) {
             if (user.equals(boardUser)) {
+//                System.out.println(user.getName() + " equals " + boardUser.getName());
                 if (user.getScore() > boardUser.getScore()) {
                     user.setScore(boardUser.getScore());
-                    return;
                 }
+                return;
             }
         }
         cacheLeaderboard.add(boardUser);
     }
 
     public void addAll(final List<BoardUser> users) {
-//        for (final BoardUser user : users){
-//            check(user);
-//        }
-        cacheLeaderboard.addAll(users);
+        for (final BoardUser user : users){
+            add(user);
+        }
+//        cacheLeaderboard.addAll(users);
     }
 
     public String printLeaderboard() {

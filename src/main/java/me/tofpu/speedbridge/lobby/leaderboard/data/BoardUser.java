@@ -56,7 +56,7 @@ public final class BoardUser implements Comparable<BoardUser> {
     public static class Builder {
         private String name;
         private UUID uuid;
-        private double result;
+        private Double result;
 
         public String getName() {
             return name;
@@ -76,11 +76,11 @@ public final class BoardUser implements Comparable<BoardUser> {
             return this;
         }
 
-        public double getResult() {
+        public Double getResult() {
             return result;
         }
 
-        public Builder setResult(double result) {
+        public Builder setResult(Double result) {
             this.result = result;
             return this;
         }
