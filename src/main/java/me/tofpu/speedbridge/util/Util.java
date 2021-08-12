@@ -61,8 +61,7 @@ public class Util {
     public static void message(final Player player, Path path, final Map<String, ?> replaceMap) {
         String message = Config.TranslateOutput.toString(path);
         if (message == null) return;
-        final Dependency<PlaceholderAPIPlugin> placeholderAPI = (Dependency<PlaceholderAPIPlugin>) DependencyRegister.get("PlaceholderAPI");
-        if (placeholderAPI != null) message = PlaceholderAPI.setPlaceholders(player, message);
+        if (DependencyRegister.get("PlaceholderAPI") != null) message = PlaceholderAPI.setPlaceholders(player, message);
         player.sendMessage(colorize(Util.WordReplacer.replace(message, replaceMap)));
     }
 
