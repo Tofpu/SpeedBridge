@@ -45,6 +45,7 @@ public class LeaderboardTypeAdapter extends TypeAdapter<List<BoardUser>> {
             in.beginObject();
 
             while (in.hasNext()) {
+                if (in.peek() == JsonToken.NULL) continue;
                 switch (in.nextName()) {
                     case "name":
                         builder.setName(in.nextString());
