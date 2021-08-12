@@ -26,14 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Arrays;
 import java.util.List;
 
-// TODO:
-// Add a game package, game service & game controller! (DONE)
-// Handle commands (DONE)
-// Complete all the to-do's
-// Create a queue system (refer to discord requester for more info)
-// Listen to PlayerJoinEvent, PlayerLeaveEvent & PlayerPressurePlate or whatever, to load & de-load data, and for getting timed. (DONE)
-// Save Islands & Users data (USE GSON) (DONE)
-// Have the island & user controllers load data instead! (CANCELLED, USED DATAMANAGER & RESPECTIVE SERVICES INSTEAD)
+// TODO: Complete all the to-do's
 public final class SpeedBridge extends JavaPlugin {
     private final List<Listener> listeners;
 
@@ -73,7 +66,7 @@ public final class SpeedBridge extends JavaPlugin {
 
         registerPlaceholderApi();
         registerListeners();
-        getCommand("speedbridge").setExecutor(new CommandManager(getGame().getGameController(), getGame().getGameService(), getGame().getLobbyService()));
+        getCommand("speedbridge").setExecutor(new CommandManager(getGame().getGameController(), getGame().getUserService(), getGame().getGameService(), getGame().getLobbyService()));
 
         // RELOAD BUG FIX
         Bukkit.getOnlinePlayers().forEach(player -> dataManager.loadUser(player.getUniqueId()));

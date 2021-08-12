@@ -1,5 +1,6 @@
 package me.tofpu.speedbridge.command;
 
+import com.google.common.collect.Maps;
 import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.game.controller.GameController;
 import me.tofpu.speedbridge.game.controller.stage.SetupStage;
@@ -7,20 +8,27 @@ import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.mode.manager.ModeManager;
 import me.tofpu.speedbridge.lobby.service.ILobbyService;
+import me.tofpu.speedbridge.user.IUser;
+import me.tofpu.speedbridge.user.properties.UserProperties;
+import me.tofpu.speedbridge.user.service.IUserService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
+
 public class CommandManager implements CommandExecutor {
     private final GameController gameController;
 
+    private final IUserService userService;
     private final IGameService gameService;
     private final ILobbyService lobbyService;
 
-    public CommandManager(final GameController gameController, final IGameService gameService, final ILobbyService lobbyService) {
+    public CommandManager(final GameController gameController, final IUserService userService, final IGameService gameService, final ILobbyService lobbyService) {
         this.gameController = gameController;
+        this.userService = userService;
         this.gameService = gameService;
         this.lobbyService = lobbyService;
     }
@@ -70,22 +78,19 @@ public class CommandManager implements CommandExecutor {
                 }
                 break;
             case "leave":
-                // TODO: HAVE A CHECK LATER
                 if (!gameService.isPlaying(player)) {
                     Util.message(player, Path.MESSAGES_NOT_PLAYING);
                     return false;
                 }
-
-
                 gameService.leave(player);
-//                final Result leaveResult = gameService.leave(player);
-//                if (leaveResult == Result.DENY) {
-//                    Util.message(player, Path.MESSAGES_NOT_PLAYING);
-//                }
                 break;
             case "score":
-                //TODO: REPLACE THE SCORE
-                Util.message(player, Path.MESSAGES_YOUR_SCORE);
+                final Map<String, Double> map = Maps.newHashMap();
+                final IUser user = userService.searchForUUID(player.getUniqueId());
+                final UserProperties properties = user == null ? null : user.getProperties();
+
+                map.put("%score%", user == null ? 0 : properties.getTimer() == null ? 0 : properties.getTimer().getResult());
+                Util.message(player, Path.MESSAGES_YOUR_SCORE, map);
                 break;
             case "leaderboard":
                 player.sendMessage(lobbyService.getLeaderboard().printLeaderboard());

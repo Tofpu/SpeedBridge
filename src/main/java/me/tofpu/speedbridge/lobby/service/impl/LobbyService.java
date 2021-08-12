@@ -46,7 +46,8 @@ public class LobbyService implements ILobbyService {
         }
 
         try (final FileWriter writer = new FileWriter(leaderboardFile)) {
-            writer.write(gson.toJson(getLeaderboard().getCacheLeaderboard(), new TypeToken<List<BoardUser>>(){}.getType()));
+            writer.write(gson.toJson(getLeaderboard().getCacheLeaderboard(), new TypeToken<List<BoardUser>>() {
+            }.getType()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,7 +62,8 @@ public class LobbyService implements ILobbyService {
         }
 
         try (final FileReader reader = new FileReader(leaderboardFile)) {
-            final List<BoardUser> users = gson.fromJson(reader, new TypeToken<List<BoardUser>>(){}.getType());
+            final List<BoardUser> users = gson.fromJson(reader, new TypeToken<List<BoardUser>>() {
+            }.getType());
             if (users == null || users.isEmpty()) return;
             getLeaderboard().addAll(users);
         } catch (IOException e) {

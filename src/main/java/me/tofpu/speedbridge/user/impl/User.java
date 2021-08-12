@@ -3,8 +3,6 @@ package me.tofpu.speedbridge.user.impl;
 import com.google.common.base.Objects;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.properties.UserProperties;
-import me.tofpu.speedbridge.user.properties.timer.Timer;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 

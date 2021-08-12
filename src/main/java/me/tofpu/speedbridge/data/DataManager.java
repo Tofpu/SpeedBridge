@@ -8,7 +8,6 @@ import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.adapter.IslandAdapter;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.lobby.adapter.LeaderboardTypeAdapter;
-import me.tofpu.speedbridge.lobby.leaderboard.Leaderboard;
 import me.tofpu.speedbridge.lobby.leaderboard.data.BoardUser;
 import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.user.IUser;
@@ -26,7 +25,8 @@ public class DataManager {
             .registerTypeAdapter(Location.class, new LocationAdapter())
             .registerTypeAdapter(IIsland.class, new IslandAdapter())
             .registerTypeAdapter(IUser.class, new UserAdapter())
-            .registerTypeAdapter(new TypeToken<List<BoardUser>>(){}.getType(), new LeaderboardTypeAdapter())
+            .registerTypeAdapter(new TypeToken<List<BoardUser>>() {
+            }.getType(), new LeaderboardTypeAdapter())
             .setPrettyPrinting()
             .serializeNulls()
             .create();
@@ -53,7 +53,7 @@ public class DataManager {
 
     public void initialize() {
         for (final File file : files) {
-            if (!file.exists()){
+            if (!file.exists()) {
                 if (file.getName().contains(".")) {
                     try {
                         file.createNewFile();
@@ -67,7 +67,8 @@ public class DataManager {
 
     public IUser loadUser(final UUID uuid) {
         if (!files[0].exists()) return null;
-        return userService.load(GSON, uuid, files[2]);
+        IUser user = userService.load(GSON, uuid, files[2]);
+        return user == null ? userService.createUser(uuid) : user;
     }
 
     public void unloadUser(final UUID uuid) {

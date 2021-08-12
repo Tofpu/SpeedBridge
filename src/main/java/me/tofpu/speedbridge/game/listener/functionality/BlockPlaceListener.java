@@ -36,7 +36,6 @@ public class BlockPlaceListener implements Listener {
 
         final TwoSection twoSection = island.getProperties().get("selection");
         if (!Cuboid.of(twoSection.getSectionA(), twoSection.getSectionB()).isIn(location)) {
-            //TODO: MESSAGE SAYING YOU CANNOT PLACE BLOCKS OUTSIDE OF THE ISLAND REGION
             event.setCancelled(true);
             return;
         }

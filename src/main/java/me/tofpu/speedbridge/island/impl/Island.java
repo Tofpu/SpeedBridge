@@ -10,8 +10,6 @@ import org.bukkit.Location;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO:
-// create a properties class, extend it and basically store locations and stuff there
 public class Island extends IslandProperties implements IIsland {
     private final List<Location> placedBlocks = new ArrayList<>();
 

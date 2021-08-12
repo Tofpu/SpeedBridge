@@ -50,7 +50,7 @@ public class Util {
         return negative ? result : -result;
     }
 
-    public static String colorize(final String message){
+    public static String colorize(final String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 

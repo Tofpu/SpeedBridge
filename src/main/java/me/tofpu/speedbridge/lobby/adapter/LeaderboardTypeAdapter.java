@@ -16,13 +16,13 @@ public class LeaderboardTypeAdapter extends TypeAdapter<List<BoardUser>> {
         if (value.isEmpty()) return;
         out.beginObject().name("users").beginArray();
 
-        for (final BoardUser user : value){
+        for (final BoardUser user : value) {
             if (user.getUuid() == null) return;
             out.beginObject();
 
             out.name("name").value(user.getName());
             out.name("uuid").value(user.getUuid().toString());
-            out.name("result").value(user.getResult());
+            out.name("result").value(user.getScore());
 
             out.endObject();
         }
@@ -40,11 +40,11 @@ public class LeaderboardTypeAdapter extends TypeAdapter<List<BoardUser>> {
         in.beginArray();
 
         BoardUser.Builder builder = new BoardUser.Builder();
-        while (in.hasNext()){
+        while (in.hasNext()) {
             in.beginObject();
 
-            while (in.hasNext()){
-                switch (in.nextName()){
+            while (in.hasNext()) {
+                switch (in.nextName()) {
                     case "name":
                         builder.setName(in.nextString());
                         break;

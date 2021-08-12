@@ -51,7 +51,6 @@ public class GameService implements IGameService {
     @Override
     public Result join(final Player player, final int slot) {
         if (!lobbyService.hasLobbyLocation()) {
-            //TODO: SEND MESSAGE SAYING YOU HAVE TO HAVE A LOBBY LOCATION SET!
             return Result.INVALID_LOBBY;
         }
 
@@ -64,7 +63,6 @@ public class GameService implements IGameService {
     @Override
     public Result join(final Player player, final Mode mode) {
         if (!lobbyService.hasLobbyLocation()) {
-            //TODO: SEND MESSAGE SAYING YOU HAVE TO HAVE A LOBBY LOCATION SET!
             return Result.INVALID_LOBBY;
         }
 
@@ -118,9 +116,6 @@ public class GameService implements IGameService {
                                     }
                                 },
                                 20, 10));
-
-        // TODO: SEND MESSAGE THAT THEY JOINED!
-
         return Result.SUCCESS;
     }
 
@@ -136,9 +131,9 @@ public class GameService implements IGameService {
         userTimer.remove(player.getUniqueId());
         userCheck.get(player.getUniqueId()).cancel();
         userCheck.remove(player.getUniqueId());
-        // TODO: TELEPORT PLAYER TO LOBBY!
+
         player.teleport(lobbyService.getLobbyLocation());
-        // TODO: SEND MESSAGE THAT THEY'VE LEFT!
+        Util.message(player, Path.MESSAGES_LEFT);
 
         return Result.SUCCESS;
     }

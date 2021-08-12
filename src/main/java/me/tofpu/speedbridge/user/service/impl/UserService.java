@@ -71,13 +71,13 @@ public class UserService implements IUserService {
         final File file = new File(directory, uuid.toString() + ".json");
         if (!file.exists()) return null;
 
-        final IUser user;
+        IUser user = null;
         try {
             user = gson.fromJson(new FileReader(file), IUser.class);
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        if (user == null) return null;
 
         this.users.add(user);
         return user;

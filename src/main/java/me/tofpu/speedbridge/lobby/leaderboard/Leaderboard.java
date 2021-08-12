@@ -2,16 +2,14 @@ package me.tofpu.speedbridge.lobby.leaderboard;
 
 import me.tofpu.speedbridge.lobby.leaderboard.data.BoardUser;
 import me.tofpu.speedbridge.user.IUser;
-import me.tofpu.speedbridge.user.service.impl.UserService;
+import me.tofpu.speedbridge.user.properties.timer.Timer;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -20,100 +18,95 @@ public final class Leaderboard {
     private final List<BoardUser> cacheLeaderboard;
 
     private final int limitSize;
-
-    public Leaderboard(final int limitSize){
+    private ScheduledFuture<?> update;
+    private boolean updated;
+    public Leaderboard(final int limitSize) {
         this.limitSize = limitSize;
 
         mainLeaderboard = new ArrayList<>(limitSize);
         cacheLeaderboard = new ArrayList<>(limitSize);
     }
-    private ScheduledFuture<?> update;
-    private boolean updated;
 
-    public void initialize(){
+    public void initialize() {
         update = Executors.newScheduledThreadPool(1).scheduleAtFixedRate(() -> {
-            if (updated){
-                updated = false;
-                mainLeaderboard.clear();
-                mainLeaderboard.addAll(cacheLeaderboard);
-
-                Collections.sort(mainLeaderboard);
-            }
-        }, 5, 20, TimeUnit.SECONDS);
+            mainLeaderboard.clear();
+            mainLeaderboard.addAll(sortGet());
+//            if (updated){
+//                updated = false;
+//                mainLeaderboard.clear();
+//                mainLeaderboard.addAll(sortGet());
+//
+////                mainLeaderboard.sort(BoardUser::compareTo);
+//            }
+        }, 5, 10, TimeUnit.SECONDS);
     }
 
-    public void cancel(){
+    public void cancel() {
         this.update.cancel(true);
     }
 
-    public void check(final IUser user){
+    public void check(final IUser user) {
         final Player player = Bukkit.getPlayer(user.getUuid());
         if (player == null) return;
-        check(new BoardUser(player.getName(), user.getUuid(), user.getProperties().getTimer().getResult()));
+        final Timer timer = user.getProperties().getTimer();
+
+        add(new BoardUser(player.getName(), user.getUuid(), timer == null ? null : timer.getResult()));
     }
 
-    public void check(BoardUser against) {
-        System.out.println(against.getName());
-        final List<BoardUser> updatedList = new ArrayList<>();
+    public List<BoardUser> sortGet() {
+        final List<BoardUser> players = new ArrayList<>(getCacheLeaderboard());
 
-        boolean skip = false;
-        for (final BoardUser player : getCacheLeaderboard()) {
-            if (updatedList.size() >= limitSize) break;
-            if (skip) {
-                skip = false;
-                updatedList.add(player);
-                against = player;
-            }
-            if (player.equals(against)) skip = true;
-            System.out.println(player.getName() + " vs " + against.getName());
-            System.out.println(player.getResult() + " vs " + against.getResult());
-            System.out.println(skip);
+        int max;
+        for (int i = 0; i < players.size(); i++) {
+            max = i;
+            BoardUser playerMax = players.get(max);
+            BoardUser playerJ;
 
-            final boolean check = check(player, against);
-            System.out.println("isHigher: " + check);
-            if (check){
-                this.updated = true;
+            for (int j = i; j < players.size(); j++) {
+                playerJ = players.get(j);
 
-                if (skip){
-                    updatedList.remove(player);
-                    updatedList.add(against);
-                } else {
-                    updatedList.add(against);
-                    against = player;
+                if (playerJ.getScore() < playerMax.getScore()) {
+                    max = j;
+                    playerMax = players.get(max);
                 }
-            } else{
-                updatedList.add(player);
+            }
+            //Swap biggest and current locations
+            final BoardUser placeholder = players.get(i);
+            players.set(i, playerMax);
+            if (!placeholder.equals(playerMax)) players.set(max, placeholder);
+        }
+
+//        final List<BoardUser> sort = new ArrayList<>(new HashSet<>(players));
+//        sort.sort(BoardUser::compareTo);
+        return players;
+    }
+
+    public void add(final BoardUser boardUser) {
+        for (final BoardUser user : cacheLeaderboard) {
+            if (user.equals(boardUser)) {
+                if (user.getScore() > boardUser.getScore()) {
+                    user.setScore(boardUser.getScore());
+                    return;
+                }
             }
         }
-
-        if (updatedList.size() == 0) {
-            this.updated = true;
-            updatedList.add(against);
-        }
-
-        if (updated){
-            this.cacheLeaderboard.clear();
-            this.cacheLeaderboard.addAll(updatedList);
-        }
+        cacheLeaderboard.add(boardUser);
     }
 
-    private boolean check(final BoardUser player, final BoardUser against){
-        return player.compareTo(against) < 0;
+    public void addAll(final List<BoardUser> users) {
+//        for (final BoardUser user : users){
+//            check(user);
+//        }
+        cacheLeaderboard.addAll(users);
     }
 
-    public void addAll(final List<BoardUser> users){
-        for (final BoardUser user : users){
-            check(user);
-        }
-    }
-
-    public String printLeaderboard(){
+    public String printLeaderboard() {
         final StringBuilder builder = new StringBuilder();
         builder.append("&eLeaderboard");
 
         int length = 1;
-        for (final BoardUser user : getMainLeaderboard()){
-            builder.append("\n").append("&e").append(length).append(". ").append(user.getName()).append(" &a(").append(user.getResult()).append(")");
+        for (final BoardUser user : getMainLeaderboard()) {
+            builder.append("\n").append("&e").append(length).append(". ").append(user.getName()).append(" &a(").append(user.getScore()).append(")");
             length++;
         }
 
