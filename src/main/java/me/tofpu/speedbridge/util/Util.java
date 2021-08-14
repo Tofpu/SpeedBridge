@@ -17,13 +17,11 @@ public class Util {
 
     public static double toSeconds(final long beginning, final long end) {
         final long total = end - beginning;
-//        return (double) total / 1000;
-        return Double.parseDouble(String.format("%.3f", (double) total / 1000));
+        return (double) total / 1000;
     }
 
     public static double toSeconds(final long beginning) {
-        final long total = System.currentTimeMillis() - beginning;
-        return (double) total / 1000;
+        return toSeconds(beginning, System.currentTimeMillis());
     }
 
     public static Integer parseInt(final String s) {

@@ -65,7 +65,7 @@ public class BridgeExpansion extends PlaceholderExpansion {
             case "live-timer":
                 final Timer timer;
                 if (user == null || (timer = gameService.getTimer(user)) == null) return "N/A";
-                return Util.toSeconds(timer.getSlot()) + "";
+                return Util.toSeconds(timer.getStart()) + "";
             default:
                 return "";
         }
