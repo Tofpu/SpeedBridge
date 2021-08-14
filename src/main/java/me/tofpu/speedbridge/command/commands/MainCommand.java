@@ -1,9 +1,11 @@
 package me.tofpu.speedbridge.command.commands;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
 import co.aikar.commands.RegisteredCommand;
 import co.aikar.commands.annotation.*;
 import com.google.common.collect.Maps;
+import jdk.jfr.Registered;
 import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.IGameService;
@@ -31,6 +33,7 @@ public class MainCommand extends BaseCommand {
     }
 
     @Subcommand("help")
+    @Description("Shows you all the available commands")
     public void onHelp(final Player player){
         player.sendMessage(Util.colorize("&e&l&m<&6&m------&r &e&lSpeedBridge Commands &6&m------&e&l&m>"));
         for (final Map.Entry<String, RegisteredCommand> test : getSubCommands().entries()){
@@ -49,26 +52,34 @@ public class MainCommand extends BaseCommand {
         return Util.colorize(Util.WordReplacer.replace(format, map));
     }
 
+    @CommandAlias("join")
     @Subcommand("join")
+    @Description("To get started practicing in any available island")
     public void onJoin(final Player player){
         onJoin(player, null, null);
     }
 
+    @CommandAlias("join")
     @Subcommand("join")
     @Syntax("[slot]")
     @CommandCompletion("@availableIslands")
+    @Description("To get started practicing in a certain slot")
     public void onJoin(final Player player, @Optional Integer slot){
         onJoin(player, slot, null);
     }
 
+    @CommandAlias("join")
     @Subcommand("join")
     @Syntax("[mode]")
     @CommandCompletion("@modes")
+    @Description("To get started practicing in a certain mode")
     public void onJoin(final Player player,  @Optional Mode mode){
         onJoin(player, null, mode);
     }
 
+    @CommandAlias("leave")
     @Subcommand("leave")
+    @Description("To leave the practicing island")
     public void onLeave(final Player player){
         if (!gameService.isPlaying(player)){
             Util.message(player, Path.MESSAGES_NOT_PLAYING);
@@ -77,7 +88,9 @@ public class MainCommand extends BaseCommand {
         gameService.leave(player);
     }
 
+    @CommandAlias("score")
     @Subcommand("score")
+    @Description("Your personal best score")
     public void onScore(final Player player){
         final Map<String, Double> map = Maps.newHashMap();
         final IUser user = userService.searchForUUID(player.getUniqueId());
@@ -87,12 +100,16 @@ public class MainCommand extends BaseCommand {
         Util.message(player, Path.MESSAGES_YOUR_SCORE, map);
     }
 
+    @CommandAlias("leaderboard")
     @Subcommand("leaderboard")
+    @Description("Shows you the top 10 best performers")
     public void onLeaderboard(final Player player){
         player.sendMessage(lobbyService.getLeaderboard().printLeaderboard());
     }
 
+    @CommandAlias("lobby")
     @Subcommand("lobby")
+    @Description("Teleports you back to the Lobby")
     public void onLobby(final Player player){
         if (gameService.isPlaying(player)) {
             gameService.leave(player);
