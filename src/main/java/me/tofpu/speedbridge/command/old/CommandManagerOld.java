@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.command;
+package me.tofpu.speedbridge.command.old;
 
 import com.google.common.collect.Maps;
 import me.tofpu.speedbridge.data.file.config.path.Path;
@@ -19,14 +19,15 @@ import org.bukkit.entity.Player;
 
 import java.util.Map;
 
-public class CommandManager implements CommandExecutor {
+public class CommandManagerOld implements CommandExecutor {
+    private final String[] commands = {""};
     private final GameController gameController;
 
     private final IUserService userService;
     private final IGameService gameService;
     private final ILobbyService lobbyService;
 
-    public CommandManager(final GameController gameController, final IUserService userService, final IGameService gameService, final ILobbyService lobbyService) {
+    public CommandManagerOld(final GameController gameController, final IUserService userService, final IGameService gameService, final ILobbyService lobbyService) {
         this.gameController = gameController;
         this.userService = userService;
         this.gameService = gameService;
@@ -46,7 +47,6 @@ public class CommandManager implements CommandExecutor {
                 final boolean length = args.length > 1;
 
                 Result joinResult;
-
                 if (length) {
                     final Integer integer = Util.parseInt(args[1]);
 

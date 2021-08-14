@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge;
 
-import me.tofpu.speedbridge.command.CommandManager;
+import me.tofpu.speedbridge.command.CommandHandler;
+import me.tofpu.speedbridge.command.old.CommandManagerOld;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.data.file.config.Config;
 import me.tofpu.speedbridge.data.listener.PlayerJoinListener;
@@ -66,7 +67,8 @@ public final class SpeedBridge extends JavaPlugin {
 
         registerPlaceholderApi();
         registerListeners();
-        getCommand("speedbridge").setExecutor(new CommandManager(getGame().getGameController(), getGame().getUserService(), getGame().getGameService(), getGame().getLobbyService()));
+        new CommandHandler(getGame(), this);
+//        getCommand("speedbridge").setExecutor(new CommandManagerOld(getGame().getGameController(), getGame().getUserService(), getGame().getGameService(), getGame().getLobbyService()));
 
         // RELOAD BUG FIX
         Bukkit.getOnlinePlayers().forEach(player -> dataManager.loadUser(player.getUniqueId()));
