@@ -21,6 +21,7 @@ public final class Leaderboard {
     private final int limitSize;
     private ScheduledFuture<?> update;
     private boolean updated;
+
     public Leaderboard(final int limitSize) {
         this.limitSize = limitSize;
 
@@ -52,9 +53,10 @@ public final class Leaderboard {
         final Timer timer = user.getProperties().getTimer();
 
         BoardUser boardUser = get(user.getUuid());
-        if (boardUser == null) boardUser = new BoardUser(player.getName(), user.getUuid(), timer == null ? null : timer.getResult());
+        if (boardUser == null)
+            boardUser = new BoardUser(player.getName(), user.getUuid(), timer == null ? null : timer.getResult());
         else {
-            if (boardUser.getScore() > timer.getResult()){
+            if (boardUser.getScore() > timer.getResult()) {
                 boardUser.setScore(timer.getResult());
             }
         }
@@ -88,8 +90,9 @@ public final class Leaderboard {
 //        sort.sort(BoardUser::compareTo);
         return players;
     }
-    public BoardUser get(final UUID uuid){
-        for (final BoardUser user : getCacheLeaderboard()){
+
+    public BoardUser get(final UUID uuid) {
+        for (final BoardUser user : getCacheLeaderboard()) {
             if (user.getUuid().equals(uuid)) return user;
         }
         return null;
@@ -109,7 +112,7 @@ public final class Leaderboard {
     }
 
     public void addAll(final List<BoardUser> users) {
-        for (final BoardUser user : users){
+        for (final BoardUser user : users) {
             add(user);
         }
 //        cacheLeaderboard.addAll(users);

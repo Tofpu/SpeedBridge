@@ -2,10 +2,11 @@ package me.tofpu.speedbridge.game.listener.machanic;
 
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.IIsland;
-import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
+import me.tofpu.speedbridge.island.properties.point.Point;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.service.IUserService;
+import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,19 +34,16 @@ public class PlayerInteractListener implements Listener {
         final IUser user = userService.searchForUUID(player.getUniqueId());
         final IIsland island = islandService.getIslandBySlot(user.getProperties().getIslandSlot());
 
-        final TwoSection section = island.getProperties().get("point");
+        final Point section = island.getProperties().get("point");
         final Location pressurePlate = event.getClickedBlock().getLocation();
-        if (isEqual(pressurePlate, section.getSectionA())) {
-            player.sendMessage("Pressed on point-a");
-            gameService.resetTimer(user);
-            gameService.addTimer(user);
-        } else if (gameService.hasTimer(user) && isEqual(pressurePlate, section.getSectionB())) {
-            player.sendMessage("Pressed on point-b");
+//        if (isEqual(pressurePlate, section.getPointA())) {
+//            player.sendMessage("Pressed on point-a");
+//            gameService.resetTimer(user);
+//            gameService.addTimer(user);
+//        } else
+
+        if (gameService.hasTimer(user) && Util.isEqual(pressurePlate, section.getPointA())) {
             gameService.updateTimer(user);
         }
-    }
-
-    public boolean isEqual(final Location a, final Location b) {
-        return ((a.getBlockX() == b.getBlockX() && a.getBlockY() == b.getBlockY() && a.getBlockY() == b.getBlockY()));
     }
 }

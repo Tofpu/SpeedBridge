@@ -89,6 +89,7 @@ public class GameService implements IGameService {
 
         final Player player = Bukkit.getPlayer(user.getUuid());
         if (player == null) return Result.DENY;
+        player.teleport(island.getLocation());
 
         final Inventory inventory = player.getInventory();
         inventory.clear();
@@ -100,10 +101,8 @@ public class GameService implements IGameService {
 
         inventory.addItem(new ItemStack(Material.WOOL, 64));
 
-        player.teleport(island.getLocation());
-
-        final TwoSection selection = island.getProperties().get("selection");
-        final Cuboid cuboid = new Cuboid(selection.getSectionA(), selection.getSectionB());
+        final TwoSection selection = (TwoSection) island.getProperties().get("selection");
+        final Cuboid cuboid = new Cuboid(selection.getPointA(), selection.getPointB());
 
         //TODO: FIX THIS
         this.userCheck.put(player.getUniqueId(),
@@ -161,20 +160,28 @@ public class GameService implements IGameService {
     }
 
     @Override
+    public Timer getTimer(IUser user) {
+        return userTimer.get(user.getUuid());
+    }
+
+    @Override
     public void updateTimer(final IUser user) {
         if (user == null) return;
         final UserProperties properties = user.getProperties();
         final Timer lowestTimer = properties.getTimer();
         final Player player = Bukkit.getPlayer(user.getUuid());
+        player.sendMessage("Phase One!");
 
         final Timer gameTimer = userTimer.get(user.getUuid());
         gameTimer.setEnd(System.currentTimeMillis());
         gameTimer.complete();
+        player.sendMessage("Phase Two!");
 
         final Map<String, Double> replace = new HashMap<>();
         replace.put("%scored%", gameTimer.getResult());
         Util.message(player, Path.MESSAGES_SCORED, replace);
         replace.clear();
+        player.sendMessage("Phase Three!");
 
         if (lowestTimer != null && lowestTimer.getResult() <= gameTimer.getResult()) {
             replace.put("%score%", lowestTimer.getResult());
@@ -188,6 +195,8 @@ public class GameService implements IGameService {
             properties.setTimer(gameTimer);
             lobbyService.getLeaderboard().check(user);
         }
+
+        player.sendMessage("Phase Four!");
         reset(user);
     }
 
@@ -207,7 +216,10 @@ public class GameService implements IGameService {
 
         final Player player = Bukkit.getPlayer(user.getUuid());
         if (player == null) return;
+        player.sendMessage("Phase Sixth!");
+
         player.setVelocity(new Vector(0, 0, 0));
         player.teleport(islandService.getIslandBySlot(user.getProperties().getIslandSlot()).getLocation());
+        player.sendMessage("Phase Seven!");
     }
 }

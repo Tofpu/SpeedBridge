@@ -4,6 +4,7 @@ import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.user.IUser;
+import me.tofpu.speedbridge.user.properties.timer.Timer;
 import org.bukkit.entity.Player;
 
 public interface IGameService {
@@ -22,6 +23,8 @@ public interface IGameService {
     void addTimer(final IUser user);
 
     boolean hasTimer(final IUser user);
+
+    Timer getTimer(final IUser user);
 
     void updateTimer(final IUser user);
 

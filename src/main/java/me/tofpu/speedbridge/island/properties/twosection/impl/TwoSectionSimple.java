@@ -22,32 +22,32 @@ public class TwoSectionSimple implements TwoSection {
     }
 
     @Override
-    public Location getSectionA() {
+    public Location getPointA() {
         return sectionA;
     }
 
     @Override
-    public void setSectionA(final Location sectionA) {
+    public void setPointA(final Location sectionA) {
         this.sectionA = sectionA;
     }
 
     @Override
-    public boolean hasSectionA() {
+    public boolean hasPointA() {
         return sectionA != null;
     }
 
     @Override
-    public Location getSectionB() {
+    public Location getPointB() {
         return sectionB;
     }
 
     @Override
-    public void setSectionB(final Location sectionB) {
+    public void setPointB(final Location sectionB) {
         this.sectionB = sectionB;
     }
 
     @Override
-    public boolean hasSectionB() {
+    public boolean hasPointB() {
         return sectionB != null;
     }
 

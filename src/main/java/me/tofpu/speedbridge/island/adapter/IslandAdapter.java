@@ -7,6 +7,7 @@ import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.impl.Island;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
+import me.tofpu.speedbridge.island.properties.point.Point;
 import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
 import org.bukkit.Location;
 
@@ -25,16 +26,23 @@ public class IslandAdapter extends TypeAdapter<IIsland> {
 
         final IslandProperties properties = value.getProperties();
         for (int i = 0; i < properties.getTwoSections().size(); i++) {
-            final TwoSection section = properties.getTwoSections().get(i);
-            if (!section.hasSectionA() || !section.hasSectionA()) continue;
+//            final TwoSection section = properties.getTwoSections().get(i);
+            final Point point = properties.getTwoSections().get(i);
 
             out.name(i + "").beginArray();
             out.beginObject();
+            if (point instanceof TwoSection) {
+                final TwoSection section = (TwoSection) point;
+                if (!section.hasPointA() || !section.hasPointA()) continue;
 
-            out.name(section.getIdentifier() + "-a");
-            write(section.getSectionA(), out);
-            out.name(section.getIdentifier() + "-b");
-            write(section.getSectionB(), out);
+                out.name(section.getIdentifier() + "-a");
+                write(section.getPointA(), out);
+                out.name(section.getIdentifier() + "-b");
+                write(section.getPointB(), out);
+            } else {
+                out.name(point.getIdentifier());
+                write(point.getPointA(), out);
+            }
 
             out.endObject();
             out.endArray();
@@ -72,14 +80,20 @@ public class IslandAdapter extends TypeAdapter<IIsland> {
                 final Location location = toLocation(adapter, in);
 
 
-                final TwoSection section = properties.get(input[0]);
-                switch (input[1]) {
-                    case "a":
-                        section.setSectionA(location);
-                        break;
-                    case "b":
-                        section.setSectionB(location);
-                        break;
+//                final TwoSection section = properties.get(input[0]);
+                final Point point = properties.get(input[0]);
+                if (point instanceof TwoSection) {
+                    final TwoSection section = (TwoSection) point;
+                    switch (input[1]) {
+                        case "a":
+                            section.setPointA(location);
+                            break;
+                        case "b":
+                            section.setPointB(location);
+                            break;
+                    }
+                } else {
+                    point.setPointA(location);
                 }
             }
 

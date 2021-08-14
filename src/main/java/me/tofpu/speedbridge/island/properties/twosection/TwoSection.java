@@ -1,19 +1,23 @@
 package me.tofpu.speedbridge.island.properties.twosection;
 
+import me.tofpu.speedbridge.island.properties.point.Point;
 import org.bukkit.Location;
 
-public interface TwoSection {
+public interface TwoSection extends Point {
     String getIdentifier();
 
-    Location getSectionA();
+    @Override
+    Location getPointA();
 
-    void setSectionA(final Location sectionA);
+    @Override
+    void setPointA(final Location pointA);
 
-    boolean hasSectionA();
+    @Override
+    boolean hasPointA();
 
-    Location getSectionB();
+    Location getPointB();
 
-    void setSectionB(final Location sectionB);
+    void setPointB(final Location pointB);
 
-    boolean hasSectionB();
+    boolean hasPointB();
 }

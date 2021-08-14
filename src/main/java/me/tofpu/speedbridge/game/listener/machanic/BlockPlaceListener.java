@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.game.listener.functionality;
+package me.tofpu.speedbridge.game.listener.machanic;
 
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.IIsland;
@@ -34,10 +34,14 @@ public class BlockPlaceListener implements Listener {
 
         final Location location = event.getBlockPlaced().getLocation();
 
-        final TwoSection twoSection = island.getProperties().get("selection");
-        if (!Cuboid.of(twoSection.getSectionA(), twoSection.getSectionB()).isIn(location)) {
+        final TwoSection twoSection = (TwoSection) island.getProperties().get("selection");
+        if (!Cuboid.of(twoSection.getPointA(), twoSection.getPointB()).isIn(location)) {
             event.setCancelled(true);
             return;
+        }
+
+        if (!gameService.hasTimer(user)) {
+            gameService.addTimer(user);
         }
 
         island.getPlacedBlocks().add(event.getBlockPlaced().getLocation());

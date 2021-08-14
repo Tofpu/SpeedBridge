@@ -5,6 +5,7 @@ import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.impl.Island;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
+import me.tofpu.speedbridge.island.properties.point.Point;
 import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import org.bukkit.Location;
@@ -37,17 +38,20 @@ public class GameController {
             case SPAWN:
                 island.setLocation(location);
                 break;
-            case POINT_A:
-                island.getProperties().get(args[0]).setSectionA(location);
+            case POINT:
+                island.getProperties().get(args[0]).setPointA(location);
                 break;
-            case POINT_B:
-                island.getProperties().get(args[0]).setSectionB(location);
-                break;
+//            case SELECTION_A:
+//                island.getProperties().get(args[0]).setPointA(location);
+//                break;
+//            case SELECTION_B:
+//                island.getProperties().get(args[0]).setPointB(location);
+//                break;
             case SELECTION_A:
-                island.getProperties().get(args[0]).setSectionA(location);
-                break;
             case SELECTION_B:
-                island.getProperties().get(args[0]).setSectionB(location);
+                final TwoSection section = (TwoSection) island.getProperties().get(args[0]);
+                if (args[1].equalsIgnoreCase("a")) section.setPointA(location);
+                else section.setPointB(location);
                 break;
         }
         return Result.SUCCESS;
@@ -58,9 +62,9 @@ public class GameController {
         if (island == null) return Result.DENY;
 
         final IslandProperties properties = island.getProperties();
-        final TwoSection sectionPoint = properties.get("point");
-        final TwoSection sectionSelection = properties.get("selection");
-        if (island.hasLocation() && sectionPoint.hasSectionA() && sectionPoint.hasSectionB() && sectionSelection.hasSectionA() && sectionSelection.hasSectionB()) {
+        final Point sectionPoint = properties.get("point");
+        final TwoSection sectionSelection = (TwoSection) properties.get("selection");
+        if (island.hasLocation() && sectionPoint.hasPointA() && sectionSelection.hasPointA() && sectionSelection.hasPointB()) {
             islandService.addIsland(island);
             islandMap.remove(player.getUniqueId());
             return Result.SUCCESS;
