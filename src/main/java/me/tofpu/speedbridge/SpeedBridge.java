@@ -9,9 +9,9 @@ import me.tofpu.speedbridge.dependency.register.DependencyRegister;
 import me.tofpu.speedbridge.expansion.BridgeExpansion;
 import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.game.listener.functionality.BlockBreakListener;
-import me.tofpu.speedbridge.game.listener.functionality.BlockPlaceListener;
 import me.tofpu.speedbridge.game.listener.functionality.EntityDamageListener;
 import me.tofpu.speedbridge.game.listener.functionality.FoodLevelChangeListener;
+import me.tofpu.speedbridge.game.listener.machanic.BlockPlaceListener;
 import me.tofpu.speedbridge.game.listener.machanic.PlayerInteractListener;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.mode.manager.ModeManager;
@@ -83,7 +83,7 @@ public final class SpeedBridge extends JavaPlugin {
     public void registerPlaceholderApi() {
         if (DependencyRegister.get("PlaceholderAPI").getDependency() == null) return;
         getLogger().info("Hooked into PlaceholderAPI");
-        new BridgeExpansion(getDescription(), getGame().getUserService()).register();
+        new BridgeExpansion(getDescription(), getGame().getUserService(), game.getGameService()).register();
     }
 
     public void registerListeners() {
