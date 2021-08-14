@@ -51,19 +51,10 @@ public class MainCommand extends BaseCommand {
 
     @CommandAlias("join")
     @Subcommand("join")
-    @Syntax("[slot]")
-    @CommandCompletion("@availableIslands")
-    @Description("To get started practicing in a certain slot")
-    public void onJoin(final Player player, @Optional Integer slot){
-        onJoin(player, slot, null);
-    }
-
-    @CommandAlias("join")
-    @Subcommand("join")
-    @Syntax("[mode]")
+    @Syntax("<mode>")
     @CommandCompletion("@modes")
     @Description("To get started practicing in a certain mode")
-    public void onJoin(final Player player,  @Optional Mode mode){
+    public void onJoin(final Player player, final Mode mode){
         onJoin(player, null, mode);
     }
 

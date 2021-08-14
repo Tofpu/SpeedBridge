@@ -2,10 +2,7 @@ package me.tofpu.speedbridge.command.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.RegisteredCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Description;
-import co.aikar.commands.annotation.Subcommand;
-import co.aikar.commands.annotation.Syntax;
+import co.aikar.commands.annotation.*;
 import com.google.common.collect.Maps;
 import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.game.controller.GameController;
@@ -16,6 +13,8 @@ import org.bukkit.entity.Player;
 
 import java.util.Map;
 
+
+// TODO: MAKE PERMISSIONS BTW
 @CommandAlias("island")
 public class AdminCommand extends BaseCommand {
     private final GameController controller;
@@ -43,10 +42,15 @@ public class AdminCommand extends BaseCommand {
     }
 
     @Subcommand("set")
-    @Syntax("<spawn>|<point>/<selection-a>/<selection-b>")
+    @Syntax("<spawn>|<point>|<selection-a>|<selection-b>")
     @Description("Set the island locations")
-    public void onSet(final Player player, String arg){
-        final Result result = controller.setupIsland(player, SetupStage.valueOf(arg.toUpperCase().replace("-", "_")));
+    public void onSet(final Player player, final String arg){
+        final SetupStage stage;
+        if ((stage = SetupStage.getMatch(arg)) == null){
+            // TODO: YOU CAN ONLY SET LOCATIONS TO SPAWN/POINT/SELECTION-A/SELECTION-B MESSAGE
+            return;
+        }
+        final Result result = controller.setupIsland(player, stage);
 
         switch (result){
             case SUCCESS:

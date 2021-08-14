@@ -37,7 +37,7 @@ public class Util {
         return toIdentifiers;
     }
 
-    private static String format(final RegisteredCommand<?> command){
+    public static String format(final RegisteredCommand<?> command){
         final String format = " &6&l&m*&r &e/%command% &6%syntax% &6&l&m-&r &e%description%";
 
         final Map<String, String> map = Maps.newHashMap();
