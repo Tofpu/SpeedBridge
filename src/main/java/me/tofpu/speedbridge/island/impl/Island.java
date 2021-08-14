@@ -73,4 +73,9 @@ public class Island extends IslandProperties implements IIsland {
     public IslandProperties getProperties() {
         return this;
     }
+
+    @Override
+    public String getIdentifier() {
+        return getSlot() + "";
+    }
 }

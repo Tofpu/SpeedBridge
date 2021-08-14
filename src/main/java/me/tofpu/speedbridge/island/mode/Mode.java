@@ -1,9 +1,11 @@
 package me.tofpu.speedbridge.island.mode;
 
+import me.tofpu.speedbridge.util.Identifier;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mode {
+public class Mode implements Identifier {
     private final String identifier;
     private final List<Integer> slots;
 
@@ -21,6 +23,7 @@ public class Mode {
         return slots;
     }
 
+    @Override
     public String getIdentifier() {
         return identifier;
     }

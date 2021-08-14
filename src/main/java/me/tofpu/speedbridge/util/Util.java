@@ -8,6 +8,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Util {
@@ -22,6 +24,15 @@ public class Util {
 
     public static double toSeconds(final long beginning) {
         return toSeconds(beginning, System.currentTimeMillis());
+    }
+
+    public static List<String> toString(final List<? extends Identifier> identifiers){
+        final List<String> toIdentifiers = new ArrayList<>();
+
+        for (final Identifier identifier : identifiers){
+            toIdentifiers.add(identifier.getIdentifier());
+        }
+        return toIdentifiers;
     }
 
     public static Integer parseInt(final String s) {

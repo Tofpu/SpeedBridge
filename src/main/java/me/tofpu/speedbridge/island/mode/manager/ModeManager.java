@@ -57,6 +57,14 @@ public class ModeManager {
         return null;
     }
 
+    public List<String> modes(){
+        final List<String> list = new ArrayList<>();
+        for (final Mode mode : getModes()){
+            list.add(mode.getIdentifier());
+        }
+        return list;
+    }
+
     public List<Mode> getModes() {
         return modes;
     }
