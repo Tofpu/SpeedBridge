@@ -37,19 +37,9 @@ public class MainCommand extends BaseCommand {
     public void onHelp(final Player player){
         player.sendMessage(Util.colorize("&e&l&m<&6&m------&r &e&lSpeedBridge Commands &6&m------&e&l&m>"));
         for (final Map.Entry<String, RegisteredCommand> test : getSubCommands().entries()){
-            player.sendMessage(format(test.getValue()));
+            player.sendMessage(Util.format(test.getValue()));
         }
         player.sendMessage(Util.colorize("&e&l&m<&r&6&m----------------&e&l&m>&r &e&l&m<&r&6&m----------------&e&l&m>"));
-    }
-
-    private String format(final RegisteredCommand<?> command){
-        final String format = " &6&l&m*&r &e/%command% &6%syntax% &6&l&m-&r &e%description%";
-
-        final Map<String, String> map = Maps.newHashMap();
-        map.put("%command%", command.getCommand());
-        map.put("%syntax%", command.getSyntaxText());
-        map.put("%description%", command.getHelpText());
-        return Util.colorize(Util.WordReplacer.replace(format, map));
     }
 
     @CommandAlias("join")

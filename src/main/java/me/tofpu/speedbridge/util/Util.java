@@ -1,5 +1,7 @@
 package me.tofpu.speedbridge.util;
 
+import co.aikar.commands.RegisteredCommand;
+import com.google.common.collect.Maps;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.tofpu.speedbridge.data.file.config.Config;
 import me.tofpu.speedbridge.data.file.config.path.Path;
@@ -33,6 +35,16 @@ public class Util {
             toIdentifiers.add(identifier.getIdentifier());
         }
         return toIdentifiers;
+    }
+
+    private static String format(final RegisteredCommand<?> command){
+        final String format = " &6&l&m*&r &e/%command% &6%syntax% &6&l&m-&r &e%description%";
+
+        final Map<String, String> map = Maps.newHashMap();
+        map.put("%command%", command.getCommand());
+        map.put("%syntax%", command.getSyntaxText());
+        map.put("%description%", command.getHelpText());
+        return Util.colorize(Util.WordReplacer.replace(format, map));
     }
 
     public static Integer parseInt(final String s) {
