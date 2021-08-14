@@ -3,6 +3,7 @@ package me.tofpu.speedbridge.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import me.tofpu.speedbridge.SpeedBridge;
 import me.tofpu.speedbridge.data.adapter.location.LocationAdapter;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.adapter.IslandAdapter;
@@ -13,7 +14,9 @@ import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.adapter.UserAdapter;
 import me.tofpu.speedbridge.user.service.IUserService;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,17 +55,22 @@ public class DataManager {
     }
 
     public void initialize() {
-        for (final File file : files) {
-            if (!file.exists()) {
-                if (file.getName().contains(".")) {
-                    try {
-                        file.createNewFile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+        Bukkit.getScheduler().runTaskAsynchronously(SpeedBridge.getProvidingPlugin(SpeedBridge.class), new Runnable() {
+            @Override
+            public void run() {
+                for (final File file : files) {
+                    if (!file.exists()) {
+                        if (file.getName().contains(".")) {
+                            try {
+                                file.createNewFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else file.mkdirs();
                     }
-                } else file.mkdirs();
+                }
             }
-        }
+        });
     }
 
     public IUser loadUser(final UUID uuid) {
@@ -78,8 +86,20 @@ public class DataManager {
     }
 
     public void load() {
-        lobbyService.load(GSON, files[3], files[4]);
-        islandService.loadAll(GSON, files[1]);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                lobbyService.load(GSON, files[3], files[4]);
+                islandService.loadAll(GSON, files[1]);
+            }
+        }.runTaskAsynchronously(SpeedBridge.getProvidingPlugin(SpeedBridge.class));
+//        Executors.newFixedThreadPool(1).submit(new Runnable() {
+//            @Override
+//            public void run() {
+//                lobbyService.load(GSON, files[3], files[4]);
+//                islandService.loadAll(GSON, files[1]);
+//            }
+//        });
     }
 
     public void save() {
