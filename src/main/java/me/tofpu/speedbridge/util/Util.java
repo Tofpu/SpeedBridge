@@ -1,17 +1,31 @@
 package me.tofpu.speedbridge.util;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.tofpu.speedbridge.data.file.config.Config;
 import me.tofpu.speedbridge.data.file.config.path.Path;
-import me.tofpu.speedbridge.dependency.Dependency;
 import me.tofpu.speedbridge.dependency.register.DependencyRegister;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
 
 public class Util {
+    public static boolean isEqual(final Location a, final Location b) {
+        return ((a.getBlockX() == b.getBlockX() && a.getBlockY() == b.getBlockY() && a.getBlockY() == b.getBlockY()));
+    }
+
+    public static double toSeconds(final long beginning, final long end) {
+        final long total = end - beginning;
+//        return (double) total / 1000;
+        return Double.parseDouble(String.format("%.3f", (double) total / 1000));
+    }
+
+    public static double toSeconds(final long beginning) {
+        final long total = System.currentTimeMillis() - beginning;
+        return (double) total / 1000;
+    }
+
     public static Integer parseInt(final String s) {
         final int radix = 10;
 

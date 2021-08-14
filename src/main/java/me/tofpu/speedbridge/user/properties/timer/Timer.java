@@ -1,5 +1,7 @@
 package me.tofpu.speedbridge.user.properties.timer;
 
+import me.tofpu.speedbridge.util.Util;
+
 public class Timer {
     private final int slot;
 
@@ -24,8 +26,7 @@ public class Timer {
     }
 
     public void complete() {
-        final long total = end - start;
-        this.result = (double) total / 1000;
+        this.result = Util.toSeconds(start, end);
     }
 
     public int getSlot() {
