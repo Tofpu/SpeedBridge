@@ -3,6 +3,7 @@ package me.tofpu.speedbridge.island.mode.manager;
 import me.tofpu.speedbridge.data.file.config.Config;
 import me.tofpu.speedbridge.island.mode.Mode;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,18 @@ public class ModeManager {
     }
 
     public void initialize() {
-        final ConfigurationSection section = Config.get("settings").getConfiguration().getConfigurationSection("modes");
+        final FileConfiguration configuration = Config.get("settings").getConfiguration();
+        final String path = "mode.";
 
+//        if (configuration == null){
+//            throw new IllegalStateException("I couldn't find \"mode\" section in settings.yml!");
+//        }
+        final String defaultMode = configuration.getString(path + "default", null);
+
+        final ConfigurationSection section = configuration.getConfigurationSection(path + "list");
         for (final String value : section.getKeys(false)) {
-            final Mode mode = new Mode(value);
+            boolean isDefault = defaultMode.equalsIgnoreCase(value);
+            final Mode mode = new Mode(value, isDefault);
             final String[] args = section.getString(value).split("-");
 
             final int integer = Integer.parseInt(args[0]);
@@ -53,6 +62,13 @@ public class ModeManager {
     public Mode get(final String identifier) {
         for (final Mode mode : modes) {
             if (mode.getIdentifier().equals(identifier)) return mode;
+        }
+        return null;
+    }
+
+    public Mode getDefault(){
+        for (final Mode mode : modes) {
+            if (mode.isDefault()) return mode;
         }
         return null;
     }

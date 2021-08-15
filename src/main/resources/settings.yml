@@ -1,3 +1,5 @@
-modes:
-  normal: 0-10
-  hard: 11-20
+mode:
+  default: hard
+  list:
+    standard: 0-10
+    hard: 11-20

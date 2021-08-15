@@ -6,6 +6,7 @@ import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.IIsland;
 import me.tofpu.speedbridge.island.mode.Mode;
+import me.tofpu.speedbridge.island.mode.manager.ModeManager;
 import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
 import me.tofpu.speedbridge.island.service.IIslandService;
 import me.tofpu.speedbridge.lobby.service.ILobbyService;
@@ -61,7 +62,7 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public Result join(final Player player, final Mode mode) {
+    public Result join(final Player player, Mode mode) {
         if (!lobbyService.hasLobbyLocation()) {
             return Result.INVALID_LOBBY;
         }
@@ -69,7 +70,7 @@ public class GameService implements IGameService {
         final IUser user = userService.getOrDefault(player.getUniqueId());
         if (user.getProperties().getIslandSlot() != null) return Result.DENY;
 
-        final List<IIsland> islands = mode == null ? islandService.getAvailableIslands() : islandService.getAvailableIslands(mode);
+        final List<IIsland> islands = mode == null ? (mode = ModeManager.getModeManager().getDefault()) == null ? islandService.getAvailableIslands() : islandService.getAvailableIslands(mode) : islandService.getAvailableIslands(mode);
         if (islands.size() < 1) return Result.FULL;
 
         return join(user, islands.get(0));

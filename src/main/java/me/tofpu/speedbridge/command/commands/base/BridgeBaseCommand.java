@@ -3,6 +3,7 @@ package me.tofpu.speedbridge.command.commands.base;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.RegisteredCommand;
 import co.aikar.commands.annotation.CatchUnknown;
+import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Private;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
@@ -26,8 +27,6 @@ public class BridgeBaseCommand extends BaseCommand {
         player.sendMessage(Util.colorize("&e&l&m<&r&6&m----------------&e&l&m>&r &e&l&m<&r&6&m----------------&e&l&m>"));
     }
 
-    @Private
-    @CatchUnknown
     public void onUnknownCommand(final Player player) {
         player.sendMessage(Util.colorize("&cUnknown command, type /" + identifier + " help for more info!"));
     }

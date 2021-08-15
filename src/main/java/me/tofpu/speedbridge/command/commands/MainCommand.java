@@ -36,12 +36,19 @@ public class MainCommand extends BridgeBaseCommand {
         super.onHelp(player);
     }
 
+    @Override
+    @Private
+    @CatchUnknown
+    public void onUnknownCommand(Player player) {
+        super.onUnknownCommand(player);
+    }
+
     @Subcommand("join")
     @CommandAlias("join")
     @Syntax("[mode]|[slot]")
     @CommandCompletion("@modes|@availableIslands")
     @Description("To get started practicing")
-    public void onJoin(final Player player, String arg) {
+    public void onJoin(final Player player, @Optional String arg) {
         Integer integer = Util.parseInt(arg);
         Mode mode = null;
         if (integer == null) {

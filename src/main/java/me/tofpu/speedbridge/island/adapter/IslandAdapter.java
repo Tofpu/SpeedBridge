@@ -26,7 +26,6 @@ public class IslandAdapter extends TypeAdapter<IIsland> {
 
         final IslandProperties properties = value.getProperties();
         for (int i = 0; i < properties.getTwoSections().size(); i++) {
-//            final TwoSection section = properties.getTwoSections().get(i);
             final Point point = properties.getTwoSections().get(i);
 
             out.name(i + "").beginArray();
@@ -79,8 +78,6 @@ public class IslandAdapter extends TypeAdapter<IIsland> {
                 final String[] input = in.nextName().split("-");
                 final Location location = toLocation(adapter, in);
 
-
-//                final TwoSection section = properties.get(input[0]);
                 final Point point = properties.get(input[0]);
                 if (point instanceof TwoSection) {
                     final TwoSection section = (TwoSection) point;

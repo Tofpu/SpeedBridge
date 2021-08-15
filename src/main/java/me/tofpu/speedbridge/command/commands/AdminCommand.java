@@ -10,6 +10,8 @@ import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -28,12 +30,19 @@ public class AdminCommand extends BridgeBaseCommand {
     @Override
     @Private
     @Subcommand("help")
-    @CommandPermission("island.help")
+    @CommandPermission("island.info")
     @Description("Shows you all the available commands")
     public void onHelp(Player player) {
         super.onHelp(player);
     }
 
+    @Override
+    @Private
+    @CatchUnknown
+    @CommandPermission("island.info")
+    public void onUnknownCommand(Player player) {
+        super.onUnknownCommand(player);
+    }
 
     @Subcommand("create")
     @CommandPermission("island.create")
