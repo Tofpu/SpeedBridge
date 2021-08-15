@@ -11,6 +11,7 @@ import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 @CommandAlias("island")
@@ -119,5 +120,27 @@ public class AdminCommand extends BridgeBaseCommand {
         for (final String expansion : Util.toString(ExpansionType.values())) {
             Util.message(player, format, new String[]{"#name#"}, false, expansion.toLowerCase(Locale.ROOT));
         }
+    }
+
+    //TODO: MAKE THIS CONFIGURABLE
+    @Subcommand("guide")
+    @Description("A Guide for Administrators")
+    @CommandPermission("island.info")
+    public void onGuide(final Player player) {
+        player.sendMessage(Util.colorize("&e&l&m<&6&m------&r &e&lGuide &6&m------&e&l&m>"));
+        final String[] guide = {
+                "&61. &eHow to create an Island:\n",
+                "&61.1. &eYou can create an island by typing &6\"/island create (island-slot)\"\n",
+
+                "\n&62. &eHow to setup an Island:\n",
+                "&62.1 &eYou can set &6spawn/point/selection-a/selection-b &elocations types by\n",
+                "going to their respective locations and typing &6\"/island set <location-types>\"\n",
+                "&eand once you're done with that, type &6\"/island finish\"\n",
+
+                "\n&63. &eHow to join an island:\n",
+                "&63.1. &eYou can join an island by \"/join (island-slot)\""};
+
+        player.sendMessage(Util.colorize(Arrays.toString(guide).replace("[" ,"").replace("]", "")));
+        player.sendMessage(Util.colorize("&e&l&m<&r&6&m----------------&e&l&m>"));
     }
 }
