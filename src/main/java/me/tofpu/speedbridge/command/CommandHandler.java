@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge.command;
 
-import co.aikar.commands.*;
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.BukkitCommandManager;
 import me.tofpu.speedbridge.command.commands.AdminCommand;
 import me.tofpu.speedbridge.command.commands.MainCommand;
 import me.tofpu.speedbridge.game.Game;
@@ -26,11 +27,12 @@ public class CommandHandler {
         this.commandManager.getCommandCompletions().registerCompletion("modes", context -> Util.toString(ModeManager.getModeManager().getModes()));
         this.commandManager.getCommandCompletions().registerCompletion("availableIslands", context -> Util.toString(game.getIslandService().getAvailableIslands()));
 
+        // registrations
         registerCommand(new MainCommand(game.getUserService(), game.getGameService(), game.getLobbyService()));
-        registerCommand(new AdminCommand(game.getGameController()));
+        registerCommand(new AdminCommand(game.getLobbyService(), game.getGameController()));
     }
 
-    public void registerCommand(final BaseCommand command){
+    public void registerCommand(final BaseCommand command) {
         this.commandManager.registerCommand(command);
     }
 }

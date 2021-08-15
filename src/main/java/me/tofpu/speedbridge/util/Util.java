@@ -28,16 +28,16 @@ public class Util {
         return toSeconds(beginning, System.currentTimeMillis());
     }
 
-    public static List<String> toString(final List<? extends Identifier> identifiers){
+    public static List<String> toString(final List<? extends Identifier> identifiers) {
         final List<String> toIdentifiers = new ArrayList<>();
 
-        for (final Identifier identifier : identifiers){
+        for (final Identifier identifier : identifiers) {
             toIdentifiers.add(identifier.getIdentifier());
         }
         return toIdentifiers;
     }
 
-    public static String format(final RegisteredCommand<?> command){
+    public static String format(final RegisteredCommand<?> command) {
         final String format = " &6&l&m*&r &e/%command% &6%syntax% &6&l&m-&r &e%description%";
 
         final Map<String, String> map = Maps.newHashMap();
@@ -95,7 +95,7 @@ public class Util {
 
     public static void message(final Player player, Path path, final Map<String, ?> replaceMap) {
         String message = Config.TranslateOutput.toString(path);
-        if (message == null) return;
+        if (message == null || message.isEmpty()) return;
         if (DependencyRegister.get("PlaceholderAPI") != null) message = PlaceholderAPI.setPlaceholders(player, message);
         player.sendMessage(colorize(Util.WordReplacer.replace(message, replaceMap)));
     }

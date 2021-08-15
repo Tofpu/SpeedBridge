@@ -1,58 +1,63 @@
 package me.tofpu.speedbridge.command.commands;
 
-import co.aikar.commands.BaseCommand;
-import co.aikar.commands.RegisteredCommand;
 import co.aikar.commands.annotation.*;
-import com.google.common.collect.Maps;
+import me.tofpu.speedbridge.command.commands.base.BridgeBaseCommand;
 import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.game.controller.GameController;
 import me.tofpu.speedbridge.game.controller.stage.SetupStage;
 import me.tofpu.speedbridge.game.result.Result;
+import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
 
-import java.util.Map;
-
-
-// TODO: MAKE PERMISSIONS BTW
 @CommandAlias("island")
-public class AdminCommand extends BaseCommand {
+public class AdminCommand extends BridgeBaseCommand {
+    private final ILobbyService lobbyService;
     private final GameController controller;
 
-    public AdminCommand(GameController controller) {
+    public AdminCommand(final ILobbyService lobbyService, final GameController controller) {
+        super("island");
+        this.lobbyService = lobbyService;
         this.controller = controller;
     }
 
+    @Override
+    @Private
     @Subcommand("help")
+    @CommandPermission("island.help")
     @Description("Shows you all the available commands")
-    public void onHelp(final Player player){
-        player.sendMessage(Util.colorize("&e&l&m<&6&m------&r &e&lSpeedBridge Commands &6&m------&e&l&m>"));
-        for (final Map.Entry<String, RegisteredCommand> test : getSubCommands().entries()){
-            player.sendMessage(Util.format(test.getValue()));
-        }
-        player.sendMessage(Util.colorize("&e&l&m<&r&6&m----------------&e&l&m>&r &e&l&m<&r&6&m----------------&e&l&m>"));
+    public void onHelp(Player player) {
+        super.onHelp(player);
     }
 
+
     @Subcommand("create")
+    @CommandPermission("island.create")
     @Syntax("<slot>")
     @Description("Creates an island in that particular slot")
-    public void onCreate(final Player player, int slot){
+    public void onCreate(final Player player, int slot) {
         controller.createIsland(player, slot);
         Util.message(player, Path.MESSAGES_ISLAND_CREATION);
     }
 
     @Subcommand("set")
-    @Syntax("<spawn>|<point>|<selection-a>|<selection-b>")
+    @CommandPermission("island.set")
+    @Syntax("<spawn>|<point>|<selection-a>|<selection-b>|<lobby>")
     @Description("Set the island locations")
-    public void onSet(final Player player, final String arg){
+    public void onSet(final Player player, final String arg) {
         final SetupStage stage;
-        if ((stage = SetupStage.getMatch(arg)) == null){
+        if ((stage = SetupStage.getMatch(arg)) == null) {
             // TODO: YOU CAN ONLY SET LOCATIONS TO SPAWN/POINT/SELECTION-A/SELECTION-B MESSAGE
+            return;
+        }
+        if (stage == SetupStage.LOBBY) {
+            lobbyService.setLobbyLocation(player.getLocation());
+            Util.message(player, Path.MESSAGES_LOBBY_LOCATION);
             return;
         }
         final Result result = controller.setupIsland(player, stage);
 
-        switch (result){
+        switch (result) {
             case SUCCESS:
                 Util.message(player, Path.MESSAGES_ISLAND_CREATION);
                 break;
@@ -63,11 +68,12 @@ public class AdminCommand extends BaseCommand {
     }
 
     @Subcommand("finish")
+    @CommandPermission("island.finish")
     @Description("The island becomes available if the setup is completed")
-    public void onFinish(final Player player){
+    public void onFinish(final Player player) {
         final Result result = controller.finishSetup(player);
 
-        switch (result){
+        switch (result) {
             case SUCCESS:
                 Util.message(player, Path.MESSAGES_ISLAND_COMPLETED);
                 break;

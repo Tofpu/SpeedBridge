@@ -1,7 +1,6 @@
 package me.tofpu.speedbridge;
 
 import me.tofpu.speedbridge.command.CommandHandler;
-import me.tofpu.speedbridge.command.old.CommandManagerOld;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.data.file.config.Config;
 import me.tofpu.speedbridge.data.listener.PlayerJoinListener;
