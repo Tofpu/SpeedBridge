@@ -170,33 +170,24 @@ public class GameService implements IGameService {
         final UserProperties properties = user.getProperties();
         final Timer lowestTimer = properties.getTimer();
         final Player player = Bukkit.getPlayer(user.getUuid());
-        player.sendMessage("Phase One!");
 
         final Timer gameTimer = userTimer.get(user.getUuid());
         gameTimer.setEnd(System.currentTimeMillis());
         gameTimer.complete();
-        player.sendMessage("Phase Two!");
 
-        final Map<String, Double> replace = new HashMap<>();
-        replace.put("%scored%", gameTimer.getResult());
-        Util.message(player, Path.MESSAGES_SCORED, replace);
-        replace.clear();
-        player.sendMessage("Phase Three!");
+        Util.message(player, Path.MESSAGES_SCORED, new String[]{"%scored%"}, gameTimer.getResult() + "");
 
         if (lowestTimer != null && lowestTimer.getResult() <= gameTimer.getResult()) {
-            replace.put("%score%", lowestTimer.getResult());
-            Util.message(player, Path.MESSAGES_NOT_BEATEN, replace);
+            Util.message(player, Path.MESSAGES_NOT_BEATEN, new String[]{"%score%"}, lowestTimer.getResult() + "");
         } else {
             if (lowestTimer != null) {
-                replace.put("%calu_score%", lowestTimer.getResult() - gameTimer.getResult());
-                Util.message(player, Path.MESSAGES_BEATEN_SCORE, replace);
+                Util.message(player, Path.MESSAGES_BEATEN_SCORE, new String[]{"%calu_score%"}, (lowestTimer.getResult() - gameTimer.getResult()) + "");
             }
 
             properties.setTimer(gameTimer);
             lobbyService.getLeaderboard().check(user);
         }
 
-        player.sendMessage("Phase Four!");
         reset(user);
     }
 
@@ -216,10 +207,8 @@ public class GameService implements IGameService {
 
         final Player player = Bukkit.getPlayer(user.getUuid());
         if (player == null) return;
-        player.sendMessage("Phase Sixth!");
 
         player.setVelocity(new Vector(0, 0, 0));
         player.teleport(islandService.getIslandBySlot(user.getProperties().getIslandSlot()).getLocation());
-        player.sendMessage("Phase Seven!");
     }
 }

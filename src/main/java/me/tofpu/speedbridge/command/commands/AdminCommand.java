@@ -3,12 +3,15 @@ package me.tofpu.speedbridge.command.commands;
 import co.aikar.commands.annotation.*;
 import me.tofpu.speedbridge.command.commands.base.BridgeBaseCommand;
 import me.tofpu.speedbridge.data.file.config.path.Path;
+import me.tofpu.speedbridge.expansion.type.ExpansionType;
 import me.tofpu.speedbridge.game.controller.GameController;
 import me.tofpu.speedbridge.game.controller.stage.SetupStage;
 import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
+
+import java.util.Locale;
 
 @CommandAlias("island")
 public class AdminCommand extends BridgeBaseCommand {
@@ -105,5 +108,16 @@ public class AdminCommand extends BridgeBaseCommand {
         }
 
         Util.message(player, path);
+    }
+
+    @Subcommand("expansions")
+    @Description("Shows you the PlaceholderAPI extensions")
+    @CommandPermission("island.info")
+    public void onExpansion(final Player player) {
+        final String format = " &6&l&m*&r &e%bridge_#name#%";
+
+        for (final String expansion : Util.toString(ExpansionType.values())) {
+            Util.message(player, format, new String[]{"#name#"}, false, expansion.toLowerCase(Locale.ROOT));
+        }
     }
 }

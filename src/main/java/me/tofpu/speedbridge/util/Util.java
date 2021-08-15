@@ -56,6 +56,14 @@ public class Util {
         return Util.colorize(Util.WordReplacer.replace(format, map));
     }
 
+    public static String format(final String format, final String message) {
+        // Replace.of(format, "replace_here", "with_this")
+        final String[] replace = format.split("#");
+        System.out.println(Util.colorize(replace[1] + " | " + format));
+        System.out.println(Util.colorize(format.replace(replace[1], message) + " | " + format));
+        return "";
+    }
+
     public static Integer parseInt(final String s) {
         final int radix = 10;
 
@@ -102,14 +110,28 @@ public class Util {
         message(player, path, null);
     }
 
-    public static void message(final Player player, Path path, final Map<String, ?> replaceMap) {
+    public static void message(final Player player, Path path, final String[] replaceArray, final String... replaceWith) {
         String message = Config.TranslateOutput.toString(path);
         if (message == null || message.isEmpty()) return;
-        if (DependencyRegister.get("PlaceholderAPI") != null) message = PlaceholderAPI.setPlaceholders(player, message);
-        player.sendMessage(colorize(Util.WordReplacer.replace(message, replaceMap)));
+
+        message(player, message, replaceArray, true, replaceWith);
+    }
+
+    public static void message(final Player player, String message, final String[] replaceArray, boolean usePlaceholder, final String... replaceWith) {
+        if (usePlaceholder && DependencyRegister.get("PlaceholderAPI") != null)
+            message = PlaceholderAPI.setPlaceholders(player, message);
+        player.sendMessage(colorize(WordReplacer.replace(message, replaceArray, replaceWith)));
     }
 
     public static class WordReplacer {
+        public static String replace(String message, final String[] replaceArray, final String... replaceWith) {
+            if (replaceArray == null) return message;
+            for (int i = 0; i < replaceArray.length; i++) {
+                message = message.replace(replaceArray[i], replaceWith[i]);
+            }
+            return message;
+        }
+
         public static String replace(String message, final Map<String, ?> replaceMap) {
             if (replaceMap == null) return message;
             for (final Map.Entry<String, ?> replace : replaceMap.entrySet()) {

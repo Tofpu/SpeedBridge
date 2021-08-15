@@ -1,7 +1,6 @@
 package me.tofpu.speedbridge.command.commands;
 
 import co.aikar.commands.annotation.*;
-import com.google.common.collect.Maps;
 import me.tofpu.speedbridge.command.commands.base.BridgeBaseCommand;
 import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.game.result.Result;
@@ -14,8 +13,6 @@ import me.tofpu.speedbridge.user.properties.UserProperties;
 import me.tofpu.speedbridge.user.service.IUserService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
-
-import java.util.Map;
 
 @CommandAlias("speedbridge|game")
 public class MainCommand extends BridgeBaseCommand {
@@ -75,12 +72,11 @@ public class MainCommand extends BridgeBaseCommand {
     @CommandAlias("score")
     @Description("Your personal best score")
     public void onScore(final Player player) {
-        final Map<String, Double> map = Maps.newHashMap();
         final IUser user = userService.searchForUUID(player.getUniqueId());
         final UserProperties properties = user == null ? null : user.getProperties();
 
-        map.put("%score%", user == null ? 0 : properties.getTimer() == null ? 0 : properties.getTimer().getResult());
-        Util.message(player, Path.MESSAGES_YOUR_SCORE, map);
+        double score = user == null ? 0 : properties.getTimer() == null ? 0 : properties.getTimer().getResult();
+        Util.message(player, Path.MESSAGES_YOUR_SCORE, new String[]{"%score%"}, score + "");
     }
 
     @Subcommand("lobby")
