@@ -14,6 +14,7 @@ messages:
 
   island-creation: "&aSuccess!"
   lobby-location: "&aSuccess!"
+  island-exists: "&cThat island already exists!"
   invalid-island: "&cThat island does not exist!"
   island-completed: "&eThe island setup has been completed!"
   island-incomplete: "&cIncomplete island setup, please double check!"

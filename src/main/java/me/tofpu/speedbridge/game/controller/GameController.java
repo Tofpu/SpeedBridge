@@ -23,9 +23,11 @@ public class GameController {
         this.islandService = islandService;
     }
 
-    public void createIsland(final Player player, int slot) {
+    public Result createIsland(final Player player, int slot) {
+        if (islandService.getIslandBySlot(slot) != null) return Result.DENY;
         final IIsland island = new Island(slot);
         islandMap.put(player.getUniqueId(), island);
+        return Result.SUCCESS;
     }
 
     public Result setupIsland(final Player player, SetupStage stage) {

@@ -36,8 +36,21 @@ public class AdminCommand extends BridgeBaseCommand {
     @Syntax("<slot>")
     @Description("Creates an island in that particular slot")
     public void onCreate(final Player player, int slot) {
-        controller.createIsland(player, slot);
-        Util.message(player, Path.MESSAGES_ISLAND_CREATION);
+        final Result result = controller.createIsland(player, slot);
+
+        final Path path;
+        switch (result) {
+            case SUCCESS:
+                path = Path.MESSAGES_ISLAND_CREATION;
+                break;
+            case DENY:
+                path = Path.MESSAGES_ISLAND_EXISTS;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + result);
+        }
+
+        Util.message(player, path);
     }
 
     @Subcommand("set")
@@ -58,14 +71,19 @@ public class AdminCommand extends BridgeBaseCommand {
         }
         final Result result = controller.setupIsland(player, stage);
 
+        final Path path;
         switch (result) {
             case SUCCESS:
-                Util.message(player, Path.MESSAGES_ISLAND_CREATION);
+                path = Path.MESSAGES_ISLAND_CREATION;
                 break;
             case DENY:
-                Util.message(player, Path.MESSAGES_INVALID_ISLAND);
+                path = Path.MESSAGES_INVALID_ISLAND;
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + result);
         }
+
+        Util.message(player, path);
     }
 
     @Subcommand("finish")
@@ -74,12 +92,18 @@ public class AdminCommand extends BridgeBaseCommand {
     public void onFinish(final Player player) {
         final Result result = controller.finishSetup(player);
 
+        final Path path;
         switch (result) {
             case SUCCESS:
-                Util.message(player, Path.MESSAGES_ISLAND_COMPLETED);
+                path = Path.MESSAGES_ISLAND_COMPLETED;
                 break;
             case DENY:
-                Util.message(player, Path.MESSAGES_ISLAND_INCOMPLETE);
+                path = Path.MESSAGES_ISLAND_INCOMPLETE;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + result);
         }
+
+        Util.message(player, path);
     }
 }

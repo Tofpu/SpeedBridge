@@ -47,7 +47,7 @@ public class MainCommand extends BridgeBaseCommand {
     public void onJoin(final Player player, String arg) {
         Integer integer = Util.parseInt(arg);
         Mode mode = null;
-        if (integer == null){
+        if (integer == null) {
             mode = ModeManager.getModeManager().get(arg);
         }
         onJoin(player, integer, mode);
@@ -95,28 +95,33 @@ public class MainCommand extends BridgeBaseCommand {
 
     private void onJoin(final Player player, final Integer integer, final Mode mode) {
         final Result result;
-
         if (integer != null) {
             result = gameService.join(player, integer);
         } else if (mode != null) {
             result = gameService.join(player, mode);
         } else result = gameService.join(player);
 
+        final Path path;
         switch (result) {
             case DENY:
-                Util.message(player, Path.MESSAGES_ALREADY_JOINED);
+                path = Path.MESSAGES_ALREADY_JOINED;
                 break;
             case FULL:
-                Util.message(player, Path.MESSAGES_NOT_AVAILABLE);
+                path = Path.MESSAGES_NOT_AVAILABLE;
                 break;
             case SUCCESS:
-                Util.message(player, Path.MESSAGES_JOINED);
+                path = Path.MESSAGES_JOINED;
                 break;
             case INVALID_LOBBY:
                 if (player.isOp()) {
-                    Util.message(player, Path.MESSAGES_NO_LOBBY);
+                    path = Path.MESSAGES_NO_LOBBY;
                     break;
-                } else Util.message(player, Path.MESSAGES_NOT_AVAILABLE);
+                } else path = Path.MESSAGES_NOT_AVAILABLE;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + result);
         }
+
+        Util.message(player, path);
     }
 }

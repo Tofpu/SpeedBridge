@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge.expansion;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import me.tofpu.speedbridge.expansion.type.ExpansionType;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.properties.timer.Timer;
@@ -50,22 +51,24 @@ public class BridgeExpansion extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String params) {
         if (params.isEmpty()) return "";
-        final String[] args = params.split("_");
-        if (args.length < 1) return "";
+        final ExpansionType type = ExpansionType.getMatch(params);
+        if (type == null) return "";
 
         final IUser user = userService.searchForUUID(player.getUniqueId());
-        switch (args[0]) {
-            case "score":
-                if (user == null) return "0";
-                return user.getProperties().getTimer().getResult() + "";
-            case "island":
+        boolean isNull = user == null;
+
+        final Timer timer;
+        switch (type) {
+            case ISLAND:
                 Integer slot = null;
-                if (user == null || ((slot = user.getProperties().getIslandSlot()) == null)) return "Lobby";
+                if (isNull || ((slot = user.getProperties().getIslandSlot()) == null)) return "Lobby";
                 return slot + "";
-            case "live-timer":
-                final Timer timer;
-                if (user == null || (timer = gameService.getTimer(user)) == null) return "N/A";
+            case LIVE_TIMER:
+                if (isNull || (timer = gameService.getTimer(user)) == null) return "0";
                 return Util.toSeconds(timer.getStart()) + "";
+            case SCORE:
+                if (isNull || (timer = user.getProperties().getTimer()) == null) return "N/A";
+                return timer.getResult() + "";
             default:
                 return "";
         }

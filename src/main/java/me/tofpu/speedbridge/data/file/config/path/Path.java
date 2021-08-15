@@ -16,6 +16,7 @@ public enum Path {
 
     MESSAGES_ISLAND_CREATION("messages.island-creation"),
     MESSAGES_LOBBY_LOCATION("messages.lobby-location"),
+    MESSAGES_ISLAND_EXISTS("messages.island-exists"),
     MESSAGES_INVALID_ISLAND("messages.invalid-island"),
     MESSAGES_ISLAND_COMPLETED("messages.island-completed"),
     MESSAGES_ISLAND_INCOMPLETE("messages.island-incomplete"),
