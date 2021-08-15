@@ -11,6 +11,7 @@ messages:
   cannot-edit: "&cYou cannot edit an island while playing."
   insert-number: "&cYou can only insert numbers here!"
   no-lobby: "&cYou have to setup a lobby first!"
+  invalid-type: "&cInvalid location type!"
 
   island-creation: "&aSuccess!"
   lobby-location: "&aSuccess!"

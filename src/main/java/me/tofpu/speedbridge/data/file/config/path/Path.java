@@ -9,10 +9,11 @@ public enum Path {
     MESSAGES_NOT_PLAYING("messages.not-playing"),
     MESSAGES_ALREADY_JOINED("messages.already-joined"),
     MESSAGES_YOUR_SCORE("messages.your-score"),
-    MESSAGES_CANNOT_EDIT("messages.cannot-edit"),
 
+    MESSAGES_CANNOT_EDIT("messages.cannot-edit"),
     MESSAGES_INSERT_NUMBER("messages.insert-number"),
     MESSAGES_NO_LOBBY("messages.no-lobby"),
+    MESSAGES_INVALID_TYPE("messages.invalid-type"),
 
     MESSAGES_ISLAND_CREATION("messages.island-creation"),
     MESSAGES_LOBBY_LOCATION("messages.lobby-location"),

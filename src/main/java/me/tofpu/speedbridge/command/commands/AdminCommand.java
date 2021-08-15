@@ -7,11 +7,10 @@ import me.tofpu.speedbridge.expansion.type.ExpansionType;
 import me.tofpu.speedbridge.game.controller.GameController;
 import me.tofpu.speedbridge.game.controller.stage.SetupStage;
 import me.tofpu.speedbridge.game.result.Result;
+import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -19,11 +18,14 @@ import java.util.Locale;
 @CommandAlias("island")
 public class AdminCommand extends BridgeBaseCommand {
     private final ILobbyService lobbyService;
+    private final IGameService gameService;
+
     private final GameController controller;
 
-    public AdminCommand(final ILobbyService lobbyService, final GameController controller) {
+    public AdminCommand(final ILobbyService lobbyService, final IGameService gameService, final GameController controller) {
         super("island");
         this.lobbyService = lobbyService;
+        this.gameService = gameService;
         this.controller = controller;
     }
 
@@ -49,6 +51,10 @@ public class AdminCommand extends BridgeBaseCommand {
     @Syntax("<slot>")
     @Description("Creates an island in that particular slot")
     public void onCreate(final Player player, int slot) {
+        if (gameService.isPlaying(player)){
+            Util.message(player, Path.MESSAGES_CANNOT_EDIT);
+            return;
+        }
         final Result result = controller.createIsland(player, slot);
 
         final Path path;
@@ -69,12 +75,17 @@ public class AdminCommand extends BridgeBaseCommand {
     @Subcommand("set")
     @CommandPermission("island.set")
     @CommandCompletion("@setupStage")
-    @Syntax("spawn/point/selection/selection-b/lobby")
+    @Syntax("<location-type>")
     @Description("Set the island locations")
     public void onSet(final Player player, final String arg) {
+        if (gameService.isPlaying(player)){
+            Util.message(player, Path.MESSAGES_CANNOT_EDIT);
+            return;
+        }
+
         final SetupStage stage;
         if ((stage = SetupStage.getMatch(arg)) == null) {
-            // TODO: YOU CAN ONLY SET LOCATIONS TO SPAWN/POINT/SELECTION-A/SELECTION-B MESSAGE
+            Util.message(player, Path.MESSAGES_INVALID_TYPE);
             return;
         }
         if (stage == SetupStage.LOBBY) {
@@ -103,6 +114,10 @@ public class AdminCommand extends BridgeBaseCommand {
     @CommandPermission("island.finish")
     @Description("The island becomes available if the setup is completed")
     public void onFinish(final Player player) {
+        if (gameService.isPlaying(player)){
+            Util.message(player, Path.MESSAGES_CANNOT_EDIT);
+            return;
+        }
         final Result result = controller.finishSetup(player);
 
         final Path path;

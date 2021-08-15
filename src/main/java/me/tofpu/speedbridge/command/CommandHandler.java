@@ -31,7 +31,7 @@ public class CommandHandler {
 
         // registrations
         registerCommand(new MainCommand(game.getUserService(), game.getGameService(), game.getLobbyService()));
-        registerCommand(new AdminCommand(game.getLobbyService(), game.getGameController()));
+        registerCommand(new AdminCommand(game.getLobbyService(), game.getGameService(), game.getGameController()));
     }
 
     public void registerCommand(final BaseCommand command) {
