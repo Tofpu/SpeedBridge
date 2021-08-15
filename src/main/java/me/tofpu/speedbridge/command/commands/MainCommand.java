@@ -7,6 +7,7 @@ import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.island.mode.Mode;
+import me.tofpu.speedbridge.island.mode.manager.ModeManager;
 import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.properties.UserProperties;
@@ -34,16 +35,21 @@ public class MainCommand extends BridgeBaseCommand {
     @Private
     @Subcommand("help")
     @Description("Shows you all the available commands")
-    public void onHelp(Player player) {
+    public void onHelp(final Player player) {
         super.onHelp(player);
     }
 
     @Subcommand("join")
     @CommandAlias("join")
-    @Syntax("[mode]")
-    @CommandCompletion("mode|@modes")
+    @Syntax("[mode]|[slot]")
+    @CommandCompletion("@modes|@availableIslands")
     @Description("To get started practicing")
-    public void onJoin(final Player player, @Optional final Mode mode, @Optional Integer integer) {
+    public void onJoin(final Player player, String arg) {
+        Integer integer = Util.parseInt(arg);
+        Mode mode = null;
+        if (integer == null){
+            mode = ModeManager.getModeManager().get(arg);
+        }
         onJoin(player, integer, mode);
     }
 

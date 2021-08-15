@@ -42,7 +42,8 @@ public class AdminCommand extends BridgeBaseCommand {
 
     @Subcommand("set")
     @CommandPermission("island.set")
-    @Syntax("<spawn>|<point>|<selection-a>|<selection-b>|<lobby>")
+    @CommandCompletion("@setupStage")
+    @Syntax("spawn/point/selection/selection-b/lobby")
     @Description("Set the island locations")
     public void onSet(final Player player, final String arg) {
         final SetupStage stage;

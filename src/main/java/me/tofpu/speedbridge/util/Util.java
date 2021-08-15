@@ -6,12 +6,14 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.tofpu.speedbridge.data.file.config.Config;
 import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.dependency.register.DependencyRegister;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class Util {
@@ -30,9 +32,16 @@ public class Util {
 
     public static List<String> toString(final List<? extends Identifier> identifiers) {
         final List<String> toIdentifiers = new ArrayList<>();
-
         for (final Identifier identifier : identifiers) {
             toIdentifiers.add(identifier.getIdentifier());
+        }
+        return toIdentifiers;
+    }
+
+    public static List<String> toString(final Enum<?>[] enums) {
+        final List<String> toIdentifiers = new ArrayList<>();
+        for (final Enum<?> identifier : enums) {
+            toIdentifiers.add(WordUtils.capitalize(identifier.name().toLowerCase(Locale.ROOT).replace("_", "-")));
         }
         return toIdentifiers;
     }

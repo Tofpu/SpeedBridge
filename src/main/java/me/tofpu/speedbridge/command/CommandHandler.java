@@ -5,6 +5,7 @@ import co.aikar.commands.BukkitCommandManager;
 import me.tofpu.speedbridge.command.commands.AdminCommand;
 import me.tofpu.speedbridge.command.commands.MainCommand;
 import me.tofpu.speedbridge.game.Game;
+import me.tofpu.speedbridge.game.controller.stage.SetupStage;
 import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.island.mode.manager.ModeManager;
 import me.tofpu.speedbridge.util.Util;
@@ -26,6 +27,7 @@ public class CommandHandler {
         // completions
         this.commandManager.getCommandCompletions().registerCompletion("modes", context -> Util.toString(ModeManager.getModeManager().getModes()));
         this.commandManager.getCommandCompletions().registerCompletion("availableIslands", context -> Util.toString(game.getIslandService().getAvailableIslands()));
+        this.commandManager.getCommandCompletions().registerCompletion("setupStage", context -> Util.toString(SetupStage.values()));
 
         // registrations
         registerCommand(new MainCommand(game.getUserService(), game.getGameService(), game.getLobbyService()));
