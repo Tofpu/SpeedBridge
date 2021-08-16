@@ -10,9 +10,9 @@ import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.IGameService;
 import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.util.Util;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.Locale;
 
 @CommandAlias("island")
@@ -20,13 +20,13 @@ public class AdminCommand extends BridgeBaseCommand {
     private final ILobbyService lobbyService;
     private final IGameService gameService;
 
-    private final GameController controller;
+    private final GameController gameController;
 
-    public AdminCommand(final ILobbyService lobbyService, final IGameService gameService, final GameController controller) {
+    public AdminCommand(final ILobbyService lobbyService, final IGameService gameService, final GameController gameController) {
         super("island");
         this.lobbyService = lobbyService;
         this.gameService = gameService;
-        this.controller = controller;
+        this.gameController = gameController;
     }
 
     @Override
@@ -34,16 +34,16 @@ public class AdminCommand extends BridgeBaseCommand {
     @Subcommand("help")
     @CommandPermission("island.info")
     @Description("Shows you all the available commands")
-    public void onHelp(Player player) {
-        super.onHelp(player);
+    public void onHelp(CommandSender sender) {
+        super.onHelp(sender);
     }
 
     @Override
     @Private
     @CatchUnknown
     @CommandPermission("island.info")
-    public void onUnknownCommand(Player player) {
-        super.onUnknownCommand(player);
+    public void onUnknownCommand(CommandSender sender) {
+        super.onUnknownCommand(sender);
     }
 
     @Subcommand("create")
@@ -51,11 +51,11 @@ public class AdminCommand extends BridgeBaseCommand {
     @Syntax("<slot>")
     @Description("Creates an island in that particular slot")
     public void onCreate(final Player player, int slot) {
-        if (gameService.isPlaying(player)){
+        if (gameService.isPlaying(player)) {
             Util.message(player, Path.MESSAGES_CANNOT_EDIT);
             return;
         }
-        final Result result = controller.createIsland(player, slot);
+        final Result result = gameController.createIsland(player, slot);
 
         final Path path;
         switch (result) {
@@ -78,7 +78,7 @@ public class AdminCommand extends BridgeBaseCommand {
     @Syntax("<location-type>")
     @Description("Set the island locations")
     public void onSet(final Player player, final String arg) {
-        if (gameService.isPlaying(player)){
+        if (gameService.isPlaying(player)) {
             Util.message(player, Path.MESSAGES_CANNOT_EDIT);
             return;
         }
@@ -93,12 +93,12 @@ public class AdminCommand extends BridgeBaseCommand {
             Util.message(player, Path.MESSAGES_LOBBY_LOCATION);
             return;
         }
-        final Result result = controller.setupIsland(player, stage);
+        final Result result = gameController.setupIsland(player, stage);
 
         final Path path;
         switch (result) {
             case SUCCESS:
-                path = Path.MESSAGES_ISLAND_CREATION;
+                path = Path.MESSAGES_LOBBY_LOCATION;
                 break;
             case DENY:
                 path = Path.MESSAGES_INVALID_ISLAND;
@@ -114,11 +114,11 @@ public class AdminCommand extends BridgeBaseCommand {
     @CommandPermission("island.finish")
     @Description("The island becomes available if the setup is completed")
     public void onFinish(final Player player) {
-        if (gameService.isPlaying(player)){
+        if (gameService.isPlaying(player)) {
             Util.message(player, Path.MESSAGES_CANNOT_EDIT);
             return;
         }
-        final Result result = controller.finishSetup(player);
+        final Result result = gameController.finishSetup(player);
 
         final Path path;
         switch (result) {
@@ -135,14 +135,67 @@ public class AdminCommand extends BridgeBaseCommand {
         Util.message(player, path);
     }
 
+    @Subcommand("modify")
+    @Syntax("<slot>")
+    @Description("Allows you to modify an islands' locations")
+    @CommandPermission("island.modify")
+    public void onModify(final Player player, final int slot) {
+        if (gameService.isPlaying(player)) {
+            Util.message(player, Path.MESSAGES_CANNOT_EDIT);
+            return;
+        }
+        final Result result = gameController.modifyIsland(player, slot);
+
+        final Path path;
+        switch (result) {
+            case SUCCESS:
+                path = Path.MESSAGES_ISLAND_MODIFICATION;
+                break;
+            case DENY:
+                path = Path.MESSAGES_INVALID_ISLAND;
+                break;
+            case FULL:
+                path = Path.MESSAGES_SINGLE_EDIT_ONLY;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + result);
+        }
+
+        Util.message(player, path);
+    }
+
+    @Subcommand("cancel")
+    @Description("Cancels the current island setup")
+    public void onCancel(final Player player) {
+        if (gameService.isPlaying(player)) {
+            Util.message(player, Path.MESSAGES_CANNOT_EDIT);
+            return;
+        }
+        final Result result = gameController.cancelSetup(player);
+
+        final Path path;
+        switch (result) {
+            case SUCCESS:
+                path = Path.MESSAGES_CANCEL_SETUP;
+                break;
+            case DENY:
+                path = Path.MESSAGES_NO_SETUP;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + result);
+        }
+
+        Util.message(player, path);
+    }
+
     @Subcommand("expansions")
     @Description("Shows you the PlaceholderAPI extensions")
     @CommandPermission("island.info")
-    public void onExpansion(final Player player) {
+    public void onExpansion(final CommandSender sender) {
         final String format = " &6&l&m*&r &e%bridge_#name#%";
 
         for (final String expansion : Util.toString(ExpansionType.values())) {
-            Util.message(player, format, new String[]{"#name#"}, false, expansion.toLowerCase(Locale.ROOT));
+            Util.message(sender, format, new String[]{"#name#"}, false, expansion.toLowerCase(Locale.ROOT));
         }
     }
 
@@ -150,21 +203,7 @@ public class AdminCommand extends BridgeBaseCommand {
     @Subcommand("guide")
     @Description("A Guide for Administrators")
     @CommandPermission("island.info")
-    public void onGuide(final Player player) {
-        player.sendMessage(Util.colorize("&e&l&m<&6&m------&r &e&lGuide &6&m------&e&l&m>"));
-        final String[] guide = {
-                "&61. &eHow to create an Island:\n",
-                "&61.1. &eYou can create an island by typing &6\"/island create (island-slot)\"\n",
-
-                "\n&62. &eHow to setup an Island:\n",
-                "&62.1 &eYou can set &6spawn/point/selection-a/selection-b &elocations types by\n",
-                "going to their respective locations and typing &6\"/island set <location-types>\"\n",
-                "&eand once you're done with that, type &6\"/island finish\"\n",
-
-                "\n&63. &eHow to join an island:\n",
-                "&63.1. &eYou can join an island by \"/join (island-slot)\""};
-
-        player.sendMessage(Util.colorize(Arrays.toString(guide).replace("[" ,"").replace("]", "")));
-        player.sendMessage(Util.colorize("&e&l&m<&r&6&m----------------&e&l&m>"));
+    public void onGuide(final CommandSender sender) {
+        Util.message(sender, Path.MESSAGES_GUIDE);
     }
 }

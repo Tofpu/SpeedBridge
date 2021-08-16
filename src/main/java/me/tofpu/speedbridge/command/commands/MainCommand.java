@@ -12,6 +12,7 @@ import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.properties.UserProperties;
 import me.tofpu.speedbridge.user.service.IUserService;
 import me.tofpu.speedbridge.util.Util;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandAlias("speedbridge|game")
@@ -32,15 +33,15 @@ public class MainCommand extends BridgeBaseCommand {
     @Private
     @Subcommand("help")
     @Description("Shows you all the available commands")
-    public void onHelp(final Player player) {
-        super.onHelp(player);
+    public void onHelp(final CommandSender sender) {
+        super.onHelp(sender);
     }
 
     @Override
     @Private
     @CatchUnknown
-    public void onUnknownCommand(Player player) {
-        super.onUnknownCommand(player);
+    public void onUnknownCommand(final CommandSender sender) {
+        super.onUnknownCommand(sender);
     }
 
     @Subcommand("join")

@@ -9,6 +9,7 @@ import me.tofpu.speedbridge.dependency.register.DependencyRegister;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -56,14 +57,6 @@ public class Util {
         return Util.colorize(Util.WordReplacer.replace(format, map));
     }
 
-    public static String format(final String format, final String message) {
-        // Replace.of(format, "replace_here", "with_this")
-        final String[] replace = format.split("#");
-        System.out.println(Util.colorize(replace[1] + " | " + format));
-        System.out.println(Util.colorize(format.replace(replace[1], message) + " | " + format));
-        return "";
-    }
-
     public static Integer parseInt(final String s) {
         final int radix = 10;
 
@@ -106,21 +99,21 @@ public class Util {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    public static void message(final Player player, Path path) {
-        message(player, path, null);
+    public static void message(final CommandSender sender, Path path) {
+        message(sender, path, null);
     }
 
-    public static void message(final Player player, Path path, final String[] replaceArray, final String... replaceWith) {
-        String message = Config.TranslateOutput.toString(path);
+    public static void message(final CommandSender sender, Path path, final String[] replaceArray, final String... replaceWith) {
+        String message = Config.TranslateOutput.to(path);
         if (message == null || message.isEmpty()) return;
 
-        message(player, message, replaceArray, true, replaceWith);
+        message(sender, message, replaceArray, true, replaceWith);
     }
 
-    public static void message(final Player player, String message, final String[] replaceArray, boolean usePlaceholder, final String... replaceWith) {
-        if (usePlaceholder && DependencyRegister.get("PlaceholderAPI") != null)
-            message = PlaceholderAPI.setPlaceholders(player, message);
-        player.sendMessage(colorize(WordReplacer.replace(message, replaceArray, replaceWith)));
+    public static void message(final CommandSender sender, String message, final String[] replaceArray, boolean usePlaceholder, final String... replaceWith) {
+        if (usePlaceholder && DependencyRegister.get("PlaceholderAPI") != null && sender instanceof Player)
+            message = PlaceholderAPI.setPlaceholders((Player) sender, message);
+        sender.sendMessage(colorize(WordReplacer.replace(message, replaceArray, replaceWith)));
     }
 
     public static class WordReplacer {

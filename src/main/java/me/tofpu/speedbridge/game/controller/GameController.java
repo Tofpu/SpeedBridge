@@ -19,7 +19,7 @@ public class GameController {
     private final Map<UUID, IIsland> islandMap = new HashMap<>();
     private final IIslandService islandService;
 
-    public GameController(IIslandService islandService) {
+    public GameController(final IIslandService islandService) {
         this.islandService = islandService;
     }
 
@@ -43,12 +43,6 @@ public class GameController {
             case POINT:
                 island.getProperties().get(args[0]).setPointA(location);
                 break;
-//            case SELECTION_A:
-//                island.getProperties().get(args[0]).setPointA(location);
-//                break;
-//            case SELECTION_B:
-//                island.getProperties().get(args[0]).setPointB(location);
-//                break;
             case SELECTION_A:
             case SELECTION_B:
                 final TwoSection section = (TwoSection) island.getProperties().get(args[0]);
@@ -59,6 +53,25 @@ public class GameController {
         return Result.SUCCESS;
     }
 
+    public Result modifyIsland(final Player player, final int slot) {
+        if (islandMap.get(player.getUniqueId()) != null) return Result.FULL;
+
+        final IIsland island = islandService.getIslandBySlot(slot);
+        if (island == null) return Result.DENY;
+
+        islandMap.put(player.getUniqueId(), island);
+        player.teleport(island.getLocation());
+        return Result.SUCCESS;
+    }
+
+    public Result cancelSetup(final Player player) {
+        if (islandMap.containsKey(player.getUniqueId())) {
+            islandMap.remove(player.getUniqueId());
+            return Result.SUCCESS;
+        }
+        return Result.DENY;
+    }
+
     public Result finishSetup(final Player player) {
         final IIsland island = islandMap.get(player.getUniqueId());
         if (island == null) return Result.DENY;
@@ -67,6 +80,7 @@ public class GameController {
         final Point sectionPoint = properties.get("point");
         final TwoSection sectionSelection = (TwoSection) properties.get("selection");
         if (island.hasLocation() && sectionPoint.hasPointA() && sectionSelection.hasPointA() && sectionSelection.hasPointB()) {
+            islandService.removeIsland(islandService.getIslandBySlot(island.getSlot()));
             islandService.addIsland(island);
             islandMap.remove(player.getUniqueId());
             return Result.SUCCESS;
