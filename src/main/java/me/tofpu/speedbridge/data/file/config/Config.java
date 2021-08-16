@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge.data.file.config;
 
 import me.tofpu.speedbridge.SpeedBridge;
+import me.tofpu.speedbridge.data.file.FileConfig;
 import me.tofpu.speedbridge.data.file.config.extend.ConfigMessages;
 import me.tofpu.speedbridge.data.file.config.extend.ConfigSettings;
 import me.tofpu.speedbridge.data.file.config.output.impl.IntegerOutput;
@@ -19,17 +20,20 @@ import java.util.List;
 public class Config {
     private static final List<Config> FILE_TYPES = new ArrayList<>();
     private final String identifier;
+    private final FileConfig fileConfig;
+
     private FileConfiguration configuration;
 
-    public Config(final String identifier, final FileConfiguration configuration) {
+    public Config(final String identifier, final FileConfig fileConfig) {
         this.identifier = identifier;
-        this.configuration = configuration;
+        this.fileConfig = fileConfig;
+        this.configuration = fileConfig.getConfiguration();
         FILE_TYPES.add(this);
     }
 
-    public static void initialize(final SpeedBridge speedBridge) {
-        new ConfigSettings(new FileSettings(speedBridge).getConfiguration()); // SLOT 0
-        new ConfigMessages(new FileMessages(speedBridge).getConfiguration()); // SLOT 1
+    public static void initialize(final SpeedBridge plugin) {
+        new ConfigSettings(new FileSettings(plugin)); // SLOT 0
+        new ConfigMessages(new FileMessages(plugin)); // SLOT 1
     }
 
     public static Config get(final String identifier) {
@@ -39,10 +43,10 @@ public class Config {
         return null;
     }
 
-    public static void reload(FileConfiguration... configurations) {
-        for (int i = 0; i < configurations.length; i++) {
-            final Config type = FILE_TYPES.get(i);
-            if (type != null) type.reload(configurations[i]);
+    public static void reload(final SpeedBridge plugin) {
+        for (final Config type : FILE_TYPES) {
+            type.fileConfig.initialize(plugin, type.getIdentifier());
+            type.configuration = type.fileConfig.getConfiguration();
         }
     }
 
@@ -61,10 +65,6 @@ public class Config {
             default:
                 return new IllegalStateException("Unexpected value: " + type);
         }
-    }
-
-    public void reload(final FileConfiguration configuration) {
-        this.configuration = configuration;
     }
 
     public String getIdentifier() {

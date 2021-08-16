@@ -1,7 +1,9 @@
 package me.tofpu.speedbridge.command.commands;
 
 import co.aikar.commands.annotation.*;
+import me.tofpu.speedbridge.SpeedBridge;
 import me.tofpu.speedbridge.command.commands.base.BridgeBaseCommand;
+import me.tofpu.speedbridge.data.file.config.Config;
 import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.expansion.type.ExpansionType;
 import me.tofpu.speedbridge.game.controller.GameController;
@@ -17,13 +19,16 @@ import java.util.Locale;
 
 @CommandAlias("island")
 public class AdminCommand extends BridgeBaseCommand {
+    private final SpeedBridge plugin;
+
     private final ILobbyService lobbyService;
     private final IGameService gameService;
 
     private final GameController gameController;
 
-    public AdminCommand(final ILobbyService lobbyService, final IGameService gameService, final GameController gameController) {
+    public AdminCommand(SpeedBridge plugin, final ILobbyService lobbyService, final IGameService gameService, final GameController gameController) {
         super("island");
+        this.plugin = plugin;
         this.lobbyService = lobbyService;
         this.gameService = gameService;
         this.gameController = gameController;
@@ -128,6 +133,8 @@ public class AdminCommand extends BridgeBaseCommand {
             case DENY:
                 path = Path.MESSAGES_ISLAND_INCOMPLETE;
                 break;
+            case INVALID_LOBBY:
+                path = Path.MESSAGES_NO_COMPLETE;
             default:
                 throw new IllegalStateException("Unexpected value: " + result);
         }
@@ -186,6 +193,14 @@ public class AdminCommand extends BridgeBaseCommand {
         }
 
         Util.message(player, path);
+    }
+
+    @Subcommand("reload")
+    @Description("Apply new changes to settings & messages file")
+    @CommandPermission("island.reload")
+    public void onReload(final CommandSender sender) {
+        Config.reload(plugin);
+        Util.message(sender, Path.MESSAGES_RELOADED);
     }
 
     @Subcommand("expansions")

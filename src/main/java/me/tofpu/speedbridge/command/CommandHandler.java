@@ -2,6 +2,7 @@ package me.tofpu.speedbridge.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.BukkitCommandManager;
+import me.tofpu.speedbridge.SpeedBridge;
 import me.tofpu.speedbridge.command.commands.AdminCommand;
 import me.tofpu.speedbridge.command.commands.MainCommand;
 import me.tofpu.speedbridge.game.Game;
@@ -9,12 +10,11 @@ import me.tofpu.speedbridge.game.controller.stage.SetupStage;
 import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.island.mode.manager.ModeManager;
 import me.tofpu.speedbridge.util.Util;
-import org.bukkit.plugin.Plugin;
 
 public class CommandHandler {
     private final BukkitCommandManager commandManager;
 
-    public CommandHandler(Game game, final Plugin plugin) {
+    public CommandHandler(Game game, final SpeedBridge plugin) {
         this.commandManager = new BukkitCommandManager(plugin);
 
         // contexts
@@ -31,7 +31,7 @@ public class CommandHandler {
 
         // registrations
         registerCommand(new MainCommand(game.getUserService(), game.getGameService(), game.getLobbyService()));
-        registerCommand(new AdminCommand(game.getLobbyService(), game.getGameService(), game.getGameController()));
+        registerCommand(new AdminCommand(plugin, game.getLobbyService(), game.getGameService(), game.getGameController()));
     }
 
     public void registerCommand(final BaseCommand command) {

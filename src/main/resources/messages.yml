@@ -14,6 +14,7 @@ messages:
   invalid-type: "&cInvalid location type!"
   single-edit-only: "&cYou can edit an island one at a time."
 
+  reloaded: "&eSettings & Messages has applied the new changes!"
   island-creation: "&aThe island has been created!"
   island-modification: "&aYou can start modifying your island locations now!"
   lobby-location: "&aSuccess!"

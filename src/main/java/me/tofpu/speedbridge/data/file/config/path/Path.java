@@ -18,6 +18,7 @@ public enum Path {
     MESSAGES_INVALID_TYPE("messages.invalid-type"),
     MESSAGES_SINGLE_EDIT_ONLY("messages.single-edit-only"),
 
+    MESSAGES_RELOADED("messages.reloaded"),
     MESSAGES_ISLAND_CREATION("messages.island-creation"),
     MESSAGES_ISLAND_MODIFICATION("messages.island-modification"),
     MESSAGES_LOBBY_LOCATION("messages.lobby-location"),
@@ -33,7 +34,8 @@ public enum Path {
     MESSAGES_SCORED("messages.scored"),
 
     MESSAGES_CANCEL_SETUP("messages.cancel-setup"),
-    MESSAGES_NO_SETUP("messages.no-setup");
+    MESSAGES_NO_SETUP("messages.no-setup"),
+    MESSAGES_NO_COMPLETE("messages.no-complete");
     private final String path;
     private OutputType type;
 

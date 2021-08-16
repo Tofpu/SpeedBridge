@@ -74,7 +74,7 @@ public class GameController {
 
     public Result finishSetup(final Player player) {
         final IIsland island = islandMap.get(player.getUniqueId());
-        if (island == null) return Result.DENY;
+        if (island == null) return Result.INVALID_LOBBY;
 
         final IslandProperties properties = island.getProperties();
         final Point sectionPoint = properties.get("point");

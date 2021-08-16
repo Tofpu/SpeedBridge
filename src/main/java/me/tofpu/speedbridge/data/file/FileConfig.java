@@ -10,17 +10,17 @@ public class FileConfig {
     private final String identifier;
     private FileConfiguration configuration;
 
-    public FileConfig(final SpeedBridge speedBridge, final String identifier) {
+    public FileConfig(final SpeedBridge plugin, final String identifier) {
         this.identifier = identifier;
 
-        initialize(speedBridge, identifier);
+        initialize(plugin, identifier);
     }
 
-    public void initialize(final SpeedBridge speedBridge, final String identifier) {
-        final File directory = speedBridge.getDataFolder();
+    public void initialize(final SpeedBridge plugin, final String identifier) {
+        final File directory = plugin.getDataFolder();
         final File settingsFile = new File(directory, identifier + ".yml");
 
-        if (!settingsFile.exists()) speedBridge.saveResource(identifier + ".yml", false);
+        if (!settingsFile.exists()) plugin.saveResource(identifier + ".yml", false);
 
         this.configuration = YamlConfiguration.loadConfiguration(settingsFile);
     }
