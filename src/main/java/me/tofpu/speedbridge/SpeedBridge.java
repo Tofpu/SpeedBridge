@@ -33,7 +33,7 @@ public final class SpeedBridge extends JavaPlugin {
     private final Game game;
 
     public SpeedBridge() {
-        this.game = new Game(getDataFolder());
+        this.game = new Game(this, getDataFolder());
 
         final DataManager dataManager = getGame().getDataManager();
         final IUserService userService = getGame().getUserService();

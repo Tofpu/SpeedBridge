@@ -10,6 +10,7 @@ import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.lobby.service.impl.LobbyService;
 import me.tofpu.speedbridge.user.service.IUserService;
 import me.tofpu.speedbridge.user.service.impl.UserService;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 
@@ -24,14 +25,14 @@ public class Game {
 
     private final DataManager dataManager;
 
-    public Game(final File directory) {
+    public Game(final Plugin plugin, final File directory) {
         this.islandService = new IslandService();
         this.userService = new UserService();
 
         this.lobbyService = new LobbyService();
 
         this.gameController = new GameController(islandService);
-        this.gameService = new GameService(islandService, userService, lobbyService);
+        this.gameService = new GameService(plugin, islandService, userService, lobbyService);
 
         this.dataManager = new DataManager(directory, islandService, userService, lobbyService);
     }

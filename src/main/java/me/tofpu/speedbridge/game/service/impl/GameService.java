@@ -1,6 +1,5 @@
 package me.tofpu.speedbridge.game.service.impl;
 
-import me.tofpu.speedbridge.SpeedBridge;
 import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.IGameService;
@@ -22,6 +21,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class GameService implements IGameService {
+    private final Plugin plugin;
+
     private final IIslandService islandService;
     private final IUserService userService;
     private final ILobbyService lobbyService;
@@ -38,7 +40,9 @@ public class GameService implements IGameService {
     private final Map<UUID, Timer> userTimer = new HashMap<>();
     private final Map<UUID, BukkitTask> userCheck = new HashMap<>();
 
-    public GameService(final IIslandService islandService, final IUserService userService, final ILobbyService lobbyService) {
+    public GameService(final Plugin plugin, final IIslandService islandService, final IUserService userService, final ILobbyService lobbyService) {
+        this.plugin = plugin;
+
         this.islandService = islandService;
         this.userService = userService;
         this.lobbyService = lobbyService;
@@ -105,11 +109,9 @@ public class GameService implements IGameService {
         final TwoSection selection = (TwoSection) island.getProperties().get("selection");
         final Cuboid cuboid = new Cuboid(selection.getPointA(), selection.getPointB());
 
-        //TODO: FIX THIS
         this.userCheck.put(player.getUniqueId(),
                 Bukkit.getScheduler()
-                        .runTaskTimer(
-                                SpeedBridge.getProvidingPlugin(SpeedBridge.class),
+                        .runTaskTimer(plugin,
                                 () -> {
                                     if (!cuboid.isIn(player.getLocation())) {
                                         reset(user);

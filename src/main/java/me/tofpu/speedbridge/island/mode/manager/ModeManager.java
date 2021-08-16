@@ -66,7 +66,7 @@ public class ModeManager {
         return null;
     }
 
-    public Mode getDefault(){
+    public Mode getDefault() {
         for (final Mode mode : modes) {
             if (mode.isDefault()) return mode;
         }

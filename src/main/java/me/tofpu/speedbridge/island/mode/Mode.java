@@ -15,7 +15,7 @@ public class Mode implements Identifier {
         this(identifier, Lists.newArrayList(), aDefault);
     }
 
-    public Mode(final String identifier, final List<Integer> slots, final boolean aDefault){
+    public Mode(final String identifier, final List<Integer> slots, final boolean aDefault) {
         this.identifier = identifier;
         this.slots = new ArrayList<>(slots);
         this.aDefault = aDefault;

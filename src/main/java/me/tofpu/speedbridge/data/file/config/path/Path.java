@@ -1,5 +1,7 @@
 package me.tofpu.speedbridge.data.file.config.path;
 
+import me.tofpu.speedbridge.data.file.config.output.type.OutputType;
+
 public enum Path {
     SETTINGS_MAX_SLOTS("settings.max-slots"),
 
@@ -14,24 +16,41 @@ public enum Path {
     MESSAGES_INSERT_NUMBER("messages.insert-number"),
     MESSAGES_NO_LOBBY("messages.no-lobby"),
     MESSAGES_INVALID_TYPE("messages.invalid-type"),
+    MESSAGES_SINGLE_EDIT_ONLY("messages.single-edit-only"),
 
     MESSAGES_ISLAND_CREATION("messages.island-creation"),
+    MESSAGES_ISLAND_MODIFICATION("messages.island-modification"),
     MESSAGES_LOBBY_LOCATION("messages.lobby-location"),
     MESSAGES_ISLAND_EXISTS("messages.island-exists"),
     MESSAGES_INVALID_ISLAND("messages.invalid-island"),
     MESSAGES_ISLAND_COMPLETED("messages.island-completed"),
     MESSAGES_ISLAND_INCOMPLETE("messages.island-incomplete"),
 
+    MESSAGES_GUIDE("messages.guide", OutputType.STRING_LIST),
+
     MESSAGES_NOT_BEATEN("messages.not-beaten"),
     MESSAGES_BEATEN_SCORE("messages.beaten-score"),
-    MESSAGES_SCORED("messages.scored");
+    MESSAGES_SCORED("messages.scored"),
+
+    MESSAGES_CANCEL_SETUP("messages.cancel-setup"),
+    MESSAGES_NO_SETUP("messages.no-setup");
     private final String path;
+    private OutputType type;
 
     Path(String path) {
+        this(path, OutputType.STRING);
+    }
+
+    Path(String path, OutputType type) {
         this.path = path;
+        this.type = type;
     }
 
     public String getPath() {
         return path;
+    }
+
+    public OutputType getType() {
+        return type;
     }
 }
