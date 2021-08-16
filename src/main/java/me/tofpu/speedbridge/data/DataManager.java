@@ -14,7 +14,6 @@ import me.tofpu.speedbridge.lobby.service.ILobbyService;
 import me.tofpu.speedbridge.user.IUser;
 import me.tofpu.speedbridge.user.adapter.UserAdapter;
 import me.tofpu.speedbridge.user.service.IUserService;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -55,22 +54,17 @@ public class DataManager {
     }
 
     public void initialize() {
-        Bukkit.getScheduler().runTaskAsynchronously(SpeedBridge.getProvidingPlugin(SpeedBridge.class), new Runnable() {
-            @Override
-            public void run() {
-                for (final File file : files) {
-                    if (!file.exists()) {
-                        if (file.getName().contains(".")) {
-                            try {
-                                file.createNewFile();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else file.mkdirs();
+        for (final File file : files) {
+            if (!file.exists()) {
+                if (file.getName().contains(".")) {
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }
+                } else file.mkdirs();
             }
-        });
+        }
     }
 
     public IUser loadUser(final UUID uuid) {
@@ -82,6 +76,8 @@ public class DataManager {
     public void unloadUser(final UUID uuid) {
         final IUser user = userService.searchForUUID(uuid);
         if (user == null) return;
+
+        userService.save(GSON, user, files[2]);
         userService.removeUser(user);
     }
 

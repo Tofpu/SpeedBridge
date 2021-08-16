@@ -53,10 +53,10 @@ public final class Leaderboard {
         final Timer timer = user.getProperties().getTimer();
 
         BoardUser boardUser = get(user.getUuid());
-        if (boardUser == null)
+        if (boardUser == null) {
             boardUser = new BoardUser(player.getName(), user.getUuid(), timer == null ? null : timer.getResult());
-        else {
-            if (boardUser.getScore() > timer.getResult()) {
+        } else {
+            if (boardUser.getScore() == null || boardUser.getScore() > timer.getResult()) {
                 boardUser.setScore(timer.getResult());
             }
         }

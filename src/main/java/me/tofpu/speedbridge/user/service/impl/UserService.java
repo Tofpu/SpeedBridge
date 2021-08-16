@@ -67,6 +67,18 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public void save(final Gson gson, final IUser user, final File directory) {
+        final File file = new File(directory, user.getUuid().toString() + ".json");
+        try {
+            try (final FileWriter writer = new FileWriter(file)) {
+                writer.write(gson.toJson(user, IUser.class));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public IUser load(final Gson gson, final UUID uuid, final File directory) {
         final File file = new File(directory, uuid.toString() + ".json");
         if (!file.exists()) return null;

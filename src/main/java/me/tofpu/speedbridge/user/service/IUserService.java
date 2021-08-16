@@ -17,5 +17,7 @@ public interface IUserService {
 
     void saveAll(final Gson gson, final File directory);
 
+    void save(final Gson gson, final IUser user, final File directory);
+
     IUser load(final Gson gson, final UUID uuid, final File directory);
 }
