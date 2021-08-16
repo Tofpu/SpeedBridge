@@ -1,9 +1,9 @@
 package me.tofpu.speedbridge.user.service.impl;
 
 import com.google.gson.Gson;
-import me.tofpu.speedbridge.user.IUser;
-import me.tofpu.speedbridge.user.impl.User;
-import me.tofpu.speedbridge.user.service.IUserService;
+import me.tofpu.speedbridge.user.User;
+import me.tofpu.speedbridge.user.impl.UserImpl;
+import me.tofpu.speedbridge.user.service.UserService;
 
 import java.io.File;
 import java.io.FileReader;
@@ -13,32 +13,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class UserService implements IUserService {
-    private final List<IUser> users = new ArrayList<>();
+public class UserServiceImpl implements UserService {
+    private final List<User> users = new ArrayList<>();
 
     @Override
-    public IUser createUser(final UUID uuid) {
-        final IUser user = new User(uuid);
+    public User createUser(final UUID uuid) {
+        final User user = new UserImpl(uuid);
         this.users.add(user);
 
         return user;
     }
 
     @Override
-    public void removeUser(final IUser user) {
+    public void removeUser(final User user) {
         this.users.remove(user);
     }
 
     @Override
-    public IUser getOrDefault(final UUID uuid) {
-        IUser user = searchForUUID(uuid);
+    public User getOrDefault(final UUID uuid) {
+        User user = searchForUUID(uuid);
         if (user == null) user = createUser(uuid);
         return user;
     }
 
     @Override
-    public IUser searchForUUID(final UUID uuid) {
-        for (final IUser user : this.users) {
+    public User searchForUUID(final UUID uuid) {
+        for (final User user : this.users) {
             if (user.getUuid().equals(uuid)) return user;
         }
         return null;
@@ -47,7 +47,7 @@ public class UserService implements IUserService {
     @Override
     public void saveAll(final Gson gson, final File directory) {
         if (!directory.exists()) directory.mkdirs();
-        for (final IUser user : this.users) {
+        for (final User user : this.users) {
             final File file = new File(directory, user.getUuid().toString() + ".json");
             if (!file.exists()) {
                 try {
@@ -58,7 +58,7 @@ public class UserService implements IUserService {
             }
             try {
                 try (final FileWriter writer = new FileWriter(file)) {
-                    writer.write(gson.toJson(user, IUser.class));
+                    writer.write(gson.toJson(user, User.class));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -67,11 +67,11 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void save(final Gson gson, final IUser user, final File directory) {
+    public void save(final Gson gson, final User user, final File directory) {
         final File file = new File(directory, user.getUuid().toString() + ".json");
         try {
             try (final FileWriter writer = new FileWriter(file)) {
-                writer.write(gson.toJson(user, IUser.class));
+                writer.write(gson.toJson(user, User.class));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,13 +79,13 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public IUser load(final Gson gson, final UUID uuid, final File directory) {
+    public User load(final Gson gson, final UUID uuid, final File directory) {
         final File file = new File(directory, uuid.toString() + ".json");
         if (!file.exists()) return null;
 
-        IUser user = null;
+        User user = null;
         try {
-            user = gson.fromJson(new FileReader(file), IUser.class);
+            user = gson.fromJson(new FileReader(file), User.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

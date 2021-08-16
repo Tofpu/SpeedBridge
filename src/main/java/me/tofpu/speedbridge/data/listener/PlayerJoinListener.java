@@ -2,7 +2,7 @@ package me.tofpu.speedbridge.data.listener;
 
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.data.file.config.path.Path;
-import me.tofpu.speedbridge.lobby.service.ILobbyService;
+import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,10 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerJoinListener implements Listener {
-    private final ILobbyService lobbyService;
+    private final LobbyService lobbyService;
     private final DataManager dataManager;
 
-    public PlayerJoinListener(final ILobbyService lobbyService, final DataManager dataManager) {
+    public PlayerJoinListener(final LobbyService lobbyService, final DataManager dataManager) {
         this.lobbyService = lobbyService;
         this.dataManager = dataManager;
     }

@@ -1,15 +1,15 @@
 package me.tofpu.speedbridge.game.listener.functionality;
 
-import me.tofpu.speedbridge.game.service.IGameService;
+import me.tofpu.speedbridge.game.service.GameService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 
 public class FoodLevelChangeListener implements Listener {
-    private final IGameService gameService;
+    private final GameService gameService;
 
-    public FoodLevelChangeListener(final IGameService gameService) {
+    public FoodLevelChangeListener(final GameService gameService) {
         this.gameService = gameService;
     }
 

@@ -2,18 +2,18 @@ package me.tofpu.speedbridge.island;
 
 import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
-import me.tofpu.speedbridge.user.IUser;
+import me.tofpu.speedbridge.user.User;
 import me.tofpu.speedbridge.util.Identifier;
 import org.bukkit.Location;
 
 import java.util.List;
 
-public interface IIsland extends Identifier {
+public interface Island extends Identifier {
     boolean isAvailable();
 
-    IUser getTakenBy();
+    User getTakenBy();
 
-    void setTakenBy(final IUser takenBy);
+    void setTakenBy(final User takenBy);
 
     Location getLocation();
 

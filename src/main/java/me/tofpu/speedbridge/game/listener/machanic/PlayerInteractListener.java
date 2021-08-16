@@ -1,11 +1,11 @@
 package me.tofpu.speedbridge.game.listener.machanic;
 
-import me.tofpu.speedbridge.game.service.IGameService;
-import me.tofpu.speedbridge.island.IIsland;
+import me.tofpu.speedbridge.game.service.GameService;
+import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.properties.point.Point;
-import me.tofpu.speedbridge.island.service.IIslandService;
-import me.tofpu.speedbridge.user.IUser;
-import me.tofpu.speedbridge.user.service.IUserService;
+import me.tofpu.speedbridge.island.service.IslandService;
+import me.tofpu.speedbridge.user.User;
+import me.tofpu.speedbridge.user.service.UserService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -15,11 +15,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class PlayerInteractListener implements Listener {
-    private final IUserService userService;
-    private final IIslandService islandService;
-    private final IGameService gameService;
+    private final UserService userService;
+    private final IslandService islandService;
+    private final GameService gameService;
 
-    public PlayerInteractListener(final IUserService userService, final IIslandService islandService, final IGameService gameService) {
+    public PlayerInteractListener(final UserService userService, final IslandService islandService, final GameService gameService) {
         this.userService = userService;
         this.islandService = islandService;
         this.gameService = gameService;
@@ -31,8 +31,8 @@ public class PlayerInteractListener implements Listener {
         final Player player = event.getPlayer();
 
         if (!gameService.isPlaying(player)) return;
-        final IUser user = userService.searchForUUID(player.getUniqueId());
-        final IIsland island = islandService.getIslandBySlot(user.getProperties().getIslandSlot());
+        final User user = userService.searchForUUID(player.getUniqueId());
+        final Island island = islandService.getIslandBySlot(user.getProperties().getIslandSlot());
 
         final Point section = island.getProperties().get("point");
         final Location pressurePlate = event.getClickedBlock().getLocation();

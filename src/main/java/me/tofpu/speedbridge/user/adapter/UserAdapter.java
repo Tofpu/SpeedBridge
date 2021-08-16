@@ -4,17 +4,17 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import me.tofpu.speedbridge.user.IUser;
-import me.tofpu.speedbridge.user.impl.User;
+import me.tofpu.speedbridge.user.User;
+import me.tofpu.speedbridge.user.impl.UserImpl;
 import me.tofpu.speedbridge.user.properties.UserProperties;
 import me.tofpu.speedbridge.user.properties.timer.Timer;
 
 import java.io.IOException;
 import java.util.UUID;
 
-public class UserAdapter extends TypeAdapter<IUser> {
+public class UserAdapter extends TypeAdapter<User> {
     @Override
-    public void write(JsonWriter out, IUser value) throws IOException {
+    public void write(JsonWriter out, User value) throws IOException {
         out.beginObject();
         out.name("uniqueId").value(value.getUuid().toString());
 
@@ -32,11 +32,11 @@ public class UserAdapter extends TypeAdapter<IUser> {
     }
 
     @Override
-    public IUser read(JsonReader in) throws IOException {
+    public User read(JsonReader in) throws IOException {
         in.beginObject();
 
         in.nextName();
-        final IUser user = new User(UUID.fromString(in.nextString()));
+        final User user = new UserImpl(UUID.fromString(in.nextString()));
 
         in.nextName();
         in.beginArray();

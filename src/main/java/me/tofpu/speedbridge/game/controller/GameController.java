@@ -2,12 +2,12 @@ package me.tofpu.speedbridge.game.controller;
 
 import me.tofpu.speedbridge.game.controller.stage.SetupStage;
 import me.tofpu.speedbridge.game.result.Result;
-import me.tofpu.speedbridge.island.IIsland;
-import me.tofpu.speedbridge.island.impl.Island;
+import me.tofpu.speedbridge.island.Island;
+import me.tofpu.speedbridge.island.impl.IslandImpl;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
 import me.tofpu.speedbridge.island.properties.point.Point;
 import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
-import me.tofpu.speedbridge.island.service.IIslandService;
+import me.tofpu.speedbridge.island.service.IslandService;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -16,22 +16,22 @@ import java.util.Map;
 import java.util.UUID;
 
 public class GameController {
-    private final Map<UUID, IIsland> islandMap = new HashMap<>();
-    private final IIslandService islandService;
+    private final Map<UUID, Island> islandMap = new HashMap<>();
+    private final IslandService islandService;
 
-    public GameController(final IIslandService islandService) {
+    public GameController(final IslandService islandService) {
         this.islandService = islandService;
     }
 
     public Result createIsland(final Player player, int slot) {
         if (islandService.getIslandBySlot(slot) != null) return Result.DENY;
-        final IIsland island = new Island(slot);
+        final Island island = new IslandImpl(slot);
         islandMap.put(player.getUniqueId(), island);
         return Result.SUCCESS;
     }
 
     public Result setupIsland(final Player player, SetupStage stage) {
-        final IIsland island = islandMap.get(player.getUniqueId());
+        final Island island = islandMap.get(player.getUniqueId());
         if (island == null) return Result.DENY;
 
         final String[] args = stage.name().split("_");
@@ -56,7 +56,7 @@ public class GameController {
     public Result modifyIsland(final Player player, final int slot) {
         if (islandMap.get(player.getUniqueId()) != null) return Result.FULL;
 
-        final IIsland island = islandService.getIslandBySlot(slot);
+        final Island island = islandService.getIslandBySlot(slot);
         if (island == null) return Result.DENY;
 
         islandMap.put(player.getUniqueId(), island);
@@ -73,7 +73,7 @@ public class GameController {
     }
 
     public Result finishSetup(final Player player) {
-        final IIsland island = islandMap.get(player.getUniqueId());
+        final Island island = islandMap.get(player.getUniqueId());
         if (island == null) return Result.INVALID_LOBBY;
 
         final IslandProperties properties = island.getProperties();

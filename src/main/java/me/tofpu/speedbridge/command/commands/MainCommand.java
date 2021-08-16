@@ -4,13 +4,13 @@ import co.aikar.commands.annotation.*;
 import me.tofpu.speedbridge.command.commands.base.BridgeBaseCommand;
 import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.game.result.Result;
-import me.tofpu.speedbridge.game.service.IGameService;
+import me.tofpu.speedbridge.game.service.GameService;
 import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.island.mode.manager.ModeManager;
-import me.tofpu.speedbridge.lobby.service.ILobbyService;
-import me.tofpu.speedbridge.user.IUser;
+import me.tofpu.speedbridge.lobby.service.LobbyService;
+import me.tofpu.speedbridge.user.User;
 import me.tofpu.speedbridge.user.properties.UserProperties;
-import me.tofpu.speedbridge.user.service.IUserService;
+import me.tofpu.speedbridge.user.service.UserService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,11 +18,11 @@ import org.bukkit.entity.Player;
 @CommandAlias("speedbridge|game")
 public class MainCommand extends BridgeBaseCommand {
 
-    private final IUserService userService;
-    private final IGameService gameService;
-    private final ILobbyService lobbyService;
+    private final UserService userService;
+    private final GameService gameService;
+    private final LobbyService lobbyService;
 
-    public MainCommand(final IUserService userService, final IGameService gameService, final ILobbyService lobbyService) {
+    public MainCommand(final UserService userService, final GameService gameService, final LobbyService lobbyService) {
         super("game");
         this.userService = userService;
         this.gameService = gameService;
@@ -80,7 +80,7 @@ public class MainCommand extends BridgeBaseCommand {
     @CommandAlias("score")
     @Description("Your personal best score")
     public void onScore(final Player player) {
-        final IUser user = userService.searchForUUID(player.getUniqueId());
+        final User user = userService.searchForUUID(player.getUniqueId());
         final UserProperties properties = user == null ? null : user.getProperties();
 
         double score = user == null ? 0 : properties.getTimer() == null ? 0 : properties.getTimer().getResult();

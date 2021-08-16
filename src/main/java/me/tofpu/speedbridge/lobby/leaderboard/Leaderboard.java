@@ -1,7 +1,7 @@
 package me.tofpu.speedbridge.lobby.leaderboard;
 
 import me.tofpu.speedbridge.lobby.leaderboard.data.BoardUser;
-import me.tofpu.speedbridge.user.IUser;
+import me.tofpu.speedbridge.user.User;
 import me.tofpu.speedbridge.user.properties.timer.Timer;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
@@ -47,7 +47,7 @@ public final class Leaderboard {
         this.update.cancel(true);
     }
 
-    public void check(final IUser user) {
+    public void check(final User user) {
         final Player player = Bukkit.getPlayer(user.getUuid());
         if (player == null) return;
         final Timer timer = user.getProperties().getTimer();

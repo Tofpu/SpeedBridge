@@ -6,7 +6,7 @@ import org.bukkit.Location;
 
 import java.io.File;
 
-public interface ILobbyService {
+public interface LobbyService {
     Location getLobbyLocation();
 
     void setLobbyLocation(final Location location);

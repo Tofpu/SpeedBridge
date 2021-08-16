@@ -4,8 +4,8 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import me.tofpu.speedbridge.data.DataManager;
-import me.tofpu.speedbridge.island.IIsland;
-import me.tofpu.speedbridge.island.impl.Island;
+import me.tofpu.speedbridge.island.Island;
+import me.tofpu.speedbridge.island.impl.IslandImpl;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
 import me.tofpu.speedbridge.island.properties.point.Point;
 import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
@@ -13,9 +13,9 @@ import org.bukkit.Location;
 
 import java.io.IOException;
 
-public class IslandAdapter extends TypeAdapter<IIsland> {
+public class IslandAdapter extends TypeAdapter<Island> {
     @Override
-    public void write(JsonWriter out, IIsland value) throws IOException {
+    public void write(JsonWriter out, Island value) throws IOException {
         out.beginObject();
 
         out.name("slot").value(value.getSlot());
@@ -53,12 +53,12 @@ public class IslandAdapter extends TypeAdapter<IIsland> {
     }
 
     @Override
-    public IIsland read(JsonReader in) throws IOException {
+    public Island read(JsonReader in) throws IOException {
         final TypeAdapter<Location> adapter = DataManager.GSON.getAdapter(Location.class);
 
         in.beginObject();
         in.nextName();
-        final IIsland island = new Island(in.nextInt());
+        final Island island = new IslandImpl(in.nextInt());
 
         in.nextName();
         island.setLocation(adapter.read(in));

@@ -9,8 +9,8 @@ import me.tofpu.speedbridge.expansion.type.ExpansionType;
 import me.tofpu.speedbridge.game.controller.GameController;
 import me.tofpu.speedbridge.game.controller.stage.SetupStage;
 import me.tofpu.speedbridge.game.result.Result;
-import me.tofpu.speedbridge.game.service.IGameService;
-import me.tofpu.speedbridge.lobby.service.ILobbyService;
+import me.tofpu.speedbridge.game.service.GameService;
+import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,12 +21,12 @@ import java.util.Locale;
 public class AdminCommand extends BridgeBaseCommand {
     private final SpeedBridge plugin;
 
-    private final ILobbyService lobbyService;
-    private final IGameService gameService;
+    private final LobbyService lobbyService;
+    private final GameService gameService;
 
     private final GameController gameController;
 
-    public AdminCommand(SpeedBridge plugin, final ILobbyService lobbyService, final IGameService gameService, final GameController gameController) {
+    public AdminCommand(SpeedBridge plugin, final LobbyService lobbyService, final GameService gameService, final GameController gameController) {
         super("island");
         this.plugin = plugin;
         this.lobbyService = lobbyService;

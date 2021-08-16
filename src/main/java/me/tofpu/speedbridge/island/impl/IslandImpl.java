@@ -1,25 +1,25 @@
 package me.tofpu.speedbridge.island.impl;
 
-import me.tofpu.speedbridge.island.IIsland;
+import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.island.mode.manager.ModeManager;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
-import me.tofpu.speedbridge.user.IUser;
+import me.tofpu.speedbridge.user.User;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Island extends IslandProperties implements IIsland {
+public class IslandImpl extends IslandProperties implements Island {
     private final List<Location> placedBlocks = new ArrayList<>();
 
     private final int slot;
     private final Mode mode;
 
     private Location location;
-    private IUser takenBy;
+    private User takenBy;
 
-    public Island(int slot) {
+    public IslandImpl(int slot) {
         this.slot = slot;
         this.mode = ModeManager.getModeManager().get(slot);
     }
@@ -30,12 +30,12 @@ public class Island extends IslandProperties implements IIsland {
     }
 
     @Override
-    public IUser getTakenBy() {
+    public User getTakenBy() {
         return takenBy;
     }
 
     @Override
-    public void setTakenBy(final IUser takenBy) {
+    public void setTakenBy(final User takenBy) {
         this.takenBy = takenBy;
     }
 

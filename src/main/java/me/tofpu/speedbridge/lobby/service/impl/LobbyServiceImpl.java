@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import me.tofpu.speedbridge.lobby.leaderboard.Leaderboard;
 import me.tofpu.speedbridge.lobby.leaderboard.data.BoardUser;
-import me.tofpu.speedbridge.lobby.service.ILobbyService;
+import me.tofpu.speedbridge.lobby.service.LobbyService;
 import org.bukkit.Location;
 
 import java.io.File;
@@ -13,12 +13,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class LobbyService implements ILobbyService {
+public class LobbyServiceImpl implements LobbyService {
     private final Leaderboard leaderboard;
 
     private Location location;
 
-    public LobbyService() {
+    public LobbyServiceImpl() {
         this.leaderboard = new Leaderboard(10);
     }
 

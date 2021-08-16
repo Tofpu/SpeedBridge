@@ -1,19 +1,19 @@
 package me.tofpu.speedbridge.user.impl;
 
 import com.google.common.base.Objects;
-import me.tofpu.speedbridge.user.IUser;
+import me.tofpu.speedbridge.user.User;
 import me.tofpu.speedbridge.user.properties.UserProperties;
 
 import java.util.UUID;
 
-public final class User extends UserProperties implements IUser {
+public final class UserImpl extends UserProperties implements User {
     private final UUID uuid;
 
-    public User(final UUID uuid) {
+    public UserImpl(final UUID uuid) {
         this(uuid, new UserProperties());
     }
 
-    public User(final UUID uuid, final UserProperties userProperties) {
+    public UserImpl(final UUID uuid, final UserProperties userProperties) {
         super();
         this.uuid = uuid;
         this.setIslandSlot(userProperties.getIslandSlot());
@@ -35,7 +35,7 @@ public final class User extends UserProperties implements IUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equal(uuid, user.uuid);
+        return Objects.equal(getUuid(), user.getUuid());
     }
 
     @Override

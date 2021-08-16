@@ -13,11 +13,11 @@ import me.tofpu.speedbridge.game.listener.functionality.EntityDamageListener;
 import me.tofpu.speedbridge.game.listener.functionality.FoodLevelChangeListener;
 import me.tofpu.speedbridge.game.listener.machanic.BlockPlaceListener;
 import me.tofpu.speedbridge.game.listener.machanic.PlayerInteractListener;
-import me.tofpu.speedbridge.game.service.IGameService;
+import me.tofpu.speedbridge.game.service.GameService;
 import me.tofpu.speedbridge.island.mode.manager.ModeManager;
-import me.tofpu.speedbridge.island.service.IIslandService;
-import me.tofpu.speedbridge.lobby.service.ILobbyService;
-import me.tofpu.speedbridge.user.service.IUserService;
+import me.tofpu.speedbridge.island.service.IslandService;
+import me.tofpu.speedbridge.lobby.service.LobbyService;
+import me.tofpu.speedbridge.user.service.UserService;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -36,10 +36,10 @@ public final class SpeedBridge extends JavaPlugin {
         this.game = new Game(this, getDataFolder());
 
         final DataManager dataManager = getGame().getDataManager();
-        final IUserService userService = getGame().getUserService();
-        final IIslandService islandService = getGame().getIslandService();
-        final IGameService gameService = getGame().getGameService();
-        final ILobbyService lobbyService = getGame().getLobbyService();
+        final UserService userService = getGame().getUserService();
+        final IslandService islandService = getGame().getIslandService();
+        final GameService gameService = getGame().getGameService();
+        final LobbyService lobbyService = getGame().getLobbyService();
 
         this.listeners = Arrays.asList(
                 new PlayerJoinListener(lobbyService, dataManager),
@@ -64,10 +64,9 @@ public final class SpeedBridge extends JavaPlugin {
         DependencyRegister.loadAll(this);
         dataManager.load();
 
-        registerPlaceholderApi();
-        registerListeners();
+        initializePlaceholderApi();
+        initializeListeners();
         new CommandHandler(getGame(), this);
-//        getCommand("speedbridge").setExecutor(new CommandManagerOld(getGame().getGameController(), getGame().getUserService(), getGame().getGameService(), getGame().getLobbyService()));
 
         // RELOAD BUG FIX
         Bukkit.getOnlinePlayers().forEach(player -> dataManager.loadUser(player.getUniqueId()));
@@ -81,13 +80,13 @@ public final class SpeedBridge extends JavaPlugin {
         getGame().getLobbyService().getLeaderboard().cancel();
     }
 
-    public void registerPlaceholderApi() {
+    public void initializePlaceholderApi() {
         if (DependencyRegister.get("PlaceholderAPI").getDependency() == null) return;
         getLogger().info("Hooked into PlaceholderAPI");
-        new BridgeExpansion(getDescription(), getGame().getUserService(), game.getGameService()).register();
+        new BridgeExpansion(getDescription(), getGame().getUserService(), getGame().getGameService()).register();
     }
 
-    public void registerListeners() {
+    public void initializeListeners() {
         final PluginManager manager = Bukkit.getPluginManager();
         for (final Listener listener : listeners) {
             manager.registerEvents(listener, this);

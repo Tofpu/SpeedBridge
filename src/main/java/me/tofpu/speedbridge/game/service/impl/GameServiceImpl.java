@@ -2,17 +2,17 @@ package me.tofpu.speedbridge.game.service.impl;
 
 import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.game.result.Result;
-import me.tofpu.speedbridge.game.service.IGameService;
-import me.tofpu.speedbridge.island.IIsland;
+import me.tofpu.speedbridge.game.service.GameService;
+import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.island.mode.manager.ModeManager;
 import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
-import me.tofpu.speedbridge.island.service.IIslandService;
-import me.tofpu.speedbridge.lobby.service.ILobbyService;
-import me.tofpu.speedbridge.user.IUser;
+import me.tofpu.speedbridge.island.service.IslandService;
+import me.tofpu.speedbridge.lobby.service.LobbyService;
+import me.tofpu.speedbridge.user.User;
 import me.tofpu.speedbridge.user.properties.UserProperties;
 import me.tofpu.speedbridge.user.properties.timer.Timer;
-import me.tofpu.speedbridge.user.service.IUserService;
+import me.tofpu.speedbridge.user.service.UserService;
 import me.tofpu.speedbridge.util.Cuboid;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
@@ -30,17 +30,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class GameService implements IGameService {
+public class GameServiceImpl implements GameService {
     private final Plugin plugin;
 
-    private final IIslandService islandService;
-    private final IUserService userService;
-    private final ILobbyService lobbyService;
+    private final IslandService islandService;
+    private final UserService userService;
+    private final LobbyService lobbyService;
 
     private final Map<UUID, Timer> userTimer = new HashMap<>();
     private final Map<UUID, BukkitTask> userCheck = new HashMap<>();
 
-    public GameService(final Plugin plugin, final IIslandService islandService, final IUserService userService, final ILobbyService lobbyService) {
+    public GameServiceImpl(final Plugin plugin, final IslandService islandService, final UserService userService, final LobbyService lobbyService) {
         this.plugin = plugin;
 
         this.islandService = islandService;
@@ -59,7 +59,7 @@ public class GameService implements IGameService {
             return Result.INVALID_LOBBY;
         }
 
-        final IUser user = userService.getOrDefault(player.getUniqueId());
+        final User user = userService.getOrDefault(player.getUniqueId());
         if (user.getProperties().getIslandSlot() != null) return Result.DENY;
 
         return join(user, islandService.getIslandBySlot(slot));
@@ -71,17 +71,17 @@ public class GameService implements IGameService {
             return Result.INVALID_LOBBY;
         }
 
-        final IUser user = userService.getOrDefault(player.getUniqueId());
+        final User user = userService.getOrDefault(player.getUniqueId());
         if (user.getProperties().getIslandSlot() != null) return Result.DENY;
 
-        final List<IIsland> islands = mode == null ? (mode = ModeManager.getModeManager().getDefault()) == null ? islandService.getAvailableIslands() : islandService.getAvailableIslands(mode) : islandService.getAvailableIslands(mode);
+        final List<Island> islands = mode == null ? (mode = ModeManager.getModeManager().getDefault()) == null ? islandService.getAvailableIslands() : islandService.getAvailableIslands(mode) : islandService.getAvailableIslands(mode);
         if (islands.size() < 1) return Result.FULL;
 
         return join(user, islands.get(0));
     }
 
     @Override
-    public Result join(final IUser user, IIsland island) {
+    public Result join(final User user, Island island) {
         if (!lobbyService.hasLobbyLocation()) {
             return Result.INVALID_LOBBY;
         }
@@ -123,7 +123,7 @@ public class GameService implements IGameService {
 
     @Override
     public Result leave(final Player player) {
-        final IUser user = userService.searchForUUID(player.getUniqueId());
+        final User user = userService.searchForUUID(player.getUniqueId());
         if (user == null) return Result.DENY;
         player.getInventory().clear();
 
@@ -142,7 +142,7 @@ public class GameService implements IGameService {
 
     @Override
     public boolean isPlaying(final Player player) {
-        final IUser user;
+        final User user;
         if ((user = userService.searchForUUID(player.getUniqueId())) == null) return false;
         final Integer islandSlot = user.getProperties().getIslandSlot();
         if (islandSlot == null) return false;
@@ -151,24 +151,24 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public void addTimer(final IUser user) {
+    public void addTimer(final User user) {
         final Timer timer = new Timer(user.getProperties().getIslandSlot());
 
         this.userTimer.put(user.getUuid(), timer);
     }
 
     @Override
-    public boolean hasTimer(final IUser user) {
+    public boolean hasTimer(final User user) {
         return this.userTimer.containsKey(user.getUuid());
     }
 
     @Override
-    public Timer getTimer(IUser user) {
+    public Timer getTimer(User user) {
         return userTimer.get(user.getUuid());
     }
 
     @Override
-    public void updateTimer(final IUser user) {
+    public void updateTimer(final User user) {
         if (user == null) return;
         final Timer gameTimer = userTimer.get(user.getUuid());
         reset(user);
@@ -186,7 +186,6 @@ public class GameService implements IGameService {
             Util.message(player, Path.MESSAGES_NOT_BEATEN, new String[]{"%score%"}, lowestTimer.getResult() + "");
         } else {
             if (lowestTimer != null) {
-//                Util.message(player, Path.MESSAGES_BEATEN_SCORE, new String[]{"%calu_score%"}, (lowestTimer.getResult() - gameTimer.getResult()) + "");
                 Util.message(player, Path.MESSAGES_BEATEN_SCORE, new String[]{"%calu_score%"}, String.format("%.03f", lowestTimer.getResult() - gameTimer.getResult()));
             }
 
@@ -196,7 +195,7 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public void resetTimer(final IUser user) {
+    public void resetTimer(final User user) {
         if (user == null) return;
 
         userTimer.remove(user.getUuid());
@@ -204,7 +203,7 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public void reset(final IUser user) {
+    public void reset(final User user) {
         if (user == null) return;
 
         resetTimer(user);

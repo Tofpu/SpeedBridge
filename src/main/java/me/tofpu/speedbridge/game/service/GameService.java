@@ -1,34 +1,34 @@
 package me.tofpu.speedbridge.game.service;
 
 import me.tofpu.speedbridge.game.result.Result;
-import me.tofpu.speedbridge.island.IIsland;
+import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.mode.Mode;
-import me.tofpu.speedbridge.user.IUser;
+import me.tofpu.speedbridge.user.User;
 import me.tofpu.speedbridge.user.properties.timer.Timer;
 import org.bukkit.entity.Player;
 
-public interface IGameService {
+public interface GameService {
     Result join(final Player player);
 
     Result join(final Player player, final int slot);
 
     Result join(final Player player, final Mode mode);
 
-    Result join(final IUser user, final IIsland island);
+    Result join(final User user, final Island island);
 
     Result leave(final Player player);
 
     boolean isPlaying(final Player player);
 
-    void addTimer(final IUser user);
+    void addTimer(final User user);
 
-    boolean hasTimer(final IUser user);
+    boolean hasTimer(final User user);
 
-    Timer getTimer(final IUser user);
+    Timer getTimer(final User user);
 
-    void updateTimer(final IUser user);
+    void updateTimer(final User user);
 
-    void resetTimer(final IUser user);
+    void resetTimer(final User user);
 
-    void reset(final IUser user);
+    void reset(final User user);
 }

@@ -2,10 +2,10 @@ package me.tofpu.speedbridge.expansion;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.tofpu.speedbridge.expansion.type.ExpansionType;
-import me.tofpu.speedbridge.game.service.IGameService;
-import me.tofpu.speedbridge.user.IUser;
+import me.tofpu.speedbridge.game.service.GameService;
+import me.tofpu.speedbridge.user.User;
 import me.tofpu.speedbridge.user.properties.timer.Timer;
-import me.tofpu.speedbridge.user.service.IUserService;
+import me.tofpu.speedbridge.user.service.UserService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -14,10 +14,10 @@ import org.jetbrains.annotations.NotNull;
 public class BridgeExpansion extends PlaceholderExpansion {
     private final PluginDescriptionFile description;
 
-    private final IUserService userService;
-    private final IGameService gameService;
+    private final UserService userService;
+    private final GameService gameService;
 
-    public BridgeExpansion(final PluginDescriptionFile description, final IUserService userService, final IGameService gameService) {
+    public BridgeExpansion(final PluginDescriptionFile description, final UserService userService, final GameService gameService) {
         this.description = description;
         this.userService = userService;
         this.gameService = gameService;
@@ -54,7 +54,7 @@ public class BridgeExpansion extends PlaceholderExpansion {
         final ExpansionType type = ExpansionType.getMatch(params);
         if (type == null) return "";
 
-        final IUser user = userService.searchForUUID(player.getUniqueId());
+        final User user = userService.searchForUUID(player.getUniqueId());
         boolean isNull = user == null;
 
         final Timer timer;

@@ -2,46 +2,46 @@ package me.tofpu.speedbridge.game;
 
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.game.controller.GameController;
-import me.tofpu.speedbridge.game.service.IGameService;
-import me.tofpu.speedbridge.game.service.impl.GameService;
-import me.tofpu.speedbridge.island.service.IIslandService;
-import me.tofpu.speedbridge.island.service.impl.IslandService;
-import me.tofpu.speedbridge.lobby.service.ILobbyService;
-import me.tofpu.speedbridge.lobby.service.impl.LobbyService;
-import me.tofpu.speedbridge.user.service.IUserService;
-import me.tofpu.speedbridge.user.service.impl.UserService;
+import me.tofpu.speedbridge.game.service.GameService;
+import me.tofpu.speedbridge.game.service.impl.GameServiceImpl;
+import me.tofpu.speedbridge.island.service.IslandService;
+import me.tofpu.speedbridge.island.service.impl.IslandServiceImpl;
+import me.tofpu.speedbridge.lobby.service.LobbyService;
+import me.tofpu.speedbridge.lobby.service.impl.LobbyServiceImpl;
+import me.tofpu.speedbridge.user.service.UserService;
+import me.tofpu.speedbridge.user.service.impl.UserServiceImpl;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 
 public class Game {
-    private final IIslandService islandService;
-    private final IUserService userService;
+    private final IslandService islandService;
+    private final UserService userService;
 
-    private final ILobbyService lobbyService;
+    private final LobbyService lobbyService;
 
     private final GameController gameController;
-    private final IGameService gameService;
+    private final GameService gameService;
 
     private final DataManager dataManager;
 
     public Game(final Plugin plugin, final File directory) {
-        this.islandService = new IslandService();
-        this.userService = new UserService();
+        this.islandService = new IslandServiceImpl();
+        this.userService = new UserServiceImpl();
 
-        this.lobbyService = new LobbyService();
+        this.lobbyService = new LobbyServiceImpl();
 
         this.gameController = new GameController(islandService);
-        this.gameService = new GameService(plugin, islandService, userService, lobbyService);
+        this.gameService = new GameServiceImpl(plugin, islandService, userService, lobbyService);
 
         this.dataManager = new DataManager(directory, islandService, userService, lobbyService);
     }
 
-    public IIslandService getIslandService() {
+    public IslandService getIslandService() {
         return islandService;
     }
 
-    public IUserService getUserService() {
+    public UserService getUserService() {
         return userService;
     }
 
@@ -49,11 +49,11 @@ public class Game {
         return gameController;
     }
 
-    public IGameService getGameService() {
+    public GameService getGameService() {
         return gameService;
     }
 
-    public ILobbyService getLobbyService() {
+    public LobbyService getLobbyService() {
         return lobbyService;
     }
 

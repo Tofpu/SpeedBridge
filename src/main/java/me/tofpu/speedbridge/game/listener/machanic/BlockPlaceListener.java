@@ -1,11 +1,11 @@
 package me.tofpu.speedbridge.game.listener.machanic;
 
-import me.tofpu.speedbridge.game.service.IGameService;
-import me.tofpu.speedbridge.island.IIsland;
+import me.tofpu.speedbridge.game.service.GameService;
+import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
-import me.tofpu.speedbridge.island.service.IIslandService;
-import me.tofpu.speedbridge.user.IUser;
-import me.tofpu.speedbridge.user.service.IUserService;
+import me.tofpu.speedbridge.island.service.IslandService;
+import me.tofpu.speedbridge.user.User;
+import me.tofpu.speedbridge.user.service.UserService;
 import me.tofpu.speedbridge.util.Cuboid;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -14,11 +14,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 public class BlockPlaceListener implements Listener {
-    private final IUserService userService;
-    private final IIslandService islandService;
-    private final IGameService gameService;
+    private final UserService userService;
+    private final IslandService islandService;
+    private final GameService gameService;
 
-    public BlockPlaceListener(IUserService userService, IIslandService islandService, IGameService gameService) {
+    public BlockPlaceListener(UserService userService, IslandService islandService, GameService gameService) {
         this.userService = userService;
         this.islandService = islandService;
         this.gameService = gameService;
@@ -29,8 +29,8 @@ public class BlockPlaceListener implements Listener {
         final Player player = event.getPlayer();
         if (!gameService.isPlaying(player)) return;
 
-        final IUser user = userService.searchForUUID(player.getUniqueId());
-        final IIsland island = islandService.getIslandBySlot(user.getProperties().getIslandSlot());
+        final User user = userService.searchForUUID(player.getUniqueId());
+        final Island island = islandService.getIslandBySlot(user.getProperties().getIslandSlot());
 
         final Location location = event.getBlockPlaced().getLocation();
 
