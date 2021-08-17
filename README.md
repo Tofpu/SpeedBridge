@@ -4,7 +4,7 @@ I spent a full week working on this plugin for our fellow members, I'd like to s
 * IP: Squidical.net (owned & operated by Eben, not me, the developer!)
 
 ## Description
-* A speedbridging plugin that lets your players practice their bridging skills and compete in the leaderboards!
+* A speed bridging plugin that lets your players practice their bridging skills and compete in the leaderboards!
 
 ## Version
 * Native: 1.8.8 (might support newer versions)
