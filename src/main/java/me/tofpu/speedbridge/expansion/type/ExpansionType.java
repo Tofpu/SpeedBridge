@@ -1,7 +1,7 @@
 package me.tofpu.speedbridge.expansion.type;
 
 public enum ExpansionType {
-    SCORE, ISLAND, LIVE_TIMER;
+    SCORE, ISLAND, LIVE_TIMER, LEADERBOARD;
 
     public static ExpansionType getMatch(final String string) {
         for (final ExpansionType stage : ExpansionType.values()) {

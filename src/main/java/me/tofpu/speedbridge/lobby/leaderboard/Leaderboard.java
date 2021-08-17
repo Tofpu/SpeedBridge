@@ -124,6 +124,12 @@ public final class Leaderboard {
         return Util.colorize(builder.toString());
     }
 
+    public String parseAndGet(final int slot){
+        if (getMainLeaderboard().size() <= slot) return "N/A";
+        final BoardUser user = getMainLeaderboard().get(slot);
+        return user == null ? "N/A" : Util.colorize(user.getName() + " &a(" + user.getScore() + ")");
+    }
+
     public List<BoardUser> getMainLeaderboard() {
         return Lists.newArrayList(mainLeaderboard);
     }

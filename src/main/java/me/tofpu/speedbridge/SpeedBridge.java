@@ -83,7 +83,7 @@ public final class SpeedBridge extends JavaPlugin {
     public void initializePlaceholderApi() {
         if (DependencyRegister.get("PlaceholderAPI").getDependency() == null) return;
         getLogger().info("Hooked into PlaceholderAPI");
-        new BridgeExpansion(getDescription(), getGame().getUserService(), getGame().getGameService()).register();
+        new BridgeExpansion(getDescription(), getGame().getUserService(), getGame().getGameService(), getGame().getLobbyService()).register();
     }
 
     public void initializeListeners() {
