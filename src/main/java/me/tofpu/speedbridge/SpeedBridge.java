@@ -59,8 +59,6 @@ public final class SpeedBridge extends JavaPlugin {
         dataManager.initialize();
         ModeManager.getModeManager().initialize();
 
-        getGame().getLobbyService().getLeaderboard().initialize();
-
         DependencyRegister.loadAll(this);
         dataManager.load();
 
@@ -70,6 +68,8 @@ public final class SpeedBridge extends JavaPlugin {
 
         // RELOAD BUG FIX
         Bukkit.getOnlinePlayers().forEach(player -> dataManager.loadUser(player.getUniqueId()));
+
+        getGame().getLobbyService().getLeaderboard().initialize(this);
     }
 
     @Override

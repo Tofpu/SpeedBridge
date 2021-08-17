@@ -1,11 +1,14 @@
 package me.tofpu.speedbridge.lobby.leaderboard;
 
+import com.google.common.collect.Lists;
 import me.tofpu.speedbridge.lobby.leaderboard.data.BoardUser;
 import me.tofpu.speedbridge.user.User;
 import me.tofpu.speedbridge.user.properties.timer.Timer;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +22,7 @@ public final class Leaderboard {
     private final List<BoardUser> cacheLeaderboard;
 
     private final int limitSize;
-    private ScheduledFuture<?> update;
-    private boolean updated;
+    private BukkitTask update;
 
     public Leaderboard(final int limitSize) {
         this.limitSize = limitSize;
@@ -29,22 +31,16 @@ public final class Leaderboard {
         cacheLeaderboard = new ArrayList<>(limitSize);
     }
 
-    public void initialize() {
-        update = Executors.newScheduledThreadPool(1).scheduleAtFixedRate(() -> {
+    public void initialize(final Plugin plugin) {
+        update = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             mainLeaderboard.clear();
-            mainLeaderboard.addAll(sortGet());
-//            if (updated){
-//                updated = false;
-//                mainLeaderboard.clear();
-//                mainLeaderboard.addAll(sortGet());
-//
-////                mainLeaderboard.sort(BoardUser::compareTo);
-//            }
-        }, 5, 10, TimeUnit.SECONDS);
+            List<BoardUser> users = sortGet();
+            mainLeaderboard.addAll(users.subList(0, Math.min(users.size(), 10)));
+        }, 20 * 5, 20 * 10);
     }
 
     public void cancel() {
-        this.update.cancel(true);
+        this.update.cancel();
     }
 
     public void check(final User user) {
@@ -65,6 +61,7 @@ public final class Leaderboard {
 
     public List<BoardUser> sortGet() {
         final List<BoardUser> players = new ArrayList<>(getCacheLeaderboard());
+        if (players.isEmpty()) return players;
 
         int max;
         for (int i = 0; i < players.size(); i++) {
@@ -74,7 +71,6 @@ public final class Leaderboard {
 
             for (int j = i; j < players.size(); j++) {
                 playerJ = players.get(j);
-
                 if (playerJ.getScore() < playerMax.getScore()) {
                     max = j;
                     playerMax = players.get(max);
@@ -86,8 +82,6 @@ public final class Leaderboard {
             if (!placeholder.equals(playerMax)) players.set(max, placeholder);
         }
 
-//        final List<BoardUser> sort = new ArrayList<>(new HashSet<>(players));
-//        sort.sort(BoardUser::compareTo);
         return players;
     }
 
@@ -99,9 +93,9 @@ public final class Leaderboard {
     }
 
     public void add(final BoardUser boardUser) {
-        for (final BoardUser user : cacheLeaderboard) {
+        if (boardUser == null || boardUser.getScore() == null) return;
+        for (final BoardUser user : getCacheLeaderboard()) {
             if (user.equals(boardUser)) {
-//                System.out.println(user.getName() + " equals " + boardUser.getName());
                 if (user.getScore() > boardUser.getScore()) {
                     user.setScore(boardUser.getScore());
                 }
@@ -115,7 +109,6 @@ public final class Leaderboard {
         for (final BoardUser user : users) {
             add(user);
         }
-//        cacheLeaderboard.addAll(users);
     }
 
     public String printLeaderboard() {
@@ -131,15 +124,11 @@ public final class Leaderboard {
         return Util.colorize(builder.toString());
     }
 
-    public boolean isUpdated() {
-        return updated;
-    }
-
     public List<BoardUser> getMainLeaderboard() {
-        return new ArrayList<>(mainLeaderboard);
+        return Lists.newArrayList(mainLeaderboard);
     }
 
     public List<BoardUser> getCacheLeaderboard() {
-        return new ArrayList<>(cacheLeaderboard);
+        return Lists.newArrayList(cacheLeaderboard);
     }
 }

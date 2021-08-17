@@ -72,7 +72,7 @@ public class MainCommand extends BridgeBaseCommand {
     @Subcommand("leaderboard")
     @CommandAlias("leaderboard")
     @Description("Shows you the top 10 best performers")
-    public void onLeaderboard(final Player player) {
+    public void onLeaderboard(final CommandSender player) {
         player.sendMessage(lobbyService.getLeaderboard().printLeaderboard());
     }
 
