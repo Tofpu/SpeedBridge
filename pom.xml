@@ -6,7 +6,7 @@
 
     <groupId>me.tofpu</groupId>
     <artifactId>speedbridge</artifactId>
-    <version>0.9.0</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>SpeedBridge</name>
@@ -39,6 +39,16 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <relocations>
+                                <relocation>
+                                    <pattern>co.aikar.commands</pattern>
+                                    <shadedPattern>me.tofpu.speedbridge.acf</shadedPattern> <!-- Replace this -->
+                                </relocation>
+                                <relocation>
+                                    <pattern>co.aikar.locales</pattern>
+                                    <shadedPattern>me.tofpu.speedbridge.locales</shadedPattern> <!-- Replace this -->
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
