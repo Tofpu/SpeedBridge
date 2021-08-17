@@ -36,7 +36,11 @@ messages:
     - " &eand once you're done with that, type &6\"/island finish\""
     - " "
     - "&63. &eHow to join an island:"
-    - " &63.1. &eYou can join an island by \"/join (island-slot)\""
+    - " &63.1. &eYou can join an island by typing &6\"/join (island-slot)\""
+    - " "
+    - "&64. &eHow to set a lobby:"
+    - " &64.1. &eYou can set a lobby by typing &6\"/island set lobby\""
+    - " &64.2. &eYou can go to the lobby by typing &6\"/lobby\""
     - " &e&l&m<&r&6&m----------------&e&l&m>"
 
   not-beaten: "&cYou didn't beat your personal best score. (%score% seconds)"
