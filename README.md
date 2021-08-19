@@ -9,6 +9,9 @@ I spent a full week working on this plugin for our fellow members, I'd like to s
 ## Version
 * Native: 1.8.8 (might support newer versions)
 
+# Official Tutorial (Shoutout to Eben for doing this)
+https://youtu.be/Sx9fTFKCnhw
+
 ## Screenshots
 ![image](https://user-images.githubusercontent.com/47629321/129748003-ca82f6cc-e49c-4120-a9c1-755cbc526a15.png)
 ![image](https://user-images.githubusercontent.com/47629321/129748263-3bca12f2-0d90-44f7-9360-8c48967f3148.png)
