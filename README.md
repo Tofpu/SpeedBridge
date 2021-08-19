@@ -1,15 +1,20 @@
+## Join our Discord!
+* https://discord.gg/yGkS3Dh
+
 I spent a full week working on this plugin for our fellow members, I'd like to shout out to Eben for suggesting this idea & helping me along the way to get it stable as it is.
 
-## Live Server
-* IP: Squidical.net (owned & operated by Eben, not me, the developer!)
+---
 
 ## Description
 * A speed bridging plugin that lets your players practice their bridging skills and compete in the leaderboards!
 
+## Live Server
+* IP: Squidical.net (owned & operated by Eben, not me, the developer!)
+
 ## Version
 * Native: 1.8.8 (might support newer versions)
 
-# Official Tutorial (Shoutout to Eben for doing this)
+## Official Tutorial (Shoutout to Eben for doing this)
 https://youtu.be/Sx9fTFKCnhw
 
 ## Screenshots
