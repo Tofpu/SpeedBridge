@@ -5,7 +5,6 @@ import com.google.common.collect.Maps;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.tofpu.speedbridge.data.file.config.Config;
 import me.tofpu.speedbridge.data.file.config.path.Path;
-import me.tofpu.speedbridge.dependency.register.DependencyRegister;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -18,6 +17,8 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Util {
+    public static boolean isPlaceholderHooked = false;
+
     public static boolean isEqual(final Location a, final Location b) {
         return ((a.getBlockX() == b.getBlockX() && a.getBlockY() == b.getBlockY() && a.getBlockY() == b.getBlockY()));
     }
@@ -111,7 +112,7 @@ public class Util {
     }
 
     public static void message(final CommandSender sender, String message, final String[] replaceArray, boolean usePlaceholder, final String... replaceWith) {
-        if (usePlaceholder && DependencyRegister.get("PlaceholderAPI") != null && sender instanceof Player)
+        if (Util.isPlaceholderHooked && usePlaceholder && sender instanceof Player)
             message = PlaceholderAPI.setPlaceholders((Player) sender, message);
         sender.sendMessage(colorize(WordReplacer.replace(message, replaceArray, replaceWith)));
     }

@@ -18,6 +18,7 @@ import me.tofpu.speedbridge.island.mode.manager.ModeManager;
 import me.tofpu.speedbridge.island.service.IslandService;
 import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.user.service.UserService;
+import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -82,6 +83,7 @@ public final class SpeedBridge extends JavaPlugin {
 
     public void initializePlaceholderApi() {
         if (DependencyRegister.get("PlaceholderAPI").getDependency() == null) return;
+        Util.isPlaceholderHooked = true;
         getLogger().info("Hooked into PlaceholderAPI");
         new BridgeExpansion(getDescription(), getGame().getUserService(), getGame().getGameService(), getGame().getLobbyService()).register();
     }
