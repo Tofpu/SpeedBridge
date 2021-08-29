@@ -3,7 +3,7 @@
 messages:
   joined: "&aGood Luck!"
   left: ""
-  not-available: "&cThe island is not available right now, try again later!"
+  not-available: "&cThere is no available island right now, try again later!"
   not-playing: "&cYou're not playing!"
   already-joined: "&cYou're already joined!"
   your-score: "&eYour personal best score is: &a%score%&e!"

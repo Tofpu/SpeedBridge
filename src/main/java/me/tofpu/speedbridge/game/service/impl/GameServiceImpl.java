@@ -15,9 +15,9 @@ import me.tofpu.speedbridge.user.properties.timer.Timer;
 import me.tofpu.speedbridge.user.service.UserService;
 import me.tofpu.speedbridge.util.Cuboid;
 import me.tofpu.speedbridge.util.Util;
+import me.tofpu.speedbridge.util.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -104,7 +104,7 @@ public class GameServiceImpl implements GameService {
         player.setHealth(player.getMaxHealth());
         player.setFoodLevel(20);
 
-        inventory.addItem(new ItemStack(Material.WOOL, 64));
+        inventory.addItem(new ItemStack(XMaterial.WHITE_WOOL.parseMaterial(), 64));
 
         final TwoSection selection = (TwoSection) island.getProperties().get("selection");
         final Cuboid cuboid = new Cuboid(selection.getPointA(), selection.getPointB());
