@@ -111,7 +111,11 @@ public class MainCommand extends BridgeBaseCommand {
                 path = Path.MESSAGES_ALREADY_JOINED;
                 break;
             case FULL:
+            case INVALID_ISLAND:
                 path = Path.MESSAGES_NOT_AVAILABLE;
+                break;
+            case NONE:
+                path = Path.MESSAGES_NO_AVAILABLE;
                 break;
             case SUCCESS:
                 path = Path.MESSAGES_JOINED;
@@ -120,7 +124,7 @@ public class MainCommand extends BridgeBaseCommand {
                 if (player.isOp()) {
                     path = Path.MESSAGES_NO_LOBBY;
                     break;
-                } else path = Path.MESSAGES_NOT_AVAILABLE;
+                } else path = Path.MESSAGES_NO_AVAILABLE;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + result);

@@ -173,6 +173,7 @@ public class AdminCommand extends BridgeBaseCommand {
 
     @Subcommand("cancel")
     @Description("Cancels the current island setup")
+    @CommandPermission("island.modify")
     public void onCancel(final Player player) {
         if (gameService.isPlaying(player)) {
             Util.message(player, Path.MESSAGES_CANNOT_EDIT);

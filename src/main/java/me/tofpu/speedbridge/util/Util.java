@@ -106,6 +106,7 @@ public class Util {
 
     public static void message(final CommandSender sender, Path path, final String[] replaceArray, final String... replaceWith) {
         String message = Config.TranslateOutput.to(path);
+        if (message == null || message.equals("null")) message = path.getDefaultMessage();
         if (message == null || message.isEmpty()) return;
 
         message(sender, message, replaceArray, true, replaceWith);

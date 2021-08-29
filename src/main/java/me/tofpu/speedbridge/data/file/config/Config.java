@@ -77,6 +77,7 @@ public class Config {
 
     public static class TranslateOutput {
         public static String to(Path path) {
+            if (path == null) return null;
             switch (path.getType()) {
                 case INTEGER:
                     return toInteger(path) + "";

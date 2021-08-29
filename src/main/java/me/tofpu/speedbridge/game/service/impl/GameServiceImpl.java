@@ -1,5 +1,6 @@
 package me.tofpu.speedbridge.game.service.impl;
 
+import com.google.common.collect.Lists;
 import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.GameService;
@@ -74,8 +75,27 @@ public class GameServiceImpl implements GameService {
         final User user = userService.getOrDefault(player.getUniqueId());
         if (user.getProperties().getIslandSlot() != null) return Result.DENY;
 
-        final List<Island> islands = mode == null ? (mode = ModeManager.getModeManager().getDefault()) == null ? islandService.getAvailableIslands() : islandService.getAvailableIslands(mode) : islandService.getAvailableIslands(mode);
-        if (islands.size() < 1) return Result.FULL;
+        final List<Island> islands;
+        boolean anyIslands = false;
+
+        if (mode == null) {
+            // trying to get the default mode defined in the settings
+            mode = ModeManager.getModeManager().getDefault();
+            // default islands
+            final List<Island> defaultIslands = mode == null ? Lists.newArrayList() : islandService.getAvailableIslands(mode);
+            islands = defaultIslands.isEmpty() ?
+                            islandService.getAvailableIslands() :
+                            defaultIslands;
+
+            if (defaultIslands.isEmpty()){
+                // that means we grabbed the global available islands
+                anyIslands = true;
+            }
+        } else islands = islandService.getAvailableIslands(mode);
+        if (islands.size() < 1) {
+            if (!anyIslands) return Result.FULL;
+            else return Result.NONE;
+        }
 
         return join(user, islands.get(0));
     }
@@ -86,7 +106,7 @@ public class GameServiceImpl implements GameService {
             return Result.INVALID_LOBBY;
         }
 
-        if (island == null) return Result.DENY;
+        if (island == null) return Result.INVALID_ISLAND;
         else if (!island.isAvailable()) return Result.FULL;
 
         user.getProperties().setIslandSlot(island.getSlot());

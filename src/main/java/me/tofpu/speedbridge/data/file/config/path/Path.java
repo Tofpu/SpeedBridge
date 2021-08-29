@@ -7,6 +7,7 @@ public enum Path {
 
     MESSAGES_JOINED("messages.joined"),
     MESSAGES_LEFT("messages.left"),
+    MESSAGES_NO_AVAILABLE("messages.no-available", "&cThere is no available island right now, try again later!"),
     MESSAGES_NOT_AVAILABLE("messages.not-available"),
     MESSAGES_NOT_PLAYING("messages.not-playing"),
     MESSAGES_ALREADY_JOINED("messages.already-joined"),
@@ -38,9 +39,16 @@ public enum Path {
     MESSAGES_NO_COMPLETE("messages.no-complete");
     private final String path;
     private OutputType type;
+    private String defaultMessage;
 
     Path(String path) {
         this(path, OutputType.STRING);
+    }
+
+    Path(String path, String defaultMessage) {
+        this.path = path;
+        this.type = OutputType.STRING;
+        this.defaultMessage = defaultMessage;
     }
 
     Path(String path, OutputType type) {
@@ -50,6 +58,10 @@ public enum Path {
 
     public String getPath() {
         return path;
+    }
+
+    public String getDefaultMessage() {
+        return defaultMessage;
     }
 
     public OutputType getType() {
