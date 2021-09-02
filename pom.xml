@@ -85,6 +85,11 @@
             <id>aikar</id>
             <url>https://repo.aikar.co/content/groups/aikar/</url>
         </repository>
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -112,6 +117,14 @@
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>2.2.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- RPF API'S /-->
+        <dependency>
+            <groupId>com.github.request-plugins-for-free</groupId>
+            <artifactId>Dependency</artifactId>
+            <version>e53d5faab1</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
