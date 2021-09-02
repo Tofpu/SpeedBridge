@@ -1,18 +1,41 @@
 > *You can join our [discord](https://discord.gg/yGkS3Dh) to request something like this!*
 
-**Note from the Developer**  
+> **Note from the Developer**  
 I spent a full week working on this plugin for our fellow members, I'd like to shout out to Eben for suggesting this idea & helping me along the way to get it stable as it is.
 
 ---
+![bannar](https://github.com/Tofpu/media/blob/master/images/banners/rpf-bannar.jpg?raw=true)
+
 **SpeedBridge** is a speed bridging plugin that lets your players practice their bridging skills and compete in the leaderboards! It's natively built on 1.8.8 but might support more modern versions of Minecraft. You can also check the live version (whose not operated/hosted by me) at **Squidical.net**.
 
-**Official Tutorial (Shoutout to Eben for doing this)**  
+## Official Tutorial (Shoutout to Eben for doing this)  
 https://youtu.be/Sx9fTFKCnhw
 
-**Screenshots**  
-![image](https://user-images.githubusercontent.com/47629321/129748003-ca82f6cc-e49c-4120-a9c1-755cbc526a15.png)
-![image](https://user-images.githubusercontent.com/47629321/129748263-3bca12f2-0d90-44f7-9360-8c48967f3148.png)
+## Commands
+### General Commands
+| Command | Alias | Syntax | Description | Permission Node 
+| ------- | ----- | ------ | ----------- | --------------- |
+| `/[game/speedbridge] join` | `/join` | `[mode]` | Joins a practice island | N/A |
+| `/[game/speedbridge] leave` | `/leave` | N/A | Leaves the practice island | N/A |
+| `/[game/speedbridge] lobby` | `/lobby` | N/A | Teleports you to the lobby | N/A |
+| `/[game/speedbridge] leaderboard` | `/leaderboard` | N/A | Lists the top 10 best performers | N/A |
+| `/[game/speedbridge] score` | `/score` | N/A | Your personal best score | N/A |
 
+### Administrators Commands
+| Command | Alias | Syntax | Description | Permission Node 
+| ------- | ----- | ------ | ----------- | --------------- |
+| `/island` | N/A | N/A | Gaining access to /island & other basic commands | island.info |
+| `/island create` | `/create` | `<slot>` | Creates an island in that particular slot | island.create |
+| `/island set` | `/set` | `<location-type>` | Sets the current location point | island.set |
+| `/island modify` | `/modify` | `<slot>` | Modify an island location points | island.modify |
+| `/island finish` | `/finish` | N/A | Completes your current island setup | island.finish |
+| `/island cancel` | `/cancel` | N/A | Cancels your current island setup | island.modify |
+| `/island reload` | N/A | N/A | Applies the new changes | island.reload |
+| `/island expansions` | N/A | N/A | Lists the PlaceholderAPI expansions | island.info |
+| `/island guide` | N/A | N/A | A simple guide for starters | island.info |
+
+
+**Screenshots**  
 ![image](https://user-images.githubusercontent.com/47629321/129747833-047ba1c7-96de-47df-87f9-64e5ae4c3597.png)
 
 ![image](https://user-images.githubusercontent.com/47629321/129747461-aafe9755-c1c9-441a-965c-168b1058fd1f.png)
