@@ -48,7 +48,7 @@ public class MainCommand extends BridgeBaseCommand {
     @CommandAlias("join")
     @Syntax("[mode]|[slot]")
     @CommandCompletion("@modes|@availableIslands")
-    @Description("To get started practicing")
+    @Description("Joins a practice island")
     public void onJoin(final Player player, @Optional String arg) {
         Integer integer = Util.parseInt(arg);
         Mode mode = null;
@@ -60,7 +60,7 @@ public class MainCommand extends BridgeBaseCommand {
 
     @Subcommand("leave")
     @CommandAlias("leave")
-    @Description("To leave the practicing island")
+    @Description("Leaves the practice island")
     public void onLeave(final Player player) {
         if (!gameService.isPlaying(player)) {
             Util.message(player, Path.MESSAGES_NOT_PLAYING);
@@ -71,7 +71,7 @@ public class MainCommand extends BridgeBaseCommand {
 
     @Subcommand("leaderboard")
     @CommandAlias("leaderboard")
-    @Description("Shows you the top 10 best performers")
+    @Description("Lists the top 10 best performers")
     public void onLeaderboard(final CommandSender player) {
         player.sendMessage(lobbyService.getLeaderboard().printLeaderboard());
     }
@@ -89,7 +89,7 @@ public class MainCommand extends BridgeBaseCommand {
 
     @Subcommand("lobby")
     @CommandAlias("lobby")
-    @Description("Teleports you back to the Lobby")
+    @Description("Teleports you to the lobby")
     public void onLobby(final Player player) {
         if (gameService.isPlaying(player)) {
             gameService.leave(player);

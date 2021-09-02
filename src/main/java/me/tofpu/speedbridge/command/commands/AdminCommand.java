@@ -81,7 +81,7 @@ public class AdminCommand extends BridgeBaseCommand {
     @CommandPermission("island.set")
     @CommandCompletion("@setupStage")
     @Syntax("<location-type>")
-    @Description("Set the island locations")
+    @Description("Sets the current location point")
     public void onSet(final Player player, final String arg) {
         if (gameService.isPlaying(player)) {
             Util.message(player, Path.MESSAGES_CANNOT_EDIT);
@@ -117,7 +117,7 @@ public class AdminCommand extends BridgeBaseCommand {
 
     @Subcommand("finish")
     @CommandPermission("island.finish")
-    @Description("The island becomes available if the setup is completed")
+    @Description("Completes your current island setup")
     public void onFinish(final Player player) {
         if (gameService.isPlaying(player)) {
             Util.message(player, Path.MESSAGES_CANNOT_EDIT);
@@ -144,7 +144,7 @@ public class AdminCommand extends BridgeBaseCommand {
 
     @Subcommand("modify")
     @Syntax("<slot>")
-    @Description("Allows you to modify an islands' locations")
+    @Description("Modify an island location points")
     @CommandPermission("island.modify")
     public void onModify(final Player player, final int slot) {
         if (gameService.isPlaying(player)) {
@@ -172,7 +172,7 @@ public class AdminCommand extends BridgeBaseCommand {
     }
 
     @Subcommand("cancel")
-    @Description("Cancels the current island setup")
+    @Description("Cancels your current island setup")
     @CommandPermission("island.modify")
     public void onCancel(final Player player) {
         if (gameService.isPlaying(player)) {
@@ -197,7 +197,7 @@ public class AdminCommand extends BridgeBaseCommand {
     }
 
     @Subcommand("reload")
-    @Description("Apply new changes to settings & messages file")
+    @Description("Applies the new changes")
     @CommandPermission("island.reload")
     public void onReload(final CommandSender sender) {
         Config.reload(plugin);
@@ -205,7 +205,7 @@ public class AdminCommand extends BridgeBaseCommand {
     }
 
     @Subcommand("expansions")
-    @Description("Shows you the PlaceholderAPI extensions")
+    @Description("Lists the PlaceholderAPI extensions")
     @CommandPermission("island.info")
     public void onExpansion(final CommandSender sender) {
         final String format = " &6&l&m*&r &e%bridge_#name#%";
@@ -217,7 +217,7 @@ public class AdminCommand extends BridgeBaseCommand {
 
     //TODO: MAKE THIS CONFIGURABLE
     @Subcommand("guide")
-    @Description("A Guide for Administrators")
+    @Description("A simple guide for starters")
     @CommandPermission("island.info")
     public void onGuide(final CommandSender sender) {
         Util.message(sender, Path.MESSAGES_GUIDE);
