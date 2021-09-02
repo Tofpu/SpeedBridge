@@ -19,6 +19,7 @@ import me.tofpu.speedbridge.island.service.IslandService;
 import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.user.service.UserService;
 import me.tofpu.speedbridge.util.Util;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -27,7 +28,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Arrays;
 import java.util.List;
 
-// TODO: Complete all the to-do's
 public final class SpeedBridge extends JavaPlugin {
     private final List<Listener> listeners;
 
@@ -66,6 +66,8 @@ public final class SpeedBridge extends JavaPlugin {
         initializePlaceholderApi();
         initializeListeners();
         new CommandHandler(getGame(), this);
+
+        new Metrics(this, 12679);
 
         // RELOAD BUG FIX
         Bukkit.getOnlinePlayers().forEach(player -> dataManager.loadUser(player.getUniqueId()));
