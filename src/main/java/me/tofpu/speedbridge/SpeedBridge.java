@@ -4,7 +4,6 @@ import com.github.requestpluginsforfree.config.ConfigAPI;
 import com.github.requestpluginsforfree.config.type.identifier.ConfigIdentifier;
 import com.github.requestpluginsforfree.dependency.api.DependencyAPI;
 import com.github.requestpluginsforfree.dependency.impl.PlaceholderDependency;
-import me.tofpu.speedbridge.command.CommandHandler;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.data.listener.PlayerJoinListener;
 import me.tofpu.speedbridge.data.listener.PlayerQuitListener;
@@ -21,7 +20,6 @@ import me.tofpu.speedbridge.island.service.IslandService;
 import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.user.service.UserService;
 import me.tofpu.speedbridge.util.Util;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -56,39 +54,39 @@ public final class SpeedBridge extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        final DataManager dataManager = getGame().getDataManager();
-        initialize(dataManager);
-
-        // RELOAD BUG FIX
-        Bukkit.getOnlinePlayers().forEach(player -> dataManager.loadUser(player.getUniqueId()));
-
-        getGame().getLobbyService().getLeaderboard().initialize(this);
+        initialize();
+        load();
     }
 
     @Override
     public void onDisable() {
-        final DataManager dataManager = this.game.getDataManager();
-        dataManager.save();
+        getGame().getDataManager().save();
 
         getGame().getLobbyService().getLeaderboard().cancel();
     }
 
-    private void initialize(final DataManager dataManager){
-        // initializes the files
-        dataManager.initialize(this, getDataFolder());
-        dataManager.load();
-
+    private void initialize(){
+        final DataManager dataManager = getGame().getDataManager();
+        // TODO: REMOVING THIS SOON
         final ConfigIdentifier settingsIdentifier = ConfigIdentifier.of("settings", dataManager.getPluginFiles()[0].configuration());
         final ConfigIdentifier messagesIdentifier = ConfigIdentifier.of("messages", dataManager.getPluginFiles()[1].configuration());
-        ConfigAPI.initialize(settingsIdentifier, messagesIdentifier);
 
+        // initializes the files
+        dataManager.initialize(this, getDataFolder());
+
+        ConfigAPI.initialize(settingsIdentifier, messagesIdentifier);
         ModeManager.getModeManager().initialize();
 
         initializePlaceholderApi();
         initializeListeners();
+    }
 
-        new CommandHandler(getGame(), this);
-        new Metrics(this, 12679);
+    private void load(){
+        game.getDataManager().load();
+        // RELOAD BUG FIX
+        Bukkit.getOnlinePlayers().forEach(player -> getGame().getDataManager().loadUser(player.getUniqueId()));
+        // starting the leaderboard
+        getGame().getLobbyService().getLeaderboard().start(this);
     }
 
     private void initializePlaceholderApi() {

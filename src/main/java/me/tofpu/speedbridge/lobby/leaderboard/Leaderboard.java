@@ -28,12 +28,12 @@ public final class Leaderboard {
         cacheLeaderboard = new ArrayList<>(limitSize);
     }
 
-    public void initialize(final Plugin plugin) {
+    public void start(final Plugin plugin) {
         update = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             mainLeaderboard.clear();
             List<BoardUser> users = sortGet();
             mainLeaderboard.addAll(users.subList(0, Math.min(users.size(), 10)));
-        }, 20 * 5, 20 * 10);
+        }, 0, 20 * 10);
     }
 
     public void cancel() {
