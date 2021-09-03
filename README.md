@@ -6,7 +6,9 @@ I spent a full week working on this plugin for our fellow members, I'd like to s
 ---
 ![bannar](https://github.com/Tofpu/media/blob/master/images/banners/rpf-bannar.jpg?raw=true)
 
-**SpeedBridge** is a speed bridging plugin that lets your players practice their bridging skills and compete in the leaderboards! It's natively built on 1.8.8 but might support more modern versions of Minecraft. You can also check the live version (whose not operated/hosted by me) at **Squidical.net**.
+**SpeedBridge** is a bridging plugin that lets your players score a timestamp by bridging from A to B as fast as possible. This is for people who would want to train their bridging skills, experiment with other bridging techniques or play competitively and gain a spot on the leaderboard.
+
+You can also check the live version (whose not operated/hosted by me) at **Squidical.net**.
 
 ## Official Tutorial (Shoutout to Eben for doing this)  
 https://youtu.be/Sx9fTFKCnhw
