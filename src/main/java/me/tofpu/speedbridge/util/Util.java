@@ -3,8 +3,7 @@ package me.tofpu.speedbridge.util;
 import co.aikar.commands.RegisteredCommand;
 import com.google.common.collect.Maps;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.tofpu.speedbridge.data.file.config.Config;
-import me.tofpu.speedbridge.data.file.config.path.Path;
+import me.tofpu.speedbridge.data.file.path.Path;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -100,12 +99,12 @@ public class Util {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    public static void message(final CommandSender sender, Path path) {
+    public static void message(final CommandSender sender, Path.Value<?> path) {
         message(sender, path, null);
     }
 
-    public static void message(final CommandSender sender, Path path, final String[] replaceArray, final String... replaceWith) {
-        String message = Config.TranslateOutput.to(path);
+    public static void message(final CommandSender sender, Path.Value<?> path, final String[] replaceArray, final String... replaceWith) {
+        String message = (String) path.getValue();
         if (message == null || message.equals("null")) message = path.getDefaultMessage();
         if (message == null || message.isEmpty()) return;
 

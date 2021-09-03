@@ -1,10 +1,17 @@
 package me.tofpu.speedbridge.data;
 
+import com.github.requestpluginsforfree.config.ConfigAPI;
+import com.github.requestpluginsforfree.config.type.identifier.ConfigIdentifier;
+import com.github.requestpluginsforfree.fileutil.file.PluginFile;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import me.tofpu.speedbridge.SpeedBridge;
 import me.tofpu.speedbridge.data.adapter.location.LocationAdapter;
+import me.tofpu.speedbridge.data.file.path.Path;
+import me.tofpu.speedbridge.data.file.path.type.PathType;
+import me.tofpu.speedbridge.data.file.type.MessageFile;
+import me.tofpu.speedbridge.data.file.type.SettingsFile;
 import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.adapter.IslandAdapter;
 import me.tofpu.speedbridge.island.service.IslandService;
@@ -15,11 +22,15 @@ import me.tofpu.speedbridge.user.User;
 import me.tofpu.speedbridge.user.adapter.UserAdapter;
 import me.tofpu.speedbridge.user.service.UserService;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class DataManager {
@@ -38,22 +49,27 @@ public class DataManager {
     private final LobbyService lobbyService;
 
     private final File[] files;
+    private final PluginFile[] pluginFiles;
 
-    public DataManager(final File parentDirectory, final IslandService islandService, final UserService userService, final LobbyService lobbyService) {
+    public DataManager(final IslandService islandService, final UserService userService, final LobbyService lobbyService) {
         this.files = new File[5];
-
-        this.files[0] = parentDirectory;
-        this.files[1] = new File(parentDirectory, "islands");
-        this.files[2] = new File(parentDirectory, "users");
-        this.files[3] = new File(parentDirectory, "lobby.json");
-        this.files[4] = new File(parentDirectory, "leaderboard.json");
+        this.pluginFiles = new PluginFile[2];
 
         this.islandService = islandService;
         this.userService = userService;
         this.lobbyService = lobbyService;
     }
 
-    public void initialize() {
+    public void initialize(final Plugin plugin, final File parentDirectory) {
+        this.files[0] = parentDirectory;
+        this.files[1] = new File(parentDirectory, "islands");
+        this.files[2] = new File(parentDirectory, "users");
+        this.files[3] = new File(parentDirectory, "lobby.json");
+        this.files[4] = new File(parentDirectory, "leaderboard.json");
+
+        this.pluginFiles[0] = new SettingsFile(plugin, parentDirectory);
+        this.pluginFiles[1] = new MessageFile(plugin, parentDirectory);
+
         for (final File file : files) {
             if (!file.exists()) {
                 if (file.getName().contains(".")) {
@@ -64,6 +80,22 @@ public class DataManager {
                     }
                 } else file.mkdirs();
             }
+        }
+
+        for (final PluginFile file : pluginFiles) {
+            file.initialize(false);
+        }
+    }
+
+    public void reload(){
+        // TODO: combine file & config, it's basically the same
+        for (final PathType type : PathType.values()){
+            final String name = type.name().toLowerCase(Locale.ROOT);
+            ConfigAPI.get(name).configuration(YamlConfiguration.loadConfiguration(new File(files[0], name + ".yml")));
+        }
+
+        for (final Path.Value<?> value : Path.values()){
+            value.reload();
         }
     }
 
@@ -102,5 +134,9 @@ public class DataManager {
         islandService.saveAll(GSON, files[1]);
         userService.saveAll(GSON, files[2]);
         lobbyService.save(GSON, files[3], files[4]);
+    }
+
+    public PluginFile[] getPluginFiles() {
+        return pluginFiles;
     }
 }

@@ -3,8 +3,8 @@ package me.tofpu.speedbridge.command.commands;
 import co.aikar.commands.annotation.*;
 import me.tofpu.speedbridge.SpeedBridge;
 import me.tofpu.speedbridge.command.commands.base.BridgeBaseCommand;
-import me.tofpu.speedbridge.data.file.config.Config;
-import me.tofpu.speedbridge.data.file.config.path.Path;
+import me.tofpu.speedbridge.data.DataManager;
+import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.expansion.type.ExpansionType;
 import me.tofpu.speedbridge.game.controller.GameController;
 import me.tofpu.speedbridge.game.controller.stage.SetupStage;
@@ -25,13 +25,15 @@ public class AdminCommand extends BridgeBaseCommand {
     private final GameService gameService;
 
     private final GameController gameController;
+    private final DataManager dataManager;
 
-    public AdminCommand(SpeedBridge plugin, final LobbyService lobbyService, final GameService gameService, final GameController gameController) {
+    public AdminCommand(SpeedBridge plugin, final LobbyService lobbyService, final GameService gameService, final GameController gameController, final DataManager dataManager) {
         super("island");
         this.plugin = plugin;
         this.lobbyService = lobbyService;
         this.gameService = gameService;
         this.gameController = gameController;
+        this.dataManager = dataManager;
     }
 
     @Override
@@ -62,7 +64,7 @@ public class AdminCommand extends BridgeBaseCommand {
         }
         final Result result = gameController.createIsland(player, slot);
 
-        final Path path;
+        final Path.Value<?> path;
         switch (result) {
             case SUCCESS:
                 path = Path.MESSAGES_ISLAND_CREATION;
@@ -100,7 +102,7 @@ public class AdminCommand extends BridgeBaseCommand {
         }
         final Result result = gameController.setupIsland(player, stage);
 
-        final Path path;
+        final Path.Value<?> path;
         switch (result) {
             case SUCCESS:
                 path = Path.MESSAGES_LOBBY_LOCATION;
@@ -125,7 +127,7 @@ public class AdminCommand extends BridgeBaseCommand {
         }
         final Result result = gameController.finishSetup(player);
 
-        final Path path;
+        final Path.Value<?> path;
         switch (result) {
             case SUCCESS:
                 path = Path.MESSAGES_ISLAND_COMPLETED;
@@ -153,7 +155,7 @@ public class AdminCommand extends BridgeBaseCommand {
         }
         final Result result = gameController.modifyIsland(player, slot);
 
-        final Path path;
+        final Path.Value<?> path;
         switch (result) {
             case SUCCESS:
                 path = Path.MESSAGES_ISLAND_MODIFICATION;
@@ -181,7 +183,7 @@ public class AdminCommand extends BridgeBaseCommand {
         }
         final Result result = gameController.cancelSetup(player);
 
-        final Path path;
+        final Path.Value<?> path;
         switch (result) {
             case SUCCESS:
                 path = Path.MESSAGES_CANCEL_SETUP;
@@ -200,7 +202,7 @@ public class AdminCommand extends BridgeBaseCommand {
     @Description("Applies the new changes")
     @CommandPermission("island.reload")
     public void onReload(final CommandSender sender) {
-        Config.reload(plugin);
+        dataManager.reload();
         Util.message(sender, Path.MESSAGES_RELOADED);
     }
 

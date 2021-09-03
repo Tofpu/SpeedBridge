@@ -1,14 +1,13 @@
 package me.tofpu.speedbridge;
 
+import com.github.requestpluginsforfree.config.ConfigAPI;
+import com.github.requestpluginsforfree.config.type.identifier.ConfigIdentifier;
 import com.github.requestpluginsforfree.dependency.api.DependencyAPI;
 import com.github.requestpluginsforfree.dependency.impl.PlaceholderDependency;
-import com.github.requestpluginsforfree.dependency.registry.DependencyAPI;
 import me.tofpu.speedbridge.command.CommandHandler;
 import me.tofpu.speedbridge.data.DataManager;
-import me.tofpu.speedbridge.data.file.config.Config;
 import me.tofpu.speedbridge.data.listener.PlayerJoinListener;
 import me.tofpu.speedbridge.data.listener.PlayerQuitListener;
-import me.tofpu.speedbridge.dependency.register.DependencyRegister;
 import me.tofpu.speedbridge.expansion.BridgeExpansion;
 import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.game.listener.functionality.BlockBreakListener;
@@ -37,7 +36,7 @@ public final class SpeedBridge extends JavaPlugin {
     private final Game game;
 
     public SpeedBridge() {
-        this.game = new Game(this, getDataFolder());
+        this.game = new Game(this);
 
         final DataManager dataManager = getGame().getDataManager();
         final UserService userService = getGame().getUserService();
@@ -58,18 +57,7 @@ public final class SpeedBridge extends JavaPlugin {
     @Override
     public void onEnable() {
         final DataManager dataManager = getGame().getDataManager();
-        Config.initialize(this);
-
-        dataManager.initialize();
-        ModeManager.getModeManager().initialize();
-        
-        dataManager.load();
-
-        initializePlaceholderApi();
-        initializeListeners();
-        new CommandHandler(getGame(), this);
-
-        new Metrics(this, 12679);
+        initialize(dataManager);
 
         // RELOAD BUG FIX
         Bukkit.getOnlinePlayers().forEach(player -> dataManager.loadUser(player.getUniqueId()));
@@ -85,7 +73,25 @@ public final class SpeedBridge extends JavaPlugin {
         getGame().getLobbyService().getLeaderboard().cancel();
     }
 
-    public void initializePlaceholderApi() {
+    private void initialize(final DataManager dataManager){
+        // initializes the files
+        dataManager.initialize(this, getDataFolder());
+        dataManager.load();
+
+        final ConfigIdentifier settingsIdentifier = ConfigIdentifier.of("settings", dataManager.getPluginFiles()[0].configuration());
+        final ConfigIdentifier messagesIdentifier = ConfigIdentifier.of("messages", dataManager.getPluginFiles()[1].configuration());
+        ConfigAPI.initialize(settingsIdentifier, messagesIdentifier);
+
+        ModeManager.getModeManager().initialize();
+
+        initializePlaceholderApi();
+        initializeListeners();
+
+        new CommandHandler(getGame(), this);
+        new Metrics(this, 12679);
+    }
+
+    private void initializePlaceholderApi() {
         // registering the placeholder dependency
         DependencyAPI.register(new PlaceholderDependency());
 
@@ -95,18 +101,18 @@ public final class SpeedBridge extends JavaPlugin {
         // if it's not available, return
         if (!DependencyAPI.get("PlaceholderAPI").isAvailable()) return;
         Util.isPlaceholderHooked = true;
-        getLogger().info("Hooked into PlaceholderAPI");
+//        getLogger().info("Hooked into PlaceholderAPI");
         new BridgeExpansion(getDescription(), getGame().getUserService(), getGame().getGameService(), getGame().getLobbyService()).register();
     }
 
-    public void initializeListeners() {
+    private void initializeListeners() {
         final PluginManager manager = Bukkit.getPluginManager();
-        for (final Listener listener : listeners) {
+        for (final Listener listener : this.listeners) {
             manager.registerEvents(listener, this);
         }
     }
 
     public Game getGame() {
-        return game;
+        return this.game;
     }
 }
