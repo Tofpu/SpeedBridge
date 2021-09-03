@@ -18,6 +18,8 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 
 public class Game {
+    private final SpeedBridge speedBridge;
+
     private final IslandService islandService;
     private final UserService userService;
 
@@ -29,6 +31,8 @@ public class Game {
     private final DataManager dataManager;
 
     public Game(final SpeedBridge plugin) {
+        this.speedBridge = plugin;
+
         this.islandService = new IslandServiceImpl();
         this.userService = new UserServiceImpl();
 
@@ -44,26 +48,26 @@ public class Game {
     }
 
     public IslandService getIslandService() {
-        return islandService;
+        return this.islandService;
     }
 
     public UserService getUserService() {
-        return userService;
+        return this.userService;
     }
 
     public GameController getGameController() {
-        return gameController;
+        return this.gameController;
     }
 
     public GameService getGameService() {
-        return gameService;
+        return this.gameService;
     }
 
     public LobbyService getLobbyService() {
-        return lobbyService;
+        return this.lobbyService;
     }
 
     public DataManager getDataManager() {
-        return dataManager;
+        return this.dataManager;
     }
 }

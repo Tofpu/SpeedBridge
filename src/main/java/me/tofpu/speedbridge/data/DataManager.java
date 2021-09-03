@@ -1,31 +1,29 @@
 package me.tofpu.speedbridge.data;
 
 import com.github.requestpluginsforfree.config.ConfigAPI;
-import com.github.requestpluginsforfree.config.type.identifier.ConfigIdentifier;
 import com.github.requestpluginsforfree.fileutil.file.PluginFile;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import me.tofpu.speedbridge.SpeedBridge;
-import me.tofpu.speedbridge.data.adapter.location.LocationAdapter;
+import me.tofpu.speedbridge.data.adapter.LocationAdapter;
 import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.data.file.path.type.PathType;
 import me.tofpu.speedbridge.data.file.type.MessageFile;
 import me.tofpu.speedbridge.data.file.type.SettingsFile;
 import me.tofpu.speedbridge.island.Island;
-import me.tofpu.speedbridge.island.adapter.IslandAdapter;
+import me.tofpu.speedbridge.data.adapter.IslandAdapter;
 import me.tofpu.speedbridge.island.service.IslandService;
-import me.tofpu.speedbridge.lobby.adapter.LeaderboardTypeAdapter;
+import me.tofpu.speedbridge.data.adapter.LeaderboardTypeAdapter;
 import me.tofpu.speedbridge.lobby.leaderboard.data.BoardUser;
 import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.user.User;
-import me.tofpu.speedbridge.user.adapter.UserAdapter;
+import me.tofpu.speedbridge.data.adapter.UserAdapter;
 import me.tofpu.speedbridge.user.service.UserService;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.IOException;
@@ -118,7 +116,7 @@ public class DataManager {
             @Override
             public void run() {
                 lobbyService.load(GSON, files[3], files[4]);
-                islandService.loadAll(GSON, files[1]);
+                islandService.loadAll(files[1]);
             }
         }.runTaskAsynchronously(SpeedBridge.getProvidingPlugin(SpeedBridge.class));
 //        Executors.newFixedThreadPool(1).submit(new Runnable() {
@@ -131,7 +129,7 @@ public class DataManager {
     }
 
     public void save() {
-        islandService.saveAll(GSON, files[1]);
+        islandService.saveAll(files[1]);
         userService.saveAll(GSON, files[2]);
         lobbyService.save(GSON, files[3], files[4]);
     }

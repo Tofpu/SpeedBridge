@@ -21,11 +21,7 @@ public interface IslandService {
 
     List<Island> getAvailableIslands(final Mode mode);
 
-    void resetBlocks(final Island island);
+    void saveAll(final File directory);
 
-    void resetIsland(final int slot);
-
-    void saveAll(final Gson gson, final File directory);
-
-    void loadAll(final Gson gson, final File directory);
+    void loadAll(final File directory);
 }

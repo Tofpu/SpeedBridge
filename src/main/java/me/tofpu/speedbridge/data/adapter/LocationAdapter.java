@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.data.adapter.location;
+package me.tofpu.speedbridge.data.adapter;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
