@@ -15,7 +15,7 @@ import me.tofpu.speedbridge.game.listener.functionality.FoodLevelChangeListener;
 import me.tofpu.speedbridge.game.listener.machanic.BlockPlaceListener;
 import me.tofpu.speedbridge.game.listener.machanic.PlayerInteractListener;
 import me.tofpu.speedbridge.game.service.GameService;
-import me.tofpu.speedbridge.island.mode.manager.ModeManager;
+import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.island.service.IslandService;
 import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.user.service.UserService;
@@ -30,7 +30,6 @@ import java.util.List;
 
 public final class SpeedBridge extends JavaPlugin {
     private final List<Listener> listeners;
-
     private final Game game;
 
     public SpeedBridge() {
@@ -49,7 +48,8 @@ public final class SpeedBridge extends JavaPlugin {
                 new BlockPlaceListener(userService, islandService, gameService),
                 new BlockBreakListener(userService, islandService, gameService),
                 new EntityDamageListener(gameService),
-                new FoodLevelChangeListener(gameService));
+                new FoodLevelChangeListener(gameService)
+        );
     }
 
     @Override

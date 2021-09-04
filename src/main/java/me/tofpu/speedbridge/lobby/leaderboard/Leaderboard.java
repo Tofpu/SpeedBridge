@@ -1,9 +1,8 @@
 package me.tofpu.speedbridge.lobby.leaderboard;
 
 import com.google.common.collect.Lists;
-import me.tofpu.speedbridge.lobby.leaderboard.data.BoardUser;
 import me.tofpu.speedbridge.user.User;
-import me.tofpu.speedbridge.user.properties.timer.Timer;
+import me.tofpu.speedbridge.user.properties.Timer;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -31,8 +30,8 @@ public final class Leaderboard {
     public void start(final Plugin plugin) {
         update = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             mainLeaderboard.clear();
-            List<BoardUser> users = sortGet();
-            mainLeaderboard.addAll(users.subList(0, Math.min(users.size(), 10)));
+            final List<BoardUser> users = sortGet();
+            mainLeaderboard.addAll(users.subList(0, Math.min(users.size(), this.limitSize)));
         }, 0, 20 * 10);
     }
 

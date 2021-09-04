@@ -1,7 +1,6 @@
-package me.tofpu.speedbridge.user.impl;
+package me.tofpu.speedbridge.user;
 
 import com.google.common.base.Objects;
-import me.tofpu.speedbridge.user.User;
 import me.tofpu.speedbridge.user.properties.UserProperties;
 
 import java.util.UUID;

@@ -1,20 +1,17 @@
-package me.tofpu.speedbridge.island.properties.point.impl;
+package me.tofpu.speedbridge.island.properties.point;
 
-import me.tofpu.speedbridge.island.properties.point.Point;
 import org.bukkit.Location;
 
-public class EndPoint implements Point {
+public class PointImpl implements Point {
     private final String identifier;
 
     private Location location;
 
-    public EndPoint() {
+    public PointImpl() {
         this.identifier = "point";
     }
 
-    ;
-
-    public EndPoint(final Location location) {
+    public PointImpl(final Location location) {
         this();
         this.location = location;
     }

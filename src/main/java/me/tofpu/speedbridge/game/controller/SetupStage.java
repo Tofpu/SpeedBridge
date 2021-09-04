@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.game.controller.stage;
+package me.tofpu.speedbridge.game.controller;
 
 public enum SetupStage {
     SPAWN, POINT, SELECTION_A, SELECTION_B, LOBBY;

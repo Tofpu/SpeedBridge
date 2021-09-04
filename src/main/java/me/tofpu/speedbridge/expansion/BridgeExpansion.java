@@ -1,12 +1,11 @@
 package me.tofpu.speedbridge.expansion;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.tofpu.speedbridge.expansion.type.ExpansionType;
 import me.tofpu.speedbridge.game.service.GameService;
 import me.tofpu.speedbridge.lobby.leaderboard.Leaderboard;
 import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.user.User;
-import me.tofpu.speedbridge.user.properties.timer.Timer;
+import me.tofpu.speedbridge.user.properties.Timer;
 import me.tofpu.speedbridge.user.service.UserService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;

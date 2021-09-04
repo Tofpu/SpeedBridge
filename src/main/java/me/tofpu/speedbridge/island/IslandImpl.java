@@ -1,8 +1,7 @@
-package me.tofpu.speedbridge.island.impl;
+package me.tofpu.speedbridge.island;
 
-import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.mode.Mode;
-import me.tofpu.speedbridge.island.mode.manager.ModeManager;
+import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
 import me.tofpu.speedbridge.user.User;
 import org.bukkit.Location;

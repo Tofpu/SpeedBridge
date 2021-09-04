@@ -1,12 +1,9 @@
-package me.tofpu.speedbridge.island.service.impl;
+package me.tofpu.speedbridge.island.service;
 
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.mode.Mode;
-import me.tofpu.speedbridge.island.service.IslandService;
 import me.tofpu.speedbridge.user.User;
-import org.bukkit.Location;
-import org.bukkit.Material;
 
 import java.io.File;
 import java.io.FileReader;

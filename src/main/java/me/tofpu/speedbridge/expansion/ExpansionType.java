@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.expansion.type;
+package me.tofpu.speedbridge.expansion;
 
 public enum ExpansionType {
     SCORE, ISLAND, LIVE_TIMER, LEADERBOARD;

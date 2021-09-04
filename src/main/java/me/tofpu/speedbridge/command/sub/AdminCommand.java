@@ -1,14 +1,14 @@
-package me.tofpu.speedbridge.command.commands;
+package me.tofpu.speedbridge.command.sub;
 
 import co.aikar.commands.annotation.*;
 import me.tofpu.speedbridge.SpeedBridge;
-import me.tofpu.speedbridge.command.commands.base.BridgeBaseCommand;
+import me.tofpu.speedbridge.command.BridgeBaseCommand;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.data.file.path.Path;
-import me.tofpu.speedbridge.expansion.type.ExpansionType;
+import me.tofpu.speedbridge.expansion.ExpansionType;
 import me.tofpu.speedbridge.game.controller.GameController;
-import me.tofpu.speedbridge.game.controller.stage.SetupStage;
-import me.tofpu.speedbridge.game.result.Result;
+import me.tofpu.speedbridge.game.controller.SetupStage;
+import me.tofpu.speedbridge.game.Result;
 import me.tofpu.speedbridge.game.service.GameService;
 import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.util.Util;

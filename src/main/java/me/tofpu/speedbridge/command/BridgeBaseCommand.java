@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.command.commands.base;
+package me.tofpu.speedbridge.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.RegisteredCommand;

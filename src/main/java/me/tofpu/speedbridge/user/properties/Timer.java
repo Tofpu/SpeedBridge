@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.user.properties.timer;
+package me.tofpu.speedbridge.user.properties;
 
 import me.tofpu.speedbridge.util.Util;
 

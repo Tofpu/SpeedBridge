@@ -1,9 +1,8 @@
-package me.tofpu.speedbridge.user.service.impl;
+package me.tofpu.speedbridge.user.service;
 
 import com.google.gson.Gson;
 import me.tofpu.speedbridge.user.User;
-import me.tofpu.speedbridge.user.impl.UserImpl;
-import me.tofpu.speedbridge.user.service.UserService;
+import me.tofpu.speedbridge.user.UserImpl;
 
 import java.io.File;
 import java.io.FileReader;

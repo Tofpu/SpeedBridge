@@ -2,7 +2,6 @@ package me.tofpu.speedbridge.data.file.path;
 
 import com.github.requestpluginsforfree.config.ConfigAPI;
 import com.github.requestpluginsforfree.config.type.config.ConfigType;
-import me.tofpu.speedbridge.data.file.path.type.PathType;
 
 import java.util.ArrayList;
 import java.util.List;

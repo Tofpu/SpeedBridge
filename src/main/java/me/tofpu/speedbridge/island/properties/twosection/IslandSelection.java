@@ -1,16 +1,15 @@
-package me.tofpu.speedbridge.island.properties.twosection.impl;
+package me.tofpu.speedbridge.island.properties.twosection;
 
-import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
 import org.bukkit.Location;
 
-public class IslandPoint implements TwoSection {
+public class IslandSelection implements TwoSection {
     private final String identifier;
 
     private Location sectionA;
     private Location sectionB;
 
-    public IslandPoint() {
-        this.identifier = "point";
+    public IslandSelection() {
+        this.identifier = "selection";
     }
 
     @Override

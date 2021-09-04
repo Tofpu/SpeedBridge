@@ -8,7 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import me.tofpu.speedbridge.SpeedBridge;
 import me.tofpu.speedbridge.data.adapter.LocationAdapter;
 import me.tofpu.speedbridge.data.file.path.Path;
-import me.tofpu.speedbridge.data.file.path.type.PathType;
+import me.tofpu.speedbridge.data.file.path.PathType;
 import me.tofpu.speedbridge.data.file.type.MessageFile;
 import me.tofpu.speedbridge.data.file.type.SettingsFile;
 import me.tofpu.speedbridge.game.Game;
@@ -16,7 +16,7 @@ import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.data.adapter.IslandAdapter;
 import me.tofpu.speedbridge.island.service.IslandService;
 import me.tofpu.speedbridge.data.adapter.LeaderboardTypeAdapter;
-import me.tofpu.speedbridge.lobby.leaderboard.data.BoardUser;
+import me.tofpu.speedbridge.lobby.leaderboard.BoardUser;
 import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.user.User;
 import me.tofpu.speedbridge.data.adapter.UserAdapter;
@@ -37,8 +37,9 @@ public class DataManager {
             .registerTypeAdapter(Location.class, new LocationAdapter())
             .registerTypeAdapter(Island.class, new IslandAdapter())
             .registerTypeAdapter(User.class, new UserAdapter())
-            .registerTypeAdapter(new TypeToken<List<BoardUser>>() {
-            }.getType(), new LeaderboardTypeAdapter())
+            .registerTypeAdapter(
+                    new TypeToken<List<BoardUser>>() {}.getType(),
+                    new LeaderboardTypeAdapter())
             .setPrettyPrinting()
             .serializeNulls()
             .create();

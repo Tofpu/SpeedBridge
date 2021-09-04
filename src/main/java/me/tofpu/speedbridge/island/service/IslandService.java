@@ -1,6 +1,5 @@
 package me.tofpu.speedbridge.island.service;
 
-import com.google.gson.Gson;
 import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.user.User;

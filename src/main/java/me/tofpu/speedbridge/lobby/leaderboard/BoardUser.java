@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.lobby.leaderboard.data;
+package me.tofpu.speedbridge.lobby.leaderboard;
 
 import com.google.common.base.Objects;
 import org.jetbrains.annotations.NotNull;

@@ -1,9 +1,8 @@
 package me.tofpu.speedbridge.game.controller;
 
-import me.tofpu.speedbridge.game.controller.stage.SetupStage;
-import me.tofpu.speedbridge.game.result.Result;
+import me.tofpu.speedbridge.game.Result;
 import me.tofpu.speedbridge.island.Island;
-import me.tofpu.speedbridge.island.impl.IslandImpl;
+import me.tofpu.speedbridge.island.IslandImpl;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
 import me.tofpu.speedbridge.island.properties.point.Point;
 import me.tofpu.speedbridge.island.properties.twosection.TwoSection;

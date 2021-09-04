@@ -5,7 +5,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.island.Island;
-import me.tofpu.speedbridge.island.impl.IslandImpl;
+import me.tofpu.speedbridge.island.IslandImpl;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
 import me.tofpu.speedbridge.island.properties.point.Point;
 import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
