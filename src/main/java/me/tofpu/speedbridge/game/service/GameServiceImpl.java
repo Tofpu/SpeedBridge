@@ -24,13 +24,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class GameServiceImpl implements GameService {
     private final Plugin plugin;
@@ -40,7 +41,7 @@ public class GameServiceImpl implements GameService {
     private final LobbyService lobbyService;
 
     private final Map<UUID, Timer> gameTimer = new HashMap<>();
-    private final Map<UUID, BukkitTask> gameTask = new HashMap<>();
+    private final Map<UUID, ScheduledFuture<?>> gameTask = new HashMap<>();
 
     public GameServiceImpl(final Plugin plugin, final IslandService islandService, final UserService userService, final LobbyService lobbyService) {
         this.plugin = plugin;
@@ -130,15 +131,22 @@ public class GameServiceImpl implements GameService {
         final TwoSection selection = (TwoSection) island.getProperties().get("selection");
         final Cuboid cuboid = new Cuboid(selection.getPointA(), selection.getPointB());
 
-        this.gameTask.put(player.getUniqueId(),
-                Bukkit.getScheduler()
-                        .runTaskTimer(plugin,
-                                () -> {
-                                    if (!cuboid.isIn(player.getLocation())) {
-                                        reset(user);
-                                    }
-                                },
-                                20, 10));
+//        this.gameTask.put(player.getUniqueId(),
+//                Bukkit.getScheduler()
+//                        .runTaskTimer(plugin,
+//                                () -> {
+//                                    if (!cuboid.isIn(player.getLocation())) {
+//                                        reset(user);
+//                                    }
+//                                },
+//                                20, 10));
+
+        // TODO: MAKE IT SO THERE'D BE A SINGLE SCHEDULER THAT LOOPS THROUGH PLAYERS THAT ARE PLAYING AND CHECK IF THEY'RE OUTSIDE OF THE BORDER, EZ
+        this.gameTask.put(player.getUniqueId(), Game.EXECUTOR.scheduleWithFixedDelay(() -> {
+            if (!cuboid.isIn(player.getLocation())) {
+                reset(user);
+            }
+        }, 1000, 500, TimeUnit.MILLISECONDS));
         return Result.SUCCESS;
     }
 
@@ -153,8 +161,8 @@ public class GameServiceImpl implements GameService {
 
         gameTimer.remove(player.getUniqueId());
 
-        final BukkitTask task = gameTask.remove(player.getUniqueId());
-        task.cancel();
+        final ScheduledFuture<?> task = gameTask.remove(player.getUniqueId());
+        task.cancel(true);
 
         player.teleport(lobbyService.getLobbyLocation());
         Util.message(player, Path.MESSAGES_LEFT);
