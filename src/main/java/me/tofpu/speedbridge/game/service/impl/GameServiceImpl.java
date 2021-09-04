@@ -19,8 +19,6 @@ import me.tofpu.speedbridge.util.Util;
 import me.tofpu.speedbridge.util.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -40,8 +38,8 @@ public class GameServiceImpl implements GameService {
     private final UserService userService;
     private final LobbyService lobbyService;
 
-    private final Map<UUID, Timer> gameTimer = new HashMap<>();
-    private final Map<UUID, BukkitTask> gameTask = new HashMap<>();
+    private final Map<UUID, Timer> userTimer = new HashMap<>();
+    private final Map<UUID, BukkitTask> userCheck = new HashMap<>();
 
     public GameServiceImpl(final Plugin plugin, final IslandService islandService, final UserService userService, final LobbyService lobbyService) {
         this.plugin = plugin;
@@ -131,7 +129,7 @@ public class GameServiceImpl implements GameService {
         final TwoSection selection = (TwoSection) island.getProperties().get("selection");
         final Cuboid cuboid = new Cuboid(selection.getPointA(), selection.getPointB());
 
-        this.gameTask.put(player.getUniqueId(),
+        this.userCheck.put(player.getUniqueId(),
                 Bukkit.getScheduler()
                         .runTaskTimer(plugin,
                                 () -> {
@@ -149,13 +147,12 @@ public class GameServiceImpl implements GameService {
         if (user == null) return Result.DENY;
         player.getInventory().clear();
 
-        resetIsland(user.getProperties().getIslandSlot());
+        islandService.resetIsland(user.getProperties().getIslandSlot());
         user.getProperties().setIslandSlot(null);
 
-        gameTimer.remove(player.getUniqueId());
-
-        final BukkitTask task = gameTask.remove(player.getUniqueId());
-        task.cancel();
+        userTimer.remove(player.getUniqueId());
+        userCheck.get(player.getUniqueId()).cancel();
+        userCheck.remove(player.getUniqueId());
 
         player.teleport(lobbyService.getLobbyLocation());
         Util.message(player, Path.MESSAGES_LEFT);
@@ -167,7 +164,6 @@ public class GameServiceImpl implements GameService {
     public boolean isPlaying(final Player player) {
         final User user;
         if ((user = userService.searchForUUID(player.getUniqueId())) == null) return false;
-
         final Integer islandSlot = user.getProperties().getIslandSlot();
         if (islandSlot == null) return false;
 
@@ -178,23 +174,23 @@ public class GameServiceImpl implements GameService {
     public void addTimer(final User user) {
         final Timer timer = new Timer(user.getProperties().getIslandSlot());
 
-        this.gameTimer.put(user.getUuid(), timer);
+        this.userTimer.put(user.getUuid(), timer);
     }
 
     @Override
     public boolean hasTimer(final User user) {
-        return this.gameTimer.containsKey(user.getUuid());
+        return this.userTimer.containsKey(user.getUuid());
     }
 
     @Override
     public Timer getTimer(User user) {
-        return gameTimer.get(user.getUuid());
+        return userTimer.get(user.getUuid());
     }
 
     @Override
     public void updateTimer(final User user) {
         if (user == null) return;
-        final Timer gameTimer = this.gameTimer.get(user.getUuid());
+        final Timer gameTimer = userTimer.get(user.getUuid());
         reset(user);
 
         final UserProperties properties = user.getProperties();
@@ -222,8 +218,8 @@ public class GameServiceImpl implements GameService {
     public void resetTimer(final User user) {
         if (user == null) return;
 
-        gameTimer.remove(user.getUuid());
-        resetBlocks(islandService.getIslandBySlot(user.getProperties().getIslandSlot()));
+        userTimer.remove(user.getUuid());
+        islandService.resetBlocks(islandService.getIslandBySlot(user.getProperties().getIslandSlot()));
     }
 
     @Override
@@ -237,23 +233,5 @@ public class GameServiceImpl implements GameService {
 
         player.setVelocity(new Vector(0, 0, 0));
         player.teleport(islandService.getIslandBySlot(user.getProperties().getIslandSlot()).getLocation());
-    }
-
-    @Override
-    public void resetBlocks(final Island island) {
-        for (final Location location : island.getPlacedBlocks()) {
-            island.getLocation().getWorld().getBlockAt(location).setType(Material.AIR);
-        }
-        // TODO: CHECK IF THIS ISN'T CAUSING ISSUES
-        island.getPlacedBlocks().clear();
-    }
-
-    @Override
-    public void resetIsland(final int slot) {
-        final Island island = this.islandService.getIslandBySlot(slot);
-        if (island == null) return;
-
-        resetBlocks(island);
-        island.setTakenBy(null);
     }
 }

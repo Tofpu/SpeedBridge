@@ -44,7 +44,7 @@ public final class SpeedBridge extends JavaPlugin {
 
         this.listeners = Arrays.asList(
                 new PlayerJoinListener(lobbyService, dataManager),
-                new PlayerQuitListener(userService, gameService, dataManager),
+                new PlayerQuitListener(userService, islandService, gameService, dataManager),
                 new PlayerInteractListener(userService, islandService, gameService),
                 new BlockPlaceListener(userService, islandService, gameService),
                 new BlockBreakListener(userService, islandService, gameService),

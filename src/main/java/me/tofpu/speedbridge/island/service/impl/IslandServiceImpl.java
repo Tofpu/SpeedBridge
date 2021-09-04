@@ -1,6 +1,6 @@
 package me.tofpu.speedbridge.island.service.impl;
 
-import me.tofpu.speedbridge.data.DataManager;
+import com.google.gson.Gson;
 import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.island.service.IslandService;
@@ -16,11 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IslandServiceImpl implements IslandService {
-    private final List<Island> islands;
-
-    public IslandServiceImpl(){
-        islands = new ArrayList<>();
-    }
+    private final List<Island> islands = new ArrayList<>();
 
     @Override
     public void addIsland(final Island island) {
@@ -70,8 +66,26 @@ public class IslandServiceImpl implements IslandService {
     }
 
     @Override
-    public void saveAll(final File directory) {
+    public void resetBlocks(final Island island) {
+        for (final Location location : island.getPlacedBlocks()) {
+            island.getLocation().getWorld().getBlockAt(location).setType(Material.AIR);
+        }
+    }
+
+    @Override
+    public void resetIsland(final int slot) {
+        final Island island = getIslandBySlot(slot);
+        if (island == null) return;
+
+        resetBlocks(island);
+        island.setTakenBy(null);
+    }
+
+    @Override
+    public void saveAll(final Gson gson, final File directory) {
         for (final Island island : this.islands) {
+            resetBlocks(island);
+
             final File file = new File(directory, "island-" + island.getSlot() + ".json");
             if (!file.exists()) {
                 try {
@@ -82,21 +96,20 @@ public class IslandServiceImpl implements IslandService {
             }
             try {
                 try (final FileWriter writer = new FileWriter(file)) {
-                    writer.write(DataManager.GSON.toJson(island, Island.class));
+                    writer.write(gson.toJson(island, Island.class));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        this.islands.clear();
     }
 
     @Override
-    public void loadAll(File directory) {
+    public void loadAll(final Gson gson, File directory) {
         for (final File file : directory.listFiles()) {
             try {
                 if (!file.getName().endsWith(".json")) continue;
-                final Island island = DataManager.GSON.fromJson(new FileReader(file), Island.class);
+                final Island island = gson.fromJson(new FileReader(file), Island.class);
                 if (island == null) continue;
                 addIsland(island);
             } catch (IOException e) {

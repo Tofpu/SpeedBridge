@@ -31,8 +31,4 @@ public interface GameService {
     void resetTimer(final User user);
 
     void reset(final User user);
-
-    void resetBlocks(final Island island);
-
-    void resetIsland(final int slot);
 }

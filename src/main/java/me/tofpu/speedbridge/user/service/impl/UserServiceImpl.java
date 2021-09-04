@@ -14,11 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class UserServiceImpl implements UserService {
-    private final List<User> users;
-
-    public UserServiceImpl(){
-        users = new ArrayList<>();
-    }
+    private final List<User> users = new ArrayList<>();
 
     @Override
     public User createUser(final UUID uuid) {

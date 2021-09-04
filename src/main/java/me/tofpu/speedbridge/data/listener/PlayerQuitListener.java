@@ -12,11 +12,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerQuitListener implements Listener {
     private final UserService userService;
+    private final IslandService islandService;
     private final GameService gameService;
     private final DataManager dataManager;
 
-    public PlayerQuitListener(final UserService userService, final GameService gameService, final DataManager dataManager) {
+    public PlayerQuitListener(UserService userService, IslandService islandService, GameService gameService, DataManager dataManager) {
         this.userService = userService;
+        this.islandService = islandService;
         this.gameService = gameService;
         this.dataManager = dataManager;
     }
@@ -27,7 +29,7 @@ public class PlayerQuitListener implements Listener {
         if (gameService.isPlaying(player)) {
             final User user = userService.searchForUUID(player.getUniqueId());
 
-            gameService.resetIsland(user.getProperties().getIslandSlot());
+            islandService.resetIsland(user.getProperties().getIslandSlot());
             gameService.leave(player);
         }
 
