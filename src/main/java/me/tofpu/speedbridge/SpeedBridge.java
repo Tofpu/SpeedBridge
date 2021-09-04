@@ -19,6 +19,7 @@ import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.island.service.IslandService;
 import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.user.service.UserService;
+import me.tofpu.speedbridge.util.UpdateChecker;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -66,6 +67,14 @@ public final class SpeedBridge extends JavaPlugin {
     }
 
     private void initialize(){
+        UpdateChecker.init(this, 95918).requestUpdateCheck().whenComplete((updateResult, throwable) -> {
+            if (updateResult.getReason() == UpdateChecker.UpdateReason.NEW_UPDATE) {
+                getLogger().warning("You're not on the latest version of SpeedBridge!\nIt's highly recommended to download the latest version at https://www.spigotmc.org/resources/speedbridge-1-free-bridge-trainer-rpf.95918/!");
+            } else if (updateResult.getReason() == UpdateChecker.UpdateReason.UP_TO_DATE) {
+                getLogger().warning("You're using the latest version of SpeedBridge!");
+            }
+        });
+
         final DataManager dataManager = getGame().getDataManager();
         // TODO: REMOVING THIS SOON
         getGame().initialize();
