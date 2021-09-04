@@ -2,8 +2,8 @@ package me.tofpu.speedbridge.lobby.service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import me.tofpu.speedbridge.lobby.leaderboard.Leaderboard;
 import me.tofpu.speedbridge.lobby.leaderboard.BoardUser;
+import me.tofpu.speedbridge.lobby.leaderboard.Leaderboard;
 import org.bukkit.Location;
 
 import java.io.File;
