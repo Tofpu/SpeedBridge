@@ -10,10 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class Util {
     public static boolean isPlaceholderHooked = false;
@@ -29,6 +26,16 @@ public class Util {
 
     public static double toSeconds(final long beginning) {
         return toSeconds(beginning, System.currentTimeMillis());
+    }
+
+    public static String string(final List<String> list){
+        final StringBuilder builder = new StringBuilder();
+
+        for (final String s : list){
+            if (builder.capacity() != 1) builder.append("\n");
+            builder.append(s);
+        }
+        return builder.toString();
     }
 
     public static List<String> toString(final List<? extends Identifier> identifiers) {
@@ -104,7 +111,8 @@ public class Util {
     }
 
     public static void message(final CommandSender sender, Path.Value<?> path, final String[] replaceArray, final String... replaceWith) {
-        String message = (String) path.getValue();
+        final Object value = path.getValue();
+        String message = value != null ? value instanceof String ? (String) value : string((List<String>) value) : path.getDefaultMessage();
         if (message == null || message.equals("null")) message = path.getDefaultMessage();
         if (message == null || message.isEmpty()) return;
 

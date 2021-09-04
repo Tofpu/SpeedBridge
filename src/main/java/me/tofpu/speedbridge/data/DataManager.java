@@ -11,6 +11,7 @@ import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.data.file.path.type.PathType;
 import me.tofpu.speedbridge.data.file.type.MessageFile;
 import me.tofpu.speedbridge.data.file.type.SettingsFile;
+import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.data.adapter.IslandAdapter;
 import me.tofpu.speedbridge.island.service.IslandService;
@@ -112,20 +113,10 @@ public class DataManager {
     }
 
     public void load() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                lobbyService.load(GSON, files[3], files[4]);
-                islandService.loadAll(files[1]);
-            }
-        }.runTaskAsynchronously(SpeedBridge.getProvidingPlugin(SpeedBridge.class));
-//        Executors.newFixedThreadPool(1).submit(new Runnable() {
-//            @Override
-//            public void run() {
-//                lobbyService.load(GSON, files[3], files[4]);
-//                islandService.loadAll(GSON, files[1]);
-//            }
-//        });
+        Game.EXECUTOR.execute(() -> {
+            lobbyService.load(GSON, files[3], files[4]);
+            islandService.loadAll(files[1]);
+        });
     }
 
     public void save() {

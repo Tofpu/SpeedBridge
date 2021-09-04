@@ -17,7 +17,12 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
 public class Game {
+    public static final ScheduledExecutorService EXECUTOR = Executors.newScheduledThreadPool(1);
+
     private final SpeedBridge speedBridge;
 
     private final IslandService islandService;
@@ -42,9 +47,11 @@ public class Game {
         this.gameService = new GameServiceImpl(plugin, islandService, userService, lobbyService);
 
         this.dataManager = new DataManager(islandService, userService, lobbyService);
+    }
 
-        new CommandHandler(this, plugin);
-        new Metrics(plugin, 12679);
+    public void initialize(){
+        new CommandHandler(this, speedBridge);
+        new Metrics(speedBridge, 12679);
     }
 
     public IslandService getIslandService() {

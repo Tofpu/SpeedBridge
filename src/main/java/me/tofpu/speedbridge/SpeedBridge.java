@@ -68,11 +68,19 @@ public final class SpeedBridge extends JavaPlugin {
     private void initialize(){
         final DataManager dataManager = getGame().getDataManager();
         // TODO: REMOVING THIS SOON
-        final ConfigIdentifier settingsIdentifier = ConfigIdentifier.of("settings", dataManager.getPluginFiles()[0].configuration());
-        final ConfigIdentifier messagesIdentifier = ConfigIdentifier.of("messages", dataManager.getPluginFiles()[1].configuration());
+        getGame().initialize();
 
         // initializes the files
         dataManager.initialize(this, getDataFolder());
+
+        final ConfigIdentifier settingsIdentifier = ConfigIdentifier.of(
+                "settings",
+                dataManager.getPluginFiles()[0].configuration()
+        );
+        final ConfigIdentifier messagesIdentifier = ConfigIdentifier.of(
+                "messages",
+                dataManager.getPluginFiles()[1].configuration()
+        );
 
         ConfigAPI.initialize(settingsIdentifier, messagesIdentifier);
         ModeManager.getModeManager().initialize();
