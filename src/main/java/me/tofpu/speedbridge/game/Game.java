@@ -1,7 +1,5 @@
 package me.tofpu.speedbridge.game;
 
-import me.tofpu.speedbridge.SpeedBridge;
-import me.tofpu.speedbridge.command.CommandHandler;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.game.controller.GameController;
 import me.tofpu.speedbridge.game.service.GameService;
@@ -12,7 +10,6 @@ import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.lobby.service.impl.LobbyServiceImpl;
 import me.tofpu.speedbridge.user.service.UserService;
 import me.tofpu.speedbridge.user.service.impl.UserServiceImpl;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -28,7 +25,7 @@ public class Game {
 
     private final DataManager dataManager;
 
-    public Game(final SpeedBridge plugin) {
+    public Game(final Plugin plugin) {
         this.islandService = new IslandServiceImpl();
         this.userService = new UserServiceImpl();
 
@@ -38,9 +35,6 @@ public class Game {
         this.gameService = new GameServiceImpl(plugin, islandService, userService, lobbyService);
 
         this.dataManager = new DataManager(islandService, userService, lobbyService);
-
-        new CommandHandler(this, plugin);
-        new Metrics(plugin, 12679);
     }
 
     public IslandService getIslandService() {
