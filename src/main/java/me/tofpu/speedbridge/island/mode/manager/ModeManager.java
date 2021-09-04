@@ -1,6 +1,6 @@
 package me.tofpu.speedbridge.island.mode.manager;
 
-import com.github.requestpluginsforfree.config.ConfigAPI;
+import me.tofpu.speedbridge.data.file.config.Config;
 import me.tofpu.speedbridge.island.mode.Mode;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,7 +21,7 @@ public class ModeManager {
     }
 
     public void initialize() {
-        final FileConfiguration configuration = ConfigAPI.get("settings").configuration();
+        final FileConfiguration configuration = Config.get("settings").getConfiguration();
         final String path = "mode.";
 
 //        if (configuration == null){

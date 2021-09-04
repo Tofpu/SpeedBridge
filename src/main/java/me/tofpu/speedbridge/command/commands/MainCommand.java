@@ -2,7 +2,7 @@ package me.tofpu.speedbridge.command.commands;
 
 import co.aikar.commands.annotation.*;
 import me.tofpu.speedbridge.command.commands.base.BridgeBaseCommand;
-import me.tofpu.speedbridge.data.file.path.Path;
+import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.GameService;
 import me.tofpu.speedbridge.island.mode.Mode;
@@ -105,7 +105,7 @@ public class MainCommand extends BridgeBaseCommand {
             result = gameService.join(player, mode);
         } else result = gameService.join(player);
 
-        final Path.Value<?> path;
+        final Path path;
         switch (result) {
             case DENY:
                 path = Path.MESSAGES_ALREADY_JOINED;

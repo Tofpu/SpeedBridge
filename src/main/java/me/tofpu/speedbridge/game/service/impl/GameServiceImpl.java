@@ -1,7 +1,7 @@
 package me.tofpu.speedbridge.game.service.impl;
 
 import com.google.common.collect.Lists;
-import me.tofpu.speedbridge.data.file.path.Path;
+import me.tofpu.speedbridge.data.file.config.path.Path;
 import me.tofpu.speedbridge.game.result.Result;
 import me.tofpu.speedbridge.game.service.GameService;
 import me.tofpu.speedbridge.island.Island;
