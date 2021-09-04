@@ -1,8 +1,5 @@
 package me.tofpu.speedbridge;
 
-import com.github.requestpluginsforfree.dependency.api.DependencyAPI;
-import com.github.requestpluginsforfree.dependency.impl.PlaceholderDependency;
-import com.github.requestpluginsforfree.dependency.registry.DependencyAPI;
 import me.tofpu.speedbridge.command.CommandHandler;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.data.file.config.Config;
@@ -62,7 +59,8 @@ public final class SpeedBridge extends JavaPlugin {
 
         dataManager.initialize();
         ModeManager.getModeManager().initialize();
-        
+
+        DependencyRegister.loadAll(this);
         dataManager.load();
 
         initializePlaceholderApi();
@@ -86,14 +84,7 @@ public final class SpeedBridge extends JavaPlugin {
     }
 
     public void initializePlaceholderApi() {
-        // registering the placeholder dependency
-        DependencyAPI.register(new PlaceholderDependency());
-
-        // initializing the dependency api
-        DependencyAPI.initialize(this);
-
-        // if it's not available, return
-        if (!DependencyAPI.get("PlaceholderAPI").isAvailable()) return;
+        if (DependencyRegister.get("PlaceholderAPI").getDependency() == null) return;
         Util.isPlaceholderHooked = true;
         getLogger().info("Hooked into PlaceholderAPI");
         new BridgeExpansion(getDescription(), getGame().getUserService(), getGame().getGameService(), getGame().getLobbyService()).register();
