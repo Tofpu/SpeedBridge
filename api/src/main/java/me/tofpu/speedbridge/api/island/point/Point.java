@@ -14,12 +14,12 @@ public interface Point {
     Location pointA();
 
     /**
-     * @param location new location
-     */
-    void pointA(final Location location);
-
-    /**
      * @return true if the location is not null, otherwise false
      */
     boolean hasPointA();
+
+    /**
+     * @param location new location
+     */
+    void pointA(final Location location);
 }

@@ -1,5 +1,6 @@
 package me.tofpu.speedbridge.api.island;
 
+import me.tofpu.speedbridge.api.island.mode.Mode;
 import me.tofpu.speedbridge.api.user.User;
 import me.tofpu.speedbridge.api.util.Identifier;
 import org.bukkit.Location;
