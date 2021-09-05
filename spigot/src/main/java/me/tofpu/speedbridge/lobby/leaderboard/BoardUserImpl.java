@@ -1,34 +1,39 @@
 package me.tofpu.speedbridge.lobby.leaderboard;
 
 import com.google.common.base.Objects;
+import me.tofpu.speedbridge.api.lobby.BoardUser;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public final class BoardUser implements Comparable<BoardUser> {
+public final class BoardUserImpl implements Comparable<BoardUserImpl>, BoardUser {
     private final String name;
     private final UUID uuid;
     private Double score;
 
-    public BoardUser(final String name, final UUID uuid, final Double score) {
+    public BoardUserImpl(final String name, final UUID uuid, final Double score) {
         this.name = name;
         this.uuid = uuid;
         this.score = score;
     }
 
+    @Override
     public String name() {
-        return name;
+        return this.name;
     }
 
+    @Override
     public UUID uniqueId() {
-        return uuid;
+        return this.uuid;
     }
 
+    @Override
     public Double score() {
-        return score;
+        return this.score;
     }
 
-    public BoardUser score(Double score) {
+    @Override
+    public BoardUserImpl score(Double score) {
         this.score = score;
         return this;
     }
@@ -37,7 +42,7 @@ public final class BoardUser implements Comparable<BoardUser> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BoardUser user = (BoardUser) o;
+        BoardUserImpl user = (BoardUserImpl) o;
         return uuid.equals(user.uuid);
     }
 
@@ -47,7 +52,7 @@ public final class BoardUser implements Comparable<BoardUser> {
     }
 
     @Override
-    public int compareTo(@NotNull BoardUser o) {
+    public int compareTo(@NotNull BoardUserImpl o) {
         if (score().equals(o.score())) return 0; // THIS EQUAL THAN O
         else if (score() > o.score()) return 1; // THIS HIGHER THAN O
         return -1; // THIS LOWER THAN O
@@ -85,8 +90,8 @@ public final class BoardUser implements Comparable<BoardUser> {
             return this;
         }
 
-        public BoardUser build() {
-            return new BoardUser(name(), uniqueId(), result());
+        public BoardUserImpl build() {
+            return new BoardUserImpl(name(), uniqueId(), result());
         }
     }
 }
