@@ -1,12 +1,14 @@
 package me.tofpu.speedbridge.user.service;
 
-import com.google.gson.Gson;
+import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.user.User;
 
 import java.io.File;
 import java.util.UUID;
 
 public interface UserService {
+    void initialize(final DataManager dataManager);
+
     User createUser(final UUID uuid);
 
     void removeUser(final User user);
@@ -15,9 +17,9 @@ public interface UserService {
 
     User searchForUUID(final UUID uuid);
 
-    void saveAll(final Gson gson, final File directory);
+    void saveAll(final File directory, final boolean emptyList);
 
-    void save(final Gson gson, final User user, final File directory);
+    void save(final User user, final File directory);
 
-    User load(final Gson gson, final UUID uuid, final File directory);
+    User load(final UUID uuid, final File directory);
 }

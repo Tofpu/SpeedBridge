@@ -99,7 +99,7 @@ public class DataManager {
 
     public User loadUser(final UUID uuid) {
         if (!files[0].exists()) return null;
-        User user = userService.load(GSON, uuid, files[2]);
+        User user = userService.load(uuid, files[2]);
         return user == null ? userService.createUser(uuid) : user;
     }
 
@@ -107,7 +107,7 @@ public class DataManager {
         final User user = userService.searchForUUID(uuid);
         if (user == null) return;
 
-        userService.save(GSON, user, files[2]);
+        userService.save(user, files[2]);
         userService.removeUser(user);
     }
 
@@ -119,9 +119,13 @@ public class DataManager {
     }
 
     public void save() {
-        islandService.saveAll(files[1]);
-        userService.saveAll(GSON, files[2]);
+        islandService.saveAll(files[1], true);
+        userService.saveAll(files[2], true);
         lobbyService.save(GSON, files[3], files[4]);
+    }
+
+    public File[] getFiles() {
+        return files;
     }
 
     public PluginFile[] getPluginFiles() {

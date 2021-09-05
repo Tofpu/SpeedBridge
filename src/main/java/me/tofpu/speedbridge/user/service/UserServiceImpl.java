@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge.user.service;
 
-import com.google.gson.Gson;
+import me.tofpu.speedbridge.data.DataManager;
+import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.user.User;
 import me.tofpu.speedbridge.user.UserImpl;
 
@@ -11,12 +12,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class UserServiceImpl implements UserService {
     private final List<User> users;
 
     public UserServiceImpl(){
         users = new ArrayList<>();
+    }
+
+    @Override
+    public void initialize(final DataManager dataManager) {
+        Game.EXECUTOR.scheduleWithFixedDelay(
+                () -> saveAll(dataManager.getFiles()[2], false)
+                ,5, 5, TimeUnit.MINUTES);
     }
 
     @Override
@@ -48,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveAll(final Gson gson, final File directory) {
+    public void saveAll(final File directory, final boolean emptyList) {
         if (!directory.exists()) directory.mkdirs();
         for (final User user : this.users) {
             final File file = new File(directory, user.getUuid().toString() + ".json");
@@ -61,20 +70,21 @@ public class UserServiceImpl implements UserService {
             }
             try {
                 try (final FileWriter writer = new FileWriter(file)) {
-                    writer.write(gson.toJson(user, User.class));
+                    writer.write(DataManager.GSON.toJson(user, User.class));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        if (emptyList) this.users.clear();
     }
 
     @Override
-    public void save(final Gson gson, final User user, final File directory) {
+    public void save(final User user, final File directory) {
         final File file = new File(directory, user.getUuid().toString() + ".json");
         try {
             try (final FileWriter writer = new FileWriter(file)) {
-                writer.write(gson.toJson(user, User.class));
+                writer.write(DataManager.GSON.toJson(user, User.class));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,13 +92,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User load(final Gson gson, final UUID uuid, final File directory) {
+    public User load(final UUID uuid, final File directory) {
         final File file = new File(directory, uuid.toString() + ".json");
         if (!file.exists()) return null;
 
         User user = null;
         try {
-            user = gson.fromJson(new FileReader(file), User.class);
+            user = DataManager.GSON.fromJson(new FileReader(file), User.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
