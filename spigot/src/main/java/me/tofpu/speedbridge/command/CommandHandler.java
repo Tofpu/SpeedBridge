@@ -27,12 +27,12 @@ public class CommandHandler {
 
         // completions
         this.commandManager.getCommandCompletions().registerCompletion("modes", context -> Util.toString(ModeManager.getModeManager().modes()));
-        this.commandManager.getCommandCompletions().registerCompletion("availableIslands", context -> Util.toString(game.getIslandService().getAvailableIslands()));
+        this.commandManager.getCommandCompletions().registerCompletion("availableIslands", context -> Util.toString(game.islandService().getAvailableIslands()));
         this.commandManager.getCommandCompletions().registerCompletion("setupStage", context -> Util.toString(SetupStage.values()));
 
         // registrations
-        registerCommand(new MainCommand(game.getUserService(), game.getGameService(), game.getLobbyService()));
-        registerCommand(new AdminCommand(plugin, game.getLobbyService(), game.getGameService(), game.getGameController(), game.getDataManager()));
+        registerCommand(new MainCommand(game.userService(), game.gameService(), game.lobbyService()));
+        registerCommand(new AdminCommand(plugin, game.lobbyService(), game.gameService(), game.gameController(), game.dataManager()));
     }
 
     public void registerCommand(final BaseCommand command) {

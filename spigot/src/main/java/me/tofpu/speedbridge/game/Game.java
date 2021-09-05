@@ -49,27 +49,27 @@ public class Game {
         new Metrics(speedBridge, 12679);
     }
 
-    public IslandService getIslandService() {
+    public IslandService islandService() {
         return this.islandService;
     }
 
-    public UserService getUserService() {
+    public UserService userService() {
         return this.userService;
     }
 
-    public GameController getGameController() {
+    public GameController gameController() {
         return this.gameController;
     }
 
-    public GameService getGameService() {
+    public GameService gameService() {
         return this.gameService;
     }
 
-    public LobbyService getLobbyService() {
+    public LobbyService lobbyService() {
         return this.lobbyService;
     }
 
-    public DataManager getDataManager() {
+    public DataManager dataManager() {
         return this.dataManager;
     }
 }

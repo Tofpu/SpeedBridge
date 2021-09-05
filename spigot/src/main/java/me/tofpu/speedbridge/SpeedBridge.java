@@ -36,11 +36,11 @@ public final class SpeedBridge extends JavaPlugin {
     public SpeedBridge() {
         this.game = new Game(this);
 
-        final DataManager dataManager = getGame().getDataManager();
-        final UserService userService = getGame().getUserService();
-        final IslandService islandService = getGame().getIslandService();
-        final GameService gameService = getGame().getGameService();
-        final LobbyService lobbyService = getGame().getLobbyService();
+        final DataManager dataManager = game().dataManager();
+        final UserService userService = game().userService();
+        final IslandService islandService = game().islandService();
+        final GameService gameService = game().gameService();
+        final LobbyService lobbyService = game().lobbyService();
 
         this.listeners = Arrays.asList(
                 new PlayerJoinListener(lobbyService, dataManager),
@@ -61,9 +61,9 @@ public final class SpeedBridge extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getGame().getDataManager().save();
+        game().dataManager().save();
 
-        getGame().getLobbyService().getLeaderboard().cancel();
+        game().lobbyService().getLeaderboard().cancel();
     }
 
     private void initialize(){
@@ -76,12 +76,12 @@ public final class SpeedBridge extends JavaPlugin {
             }
         });
 
-        final DataManager dataManager = getGame().getDataManager();
+        final DataManager dataManager = game().dataManager();
         // TODO: REMOVING THIS SOON
-        getGame().initialize();
+        game().initialize();
 
         // initializes the files
-        dataManager.initialize(this, getDataFolder());
+        dataManager.initialize(game().islandService(), game().userService(), game().lobbyService(), this, getDataFolder());
 
         final ConfigIdentifier settingsIdentifier = ConfigIdentifier.of(
                 "settings",
@@ -100,11 +100,11 @@ public final class SpeedBridge extends JavaPlugin {
     }
 
     private void load(){
-        game.getDataManager().load();
+        game.dataManager().load();
         // RELOAD BUG FIX
-        Bukkit.getOnlinePlayers().forEach(player -> getGame().getDataManager().loadUser(player.getUniqueId()));
+        Bukkit.getOnlinePlayers().forEach(player -> game().dataManager().loadUser(player.getUniqueId()));
         // starting the leaderboard
-        getGame().getLobbyService().getLeaderboard().start(this);
+        game().lobbyService().getLeaderboard().start(this);
     }
 
     private void initializePlaceholderApi() {
@@ -118,7 +118,7 @@ public final class SpeedBridge extends JavaPlugin {
         if (!DependencyAPI.get("PlaceholderAPI").isAvailable()) return;
         Util.isPlaceholderHooked = true;
 //        getLogger().info("Hooked into PlaceholderAPI");
-        new BridgeExpansion(getDescription(), getGame().getUserService(), getGame().getGameService(), getGame().getLobbyService()).register();
+        new BridgeExpansion(getDescription(), game().userService(), game().gameService(), game().lobbyService()).register();
     }
 
     private void initializeListeners() {
@@ -128,7 +128,7 @@ public final class SpeedBridge extends JavaPlugin {
         }
     }
 
-    public Game getGame() {
+    public Game game() {
         return this.game;
     }
 }
