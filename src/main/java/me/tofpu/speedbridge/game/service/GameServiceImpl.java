@@ -2,8 +2,8 @@ package me.tofpu.speedbridge.game.service;
 
 import com.google.common.collect.Lists;
 import me.tofpu.speedbridge.data.file.path.Path;
-import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.game.Result;
+import me.tofpu.speedbridge.game.runnable.GameRunnable;
 import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.island.mode.ModeManager;
@@ -25,14 +25,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 
 public class GameServiceImpl implements GameService {
     private final Plugin plugin;
@@ -41,8 +37,10 @@ public class GameServiceImpl implements GameService {
     private final UserService userService;
     private final LobbyService lobbyService;
 
-    private final Map<UUID, Timer> gameTimer = new HashMap<>();
-    private final Map<UUID, ScheduledFuture<?>> gameTask = new HashMap<>();
+    private final Map<UUID, Timer> gameTimer;
+    private final Map<User, Island> gameChecker;
+
+    private final GameRunnable runnable;
 
     public GameServiceImpl(final Plugin plugin, final IslandService islandService, final UserService userService, final LobbyService lobbyService) {
         this.plugin = plugin;
@@ -50,6 +48,11 @@ public class GameServiceImpl implements GameService {
         this.islandService = islandService;
         this.userService = userService;
         this.lobbyService = lobbyService;
+
+        this.gameTimer = new HashMap<>();
+        this.gameChecker = new HashMap<>();
+
+        this.runnable = new GameRunnable(plugin, this, this.gameChecker);
     }
 
     @Override
@@ -129,25 +132,9 @@ public class GameServiceImpl implements GameService {
 
         inventory.addItem(new ItemStack(XMaterial.WHITE_WOOL.parseMaterial(), 64));
 
-        final TwoSection selection = (TwoSection) island.getProperties().get("selection");
-        final Cuboid cuboid = new Cuboid(selection.getPointA(), selection.getPointB());
+        if (this.runnable.isPaused()) this.runnable.start();
+        gameChecker.put(user, island);
 
-//        this.gameTask.put(player.getUniqueId(),
-//                Bukkit.getScheduler()
-//                        .runTaskTimer(plugin,
-//                                () -> {
-//                                    if (!cuboid.isIn(player.getLocation())) {
-//                                        reset(user);
-//                                    }
-//                                },
-//                                20, 10));
-
-        // TODO: MAKE IT SO THERE'D BE A SINGLE SCHEDULER THAT LOOPS THROUGH PLAYERS THAT ARE PLAYING AND CHECK IF THEY'RE OUTSIDE OF THE BORDER, EZ
-        this.gameTask.put(player.getUniqueId(), Game.EXECUTOR.scheduleWithFixedDelay(() -> {
-            if (!cuboid.isIn(player.getLocation())) {
-                reset(user);
-            }
-        }, 1000, 500, TimeUnit.MILLISECONDS));
         return Result.SUCCESS;
     }
 
@@ -160,10 +147,10 @@ public class GameServiceImpl implements GameService {
         resetIsland(user.getProperties().getIslandSlot());
         user.getProperties().setIslandSlot(null);
 
-        gameTimer.remove(player.getUniqueId());
+        this.gameTimer.remove(player.getUniqueId());
+        this.gameChecker.remove(user);
 
-        final ScheduledFuture<?> task = gameTask.remove(player.getUniqueId());
-        task.cancel(true);
+        if (this.gameChecker.isEmpty()) this.runnable.cancel();
 
         player.teleport(lobbyService.getLobbyLocation());
         Util.message(player, Path.MESSAGES_LEFT);
@@ -196,7 +183,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Timer getTimer(User user) {
-        return gameTimer.get(user.getUuid());
+        return this.gameTimer.get(user.getUuid());
     }
 
     @Override
@@ -230,7 +217,7 @@ public class GameServiceImpl implements GameService {
     public void resetTimer(final User user) {
         if (user == null) return;
 
-        gameTimer.remove(user.getUuid());
+        this.gameTimer.remove(user.getUuid());
         resetBlocks(islandService.getIslandBySlot(user.getProperties().getIslandSlot()));
     }
 
