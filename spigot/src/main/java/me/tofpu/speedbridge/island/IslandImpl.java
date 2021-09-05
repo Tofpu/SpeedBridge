@@ -3,13 +3,14 @@ package me.tofpu.speedbridge.island;
 import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
+import me.tofpu.speedbridge.island.properties.IslandPropertiesImpl;
 import me.tofpu.speedbridge.user.User;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IslandImpl extends IslandProperties implements Island {
+public class IslandImpl extends IslandPropertiesImpl implements Island {
     private final List<Location> placedBlocks = new ArrayList<>();
 
     private final int slot;

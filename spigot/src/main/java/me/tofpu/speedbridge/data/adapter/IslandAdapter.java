@@ -25,8 +25,8 @@ public class IslandAdapter extends TypeAdapter<Island> {
         out.name("properties").beginArray().beginObject();
 
         final IslandProperties properties = value.properties();
-        for (int i = 0; i < properties.twoSections().size(); i++) {
-            final Point point = properties.twoSections().get(i);
+        for (int i = 0; i < properties.points().size(); i++) {
+            final Point point = properties.points().get(i);
 
             out.name(i + "").beginArray();
             out.beginObject();

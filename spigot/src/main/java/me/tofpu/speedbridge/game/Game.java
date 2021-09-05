@@ -47,8 +47,6 @@ public class Game {
     public void initialize(){
         new CommandHandler(this, speedBridge);
         new Metrics(speedBridge, 12679);
-
-        getIslandService().initialize(getDataManager());
     }
 
     public IslandService getIslandService() {
