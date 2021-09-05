@@ -104,6 +104,13 @@
         </dependency>
 
         <dependency>
+            <groupId>me.tofpu.speedbridge</groupId>
+            <artifactId>speedbridge-api</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.10.10</version>
