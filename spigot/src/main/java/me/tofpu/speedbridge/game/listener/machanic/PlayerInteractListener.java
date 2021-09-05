@@ -27,21 +27,19 @@ public class PlayerInteractListener implements Listener {
 
     @EventHandler
     private void onPlayerInteract(final PlayerInteractEvent event) {
+        // if the event action is not physical (e.g: pressure-plate)
         if (event.getAction() != Action.PHYSICAL) return;
         final Player player = event.getPlayer();
 
+        // if the player is not not playing
         if (!gameService.isPlaying(player)) return;
         final User user = userService.searchForUUID(player.getUniqueId());
         final Island island = islandService.getIslandBySlot(user.properties().islandSlot());
 
         final Point section = island.properties().get("point");
         final Location pressurePlate = event.getClickedBlock().getLocation();
-//        if (isEqual(pressurePlate, section.getPointA())) {
-//            player.sendMessage("Pressed on point-a");
-//            gameService.resetTimer(user);
-//            gameService.addTimer(user);
-//        } else
 
+        // if the timer has started and the pressure plate location equals to the island point
         if (gameService.hasTimer(user) && Util.isEqual(pressurePlate, section.pointA())) {
             gameService.updateTimer(user);
         }

@@ -29,11 +29,14 @@ public class BlockBreakListener implements Listener {
         final Player player = event.getPlayer();
         final Location blockLocation = event.getBlock().getLocation();
 
+        // if the player is not not playing
         if (!gameService.isPlaying(player)) return;
         final User user = userService.searchForUUID(player.getUniqueId());
         final Island island = islandService.getIslandBySlot(user.properties().islandSlot());
 
         final List<Location> locations = island.placedBlocks();
+
+        // if the player is breaking a block that they've not placed themselves
         if (!locations.contains(blockLocation)) {
             event.setCancelled(true);
             return;

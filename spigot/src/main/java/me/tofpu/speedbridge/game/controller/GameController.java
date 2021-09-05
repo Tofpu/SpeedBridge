@@ -23,14 +23,19 @@ public class GameController {
     }
 
     public Result createIsland(final Player player, int slot) {
+        // if an island exists by that defined slot
         if (islandService.getIslandBySlot(slot) != null) return Result.DENY;
         final Island island = new IslandImpl(slot);
+
+        // store the island & player to a cache map for modifying/setting-up purposes
         islandMap.put(player.getUniqueId(), island);
         return Result.SUCCESS;
     }
 
     public Result setupIsland(final Player player, SetupStage stage) {
         final Island island = islandMap.get(player.getUniqueId());
+
+        // if the player is not in the cache list
         if (island == null) return Result.DENY;
 
         final String[] args = stage.name().split("_");
@@ -53,9 +58,11 @@ public class GameController {
     }
 
     public Result modifyIsland(final Player player, final int slot) {
+        // if the player is in the cache list, meaning they're occupied with an island
         if (islandMap.get(player.getUniqueId()) != null) return Result.FULL;
-
         final Island island = islandService.getIslandBySlot(slot);
+
+        // if the island defined doesn't exist
         if (island == null) return Result.DENY;
 
         islandMap.put(player.getUniqueId(), island);
@@ -64,6 +71,7 @@ public class GameController {
     }
 
     public Result cancelSetup(final Player player) {
+        // if the player is in the cache list
         if (islandMap.containsKey(player.getUniqueId())) {
             islandMap.remove(player.getUniqueId());
             return Result.SUCCESS;
@@ -73,11 +81,14 @@ public class GameController {
 
     public Result finishSetup(final Player player) {
         final Island island = islandMap.get(player.getUniqueId());
-        if (island == null) return Result.INVALID_LOBBY;
 
+        // if the player is not in the cache list
+        if (island == null) return Result.INVALID_LOBBY;
         final IslandProperties properties = island.properties();
         final Point sectionPoint = properties.get("point");
         final TwoSection sectionSelection = (TwoSection) properties.get("selection");
+
+        // If the island has a spawn, point, selection a and b set
         if (island.hasLocation() && sectionPoint.hasPointA() && sectionSelection.hasPointA() && sectionSelection.hasPointB()) {
             islandService.removeIsland(islandService.getIslandBySlot(island.slot()));
             islandService.addIsland(island);

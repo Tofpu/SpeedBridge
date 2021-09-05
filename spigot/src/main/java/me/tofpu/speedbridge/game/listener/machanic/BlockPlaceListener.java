@@ -27,23 +27,27 @@ public class BlockPlaceListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     private void onBlockPlace(final BlockPlaceEvent event) {
         final Player player = event.getPlayer();
+        // if the player is not not playing
         if (!gameService.isPlaying(player)) return;
 
         final User user = userService.searchForUUID(player.getUniqueId());
         final Island island = islandService.getIslandBySlot(user.properties().islandSlot());
 
         final Location location = event.getBlockPlaced().getLocation();
-
         final TwoSection twoSection = (TwoSection) island.properties().get("selection");
+
+        // if the block placed isn't inside the island's arena
         if (!Cuboid.of(twoSection.pointA(), twoSection.pointB()).isIn(location)) {
             event.setCancelled(true);
             return;
         }
 
+        // if the timer haven't started
         if (!gameService.hasTimer(user)) {
             gameService.addTimer(user);
         }
 
+        // storing the block location for removal
         island.placedBlocks().add(event.getBlockPlaced().getLocation());
         event.getItemInHand().setAmount(64);
     }
