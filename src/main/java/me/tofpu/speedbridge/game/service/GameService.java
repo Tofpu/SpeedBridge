@@ -4,7 +4,7 @@ import me.tofpu.speedbridge.game.Result;
 import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.user.User;
-import me.tofpu.speedbridge.user.properties.Timer;
+import me.tofpu.speedbridge.user.properties.timer.Timer;
 import org.bukkit.entity.Player;
 
 public interface GameService {
