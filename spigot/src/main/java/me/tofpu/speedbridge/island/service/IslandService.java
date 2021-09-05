@@ -9,9 +9,7 @@ import java.io.File;
 import java.util.List;
 
 public interface IslandService {
-    void initialize(final DataManager dataManager);
-
-    void addIsland(final Island island);
+   void addIsland(final Island island);
 
     void removeIsland(final Island island);
 

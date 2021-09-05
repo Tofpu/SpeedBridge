@@ -21,6 +21,7 @@ public class Game {
     public static final ScheduledExecutorService EXECUTOR = Executors.newScheduledThreadPool(1);
 
     private final SpeedBridge speedBridge;
+    private final DataManager dataManager;
 
     private final IslandService islandService;
     private final UserService userService;
@@ -30,20 +31,17 @@ public class Game {
     private final GameController gameController;
     private final GameService gameService;
 
-    private final DataManager dataManager;
-
     public Game(final SpeedBridge plugin) {
         this.speedBridge = plugin;
+        this.dataManager = new DataManager();
 
-        this.islandService = new IslandServiceImpl();
-        this.userService = new UserServiceImpl();
+        this.islandService = new IslandServiceImpl(dataManager);
+        this.userService = new UserServiceImpl(dataManager);
 
         this.lobbyService = new LobbyServiceImpl();
 
         this.gameController = new GameController(islandService);
         this.gameService = new GameServiceImpl(plugin, islandService, userService, lobbyService);
-
-        this.dataManager = new DataManager(islandService, userService, lobbyService);
     }
 
     public void initialize(){

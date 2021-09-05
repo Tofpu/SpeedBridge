@@ -17,11 +17,9 @@ import java.util.concurrent.TimeUnit;
 public class IslandServiceImpl implements IslandService {
     private final List<Island> islands;
 
-    public IslandServiceImpl(){
+    public IslandServiceImpl(final DataManager dataManager){
         islands = new ArrayList<>();
-    }
 
-    public void initialize(final DataManager dataManager) {
         Game.EXECUTOR.scheduleWithFixedDelay(
                 () -> saveAll(dataManager.getFiles()[1], false)
                 ,5, 5, TimeUnit.MINUTES);

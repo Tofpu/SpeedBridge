@@ -42,23 +42,23 @@ public class DataManager {
             .serializeNulls()
             .create();
 
-    private final IslandService islandService;
-    private final UserService userService;
-    private final LobbyService lobbyService;
-
     private final File[] files;
     private final PluginFile[] pluginFiles;
 
-    public DataManager(final IslandService islandService, final UserService userService, final LobbyService lobbyService) {
+    private IslandService islandService;
+    private UserService userService;
+    private LobbyService lobbyService;
+
+    public DataManager() {
         this.files = new File[5];
         this.pluginFiles = new PluginFile[2];
+    }
 
+    public void initialize(final IslandService islandService, final UserService userService, final LobbyService lobbyService, final Plugin plugin, final File parentDirectory) {
         this.islandService = islandService;
         this.userService = userService;
         this.lobbyService = lobbyService;
-    }
 
-    public void initialize(final Plugin plugin, final File parentDirectory) {
         this.files[0] = parentDirectory;
         this.files[1] = new File(parentDirectory, "islands");
         this.files[2] = new File(parentDirectory, "users");

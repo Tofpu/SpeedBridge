@@ -17,12 +17,9 @@ import java.util.concurrent.TimeUnit;
 public class UserServiceImpl implements UserService {
     private final List<User> users;
 
-    public UserServiceImpl(){
+    public UserServiceImpl(final DataManager dataManager){
         users = new ArrayList<>();
-    }
 
-    @Override
-    public void initialize(final DataManager dataManager) {
         Game.EXECUTOR.scheduleWithFixedDelay(
                 () -> saveAll(dataManager.getFiles()[2], false)
                 ,5, 5, TimeUnit.MINUTES);
