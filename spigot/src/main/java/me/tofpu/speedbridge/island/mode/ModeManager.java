@@ -31,7 +31,7 @@ public class ModeManager {
         final ConfigurationSection section = configuration.getConfigurationSection(path + "list");
         for (final String value : section.getKeys(false)) {
             boolean isDefault = defaultMode.equalsIgnoreCase(value);
-            final Mode mode = new Mode(value, isDefault);
+            final Mode mode = ModeFactory.of(value, isDefault);
             final String[] args = section.getString(value).split("-");
 
             final int integer = Integer.parseInt(args[0]);
@@ -44,16 +44,16 @@ public class ModeManager {
                     list.add(i);
                 }
             }
-            if (hasArray) mode.getSlots().addAll(list);
-            else mode.getSlots().add(integer);
+            if (hasArray) mode.slots().addAll(list);
+            else mode.slots().add(integer);
 
-            getModes().add(mode);
+            modes().add(mode);
         }
     }
 
     public Mode get(final int slot) {
         for (final Mode mode : modes) {
-            if (mode.getSlots().contains(slot)) return mode;
+            if (mode.slots().contains(slot)) return mode;
         }
         return null;
     }
@@ -72,7 +72,7 @@ public class ModeManager {
         return null;
     }
 
-    public List<Mode> getModes() {
+    public List<Mode> modes() {
         return modes;
     }
 }

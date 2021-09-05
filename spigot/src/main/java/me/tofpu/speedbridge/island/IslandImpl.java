@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge.island;
 
 import me.tofpu.speedbridge.island.mode.Mode;
+import me.tofpu.speedbridge.island.mode.ModeImpl;
 import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.island.properties.IslandProperties;
 import me.tofpu.speedbridge.island.properties.IslandPropertiesImpl;

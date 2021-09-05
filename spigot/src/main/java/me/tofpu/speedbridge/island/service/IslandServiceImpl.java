@@ -4,6 +4,7 @@ import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.mode.Mode;
+import me.tofpu.speedbridge.island.mode.ModeImpl;
 import me.tofpu.speedbridge.user.User;
 
 import java.io.File;

@@ -1,10 +1,7 @@
-package me.tofpu.speedbridge.island;
+package me.tofpu.speedbridge.api.island;
 
-import me.tofpu.speedbridge.island.mode.Mode;
-import me.tofpu.speedbridge.island.mode.ModeImpl;
-import me.tofpu.speedbridge.island.properties.IslandProperties;
-import me.tofpu.speedbridge.user.User;
-import me.tofpu.speedbridge.util.Identifier;
+import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.util.Identifier;
 import org.bukkit.Location;
 
 import java.util.List;

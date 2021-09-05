@@ -8,6 +8,7 @@ import me.tofpu.speedbridge.command.sub.MainCommand;
 import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.game.controller.SetupStage;
 import me.tofpu.speedbridge.island.mode.Mode;
+import me.tofpu.speedbridge.island.mode.ModeImpl;
 import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.util.Util;
 
@@ -25,7 +26,7 @@ public class CommandHandler {
         });
 
         // completions
-        this.commandManager.getCommandCompletions().registerCompletion("modes", context -> Util.toString(ModeManager.getModeManager().getModes()));
+        this.commandManager.getCommandCompletions().registerCompletion("modes", context -> Util.toString(ModeManager.getModeManager().modes()));
         this.commandManager.getCommandCompletions().registerCompletion("availableIslands", context -> Util.toString(game.getIslandService().getAvailableIslands()));
         this.commandManager.getCommandCompletions().registerCompletion("setupStage", context -> Util.toString(SetupStage.values()));
 
