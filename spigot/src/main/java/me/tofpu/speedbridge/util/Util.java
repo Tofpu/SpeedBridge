@@ -3,6 +3,7 @@ package me.tofpu.speedbridge.util;
 import co.aikar.commands.RegisteredCommand;
 import com.google.common.collect.Maps;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.tofpu.speedbridge.api.util.Identifier;
 import me.tofpu.speedbridge.data.file.path.Path;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;

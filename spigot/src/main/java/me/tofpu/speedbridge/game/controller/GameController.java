@@ -1,12 +1,12 @@
 package me.tofpu.speedbridge.game.controller;
 
-import me.tofpu.speedbridge.game.Result;
-import me.tofpu.speedbridge.island.Island;
+import me.tofpu.speedbridge.api.game.Result;
+import me.tofpu.speedbridge.api.island.Island;
+import me.tofpu.speedbridge.api.island.IslandProperties;
+import me.tofpu.speedbridge.api.island.IslandService;
+import me.tofpu.speedbridge.api.island.point.Point;
+import me.tofpu.speedbridge.api.island.point.TwoSection;
 import me.tofpu.speedbridge.island.IslandImpl;
-import me.tofpu.speedbridge.island.properties.IslandProperties;
-import me.tofpu.speedbridge.island.properties.point.Point;
-import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
-import me.tofpu.speedbridge.island.service.IslandService;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

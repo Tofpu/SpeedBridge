@@ -3,12 +3,12 @@ package me.tofpu.speedbridge.data.adapter;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import me.tofpu.speedbridge.api.island.Island;
+import me.tofpu.speedbridge.api.island.IslandProperties;
+import me.tofpu.speedbridge.api.island.point.Point;
+import me.tofpu.speedbridge.api.island.point.TwoSection;
 import me.tofpu.speedbridge.data.DataManager;
-import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.IslandImpl;
-import me.tofpu.speedbridge.island.properties.IslandProperties;
-import me.tofpu.speedbridge.island.properties.point.Point;
-import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
 import org.bukkit.Location;
 
 import java.io.IOException;

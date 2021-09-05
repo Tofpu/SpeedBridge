@@ -1,12 +1,12 @@
 package me.tofpu.speedbridge.expansion;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.tofpu.speedbridge.game.service.GameService;
-import me.tofpu.speedbridge.lobby.leaderboard.Leaderboard;
-import me.tofpu.speedbridge.lobby.service.LobbyService;
-import me.tofpu.speedbridge.user.User;
-import me.tofpu.speedbridge.user.properties.timer.Timer;
-import me.tofpu.speedbridge.user.service.UserService;
+import me.tofpu.speedbridge.api.game.GameService;
+import me.tofpu.speedbridge.api.lobby.Leaderboard;
+import me.tofpu.speedbridge.api.lobby.LobbyService;
+import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.user.UserService;
+import me.tofpu.speedbridge.api.user.timer.Timer;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -80,7 +80,7 @@ public class BridgeExpansion extends PlaceholderExpansion {
                 final Leaderboard leaderboard = lobbyService.getLeaderboard();
                 System.out.println(Arrays.toString(args));
                 final Integer integer = Util.parseInt(args[1]);
-                return integer == null ? "Provide a number!" : integer == 0 ? "Only number 1 or above is allowed!" : leaderboard.parseAndGet(integer - 1);
+                return integer == null ? "Provide a number!" : integer == 0 ? "Only number 1 or above is allowed!" : leaderboard.parse(integer - 1);
             default:
                 return "";
         }

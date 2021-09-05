@@ -1,5 +1,6 @@
 package me.tofpu.speedbridge.island.properties.point;
 
+import me.tofpu.speedbridge.api.island.point.Point;
 import org.bukkit.Location;
 
 public class PointImpl implements Point {

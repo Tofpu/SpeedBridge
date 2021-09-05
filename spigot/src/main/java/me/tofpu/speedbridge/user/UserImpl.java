@@ -1,7 +1,8 @@
 package me.tofpu.speedbridge.user;
 
 import com.google.common.base.Objects;
-import me.tofpu.speedbridge.user.properties.UserProperties;
+import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.user.UserProperties;
 import me.tofpu.speedbridge.user.properties.UserPropertiesFactory;
 import me.tofpu.speedbridge.user.properties.UserPropertiesImpl;
 

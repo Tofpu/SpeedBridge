@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge.user.properties;
 
-import me.tofpu.speedbridge.user.properties.timer.Timer;
+import me.tofpu.speedbridge.api.user.UserProperties;
+import me.tofpu.speedbridge.api.user.timer.Timer;
 
 public class UserPropertiesImpl implements UserProperties {
     private Integer islandSlot;

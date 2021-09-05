@@ -1,8 +1,9 @@
 package me.tofpu.speedbridge.user.service;
 
+import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.user.UserService;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.game.Game;
-import me.tofpu.speedbridge.user.User;
 import me.tofpu.speedbridge.user.UserImpl;
 
 import java.io.File;

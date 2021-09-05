@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge.lobby.leaderboard;
 
 import com.google.common.collect.Lists;
+import me.tofpu.speedbridge.api.lobby.BoardUser;
 import me.tofpu.speedbridge.api.lobby.Leaderboard;
 import me.tofpu.speedbridge.api.user.User;
 import me.tofpu.speedbridge.api.user.timer.Timer;
@@ -15,8 +16,8 @@ import java.util.List;
 import java.util.UUID;
 
 public final class LeaderboardImpl implements Leaderboard {
-    private final List<BoardUserImpl> mainLeaderboard;
-    private final List<BoardUserImpl> cacheLeaderboard;
+    private final List<BoardUser> mainLeaderboard;
+    private final List<BoardUser> cacheLeaderboard;
 
     private final int limitSize;
     private BukkitTask update;
@@ -32,7 +33,7 @@ public final class LeaderboardImpl implements Leaderboard {
     public void start(final Plugin plugin) {
         update = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             mainLeaderboard.clear();
-            final List<BoardUserImpl> users = sortGet();
+            final List<BoardUser> users = sortGet();
             mainLeaderboard.addAll(users.subList(0, Math.min(users.size(), this.limitSize)));
         }, 0, 20 * 10);
     }
@@ -48,9 +49,9 @@ public final class LeaderboardImpl implements Leaderboard {
         if (player == null) return;
         final Timer timer = user.properties().timer();
 
-        BoardUserImpl boardUser = get(user.uniqueId());
+        BoardUser boardUser = get(user.uniqueId());
         if (boardUser == null) {
-            boardUser = new BoardUserImpl(player.getName(), user.uniqueId(), timer == null ? null : timer.result());
+            boardUser = new BoardUserImpl.Builder().name(player.getName()).uniqueId(user.uniqueId()).result(timer == null ? null : timer.result()).build();
         } else {
             if (boardUser.score() == null || boardUser.score() > timer.result()) {
                 boardUser.score(timer.result());
@@ -59,15 +60,15 @@ public final class LeaderboardImpl implements Leaderboard {
         add(boardUser);
     }
 
-    private List<BoardUserImpl> sortGet() {
-        final List<BoardUserImpl> players = new ArrayList<>(getCacheLeaderboard());
+    private List<BoardUser> sortGet() {
+        final List<BoardUser> players = new ArrayList<>(getCacheLeaderboard());
         if (players.isEmpty()) return players;
 
         int max;
         for (int i = 0; i < players.size(); i++) {
             max = i;
-            BoardUserImpl playerMax = players.get(max);
-            BoardUserImpl playerJ;
+            BoardUser playerMax = players.get(max);
+            BoardUser playerJ;
 
             for (int j = i; j < players.size(); j++) {
                 playerJ = players.get(j);
@@ -77,7 +78,7 @@ public final class LeaderboardImpl implements Leaderboard {
                 }
             }
             //Swap biggest and current locations
-            final BoardUserImpl placeholder = players.get(i);
+            final BoardUser placeholder = players.get(i);
             players.set(i, playerMax);
             if (!placeholder.equals(playerMax)) players.set(max, placeholder);
         }
@@ -85,16 +86,16 @@ public final class LeaderboardImpl implements Leaderboard {
         return players;
     }
 
-    public BoardUserImpl get(final UUID uuid) {
-        for (final BoardUserImpl user : getCacheLeaderboard()) {
+    public BoardUser get(final UUID uuid) {
+        for (final BoardUser user : getCacheLeaderboard()) {
             if (user.uniqueId().equals(uuid)) return user;
         }
         return null;
     }
 
-    public void add(final BoardUserImpl boardUser) {
+    public void add(final BoardUser boardUser) {
         if (boardUser == null || boardUser.score() == null) return;
-        for (final BoardUserImpl user : getCacheLeaderboard()) {
+        for (final BoardUser user : getCacheLeaderboard()) {
             if (user.equals(boardUser)) {
                 if (user.score() > boardUser.score()) {
                     user.score(boardUser.score());
@@ -106,8 +107,8 @@ public final class LeaderboardImpl implements Leaderboard {
     }
 
     @Override
-    public void addAll(final List<BoardUserImpl> users) {
-        for (final BoardUserImpl user : users) {
+    public void addAll(final List<BoardUser> users) {
+        for (final BoardUser user : users) {
             add(user);
         }
     }
@@ -118,7 +119,7 @@ public final class LeaderboardImpl implements Leaderboard {
         builder.append("&eLeaderboard");
 
         int length = 1;
-        for (final BoardUserImpl user : getMainLeaderboard()) {
+        for (final BoardUser user : positions()) {
             builder.append("\n").append("&e").append(length).append(". ").append(user.name()).append(" &a(").append(user.score()).append(")");
             length++;
         }
@@ -128,16 +129,16 @@ public final class LeaderboardImpl implements Leaderboard {
 
     @Override
     public String parse(final int slot){
-        if (getMainLeaderboard().size() <= slot) return "N/A";
-        final BoardUserImpl user = getMainLeaderboard().get(slot);
+        if (positions().size() <= slot) return "N/A";
+        final BoardUser user = positions().get(slot);
         return user == null ? "N/A" : Util.colorize(user.name() + " &a(" + user.score() + ")");
     }
 
-    public List<BoardUserImpl> getMainLeaderboard() {
+    public List<BoardUser> positions() {
         return Lists.newArrayList(mainLeaderboard);
     }
 
-    public List<BoardUserImpl> getCacheLeaderboard() {
+    public List<BoardUser> getCacheLeaderboard() {
         return Lists.newArrayList(cacheLeaderboard);
     }
 }

@@ -1,5 +1,6 @@
 package me.tofpu.speedbridge.island.properties.twosection;
 
+import me.tofpu.speedbridge.api.island.point.TwoSection;
 import org.bukkit.Location;
 
 public class TwoSectionSimple implements TwoSection {
@@ -7,9 +8,6 @@ public class TwoSectionSimple implements TwoSection {
 
     private Location sectionA;
     private Location sectionB;
-
-    public TwoSectionSimple() {
-    }
 
     @Override
     public String identifier() {

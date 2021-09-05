@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public final class BoardUserImpl implements Comparable<BoardUserImpl>, BoardUser {
+public final class BoardUserImpl implements Comparable<BoardUser>, BoardUser {
     private final String name;
     private final UUID uuid;
     private Double score;
@@ -33,7 +33,7 @@ public final class BoardUserImpl implements Comparable<BoardUserImpl>, BoardUser
     }
 
     @Override
-    public BoardUserImpl score(Double score) {
+    public BoardUser score(Double score) {
         this.score = score;
         return this;
     }
@@ -42,8 +42,8 @@ public final class BoardUserImpl implements Comparable<BoardUserImpl>, BoardUser
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BoardUserImpl user = (BoardUserImpl) o;
-        return uuid.equals(user.uuid);
+        BoardUser user = (BoardUser) o;
+        return uuid.equals(user.uniqueId());
     }
 
     @Override
@@ -52,7 +52,7 @@ public final class BoardUserImpl implements Comparable<BoardUserImpl>, BoardUser
     }
 
     @Override
-    public int compareTo(@NotNull BoardUserImpl o) {
+    public int compareTo(@NotNull BoardUser o) {
         if (score().equals(o.score())) return 0; // THIS EQUAL THAN O
         else if (score() > o.score()) return 1; // THIS HIGHER THAN O
         return -1; // THIS LOWER THAN O
@@ -90,7 +90,7 @@ public final class BoardUserImpl implements Comparable<BoardUserImpl>, BoardUser
             return this;
         }
 
-        public BoardUserImpl build() {
+        public BoardUser build() {
             return new BoardUserImpl(name(), uniqueId(), result());
         }
     }

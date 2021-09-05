@@ -1,16 +1,16 @@
 package me.tofpu.speedbridge.game;
 
 import me.tofpu.speedbridge.SpeedBridge;
+import me.tofpu.speedbridge.api.game.GameService;
+import me.tofpu.speedbridge.api.island.IslandService;
+import me.tofpu.speedbridge.api.lobby.LobbyService;
+import me.tofpu.speedbridge.api.user.UserService;
 import me.tofpu.speedbridge.command.CommandHandler;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.game.controller.GameController;
-import me.tofpu.speedbridge.game.service.GameService;
 import me.tofpu.speedbridge.game.service.GameServiceImpl;
-import me.tofpu.speedbridge.island.service.IslandService;
 import me.tofpu.speedbridge.island.service.IslandServiceImpl;
-import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.lobby.service.LobbyServiceImpl;
-import me.tofpu.speedbridge.user.service.UserService;
 import me.tofpu.speedbridge.user.service.UserServiceImpl;
 import org.bstats.bukkit.Metrics;
 

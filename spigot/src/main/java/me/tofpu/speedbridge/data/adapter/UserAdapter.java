@@ -4,10 +4,10 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import me.tofpu.speedbridge.user.User;
+import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.user.UserProperties;
+import me.tofpu.speedbridge.api.user.timer.Timer;
 import me.tofpu.speedbridge.user.UserImpl;
-import me.tofpu.speedbridge.user.properties.UserProperties;
-import me.tofpu.speedbridge.user.properties.timer.Timer;
 import me.tofpu.speedbridge.user.properties.timer.TimerFactory;
 
 import java.io.IOException;

@@ -4,7 +4,8 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import me.tofpu.speedbridge.lobby.leaderboard.BoardUser;
+import me.tofpu.speedbridge.api.lobby.BoardUser;
+import me.tofpu.speedbridge.lobby.leaderboard.BoardUserImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class LeaderboardTypeAdapter extends TypeAdapter<List<BoardUser>> {
         in.nextName();
         in.beginArray();
 
-        BoardUser.Builder builder = new BoardUser.Builder();
+        BoardUserImpl.Builder builder = new BoardUserImpl.Builder();
         while (in.hasNext()) {
             in.beginObject();
 
@@ -60,7 +61,7 @@ public class LeaderboardTypeAdapter extends TypeAdapter<List<BoardUser>> {
                 }
             }
             users.add(builder.build());
-            builder = new BoardUser.Builder();
+            builder = new BoardUserImpl.Builder();
 
             in.endObject();
         }

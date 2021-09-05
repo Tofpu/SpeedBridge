@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge.island.mode;
 
 import com.github.requestpluginsforfree.config.ConfigAPI;
+import me.tofpu.speedbridge.api.island.mode.Mode;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 

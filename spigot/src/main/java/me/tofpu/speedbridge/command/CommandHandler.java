@@ -3,12 +3,11 @@ package me.tofpu.speedbridge.command;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.BukkitCommandManager;
 import me.tofpu.speedbridge.SpeedBridge;
+import me.tofpu.speedbridge.api.island.mode.Mode;
 import me.tofpu.speedbridge.command.sub.AdminCommand;
 import me.tofpu.speedbridge.command.sub.MainCommand;
 import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.game.controller.SetupStage;
-import me.tofpu.speedbridge.island.mode.Mode;
-import me.tofpu.speedbridge.island.mode.ModeImpl;
 import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.util.Util;
 

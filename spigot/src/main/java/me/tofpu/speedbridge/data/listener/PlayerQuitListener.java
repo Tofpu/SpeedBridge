@@ -1,9 +1,9 @@
 package me.tofpu.speedbridge.data.listener;
 
+import me.tofpu.speedbridge.api.game.GameService;
+import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.user.UserService;
 import me.tofpu.speedbridge.data.DataManager;
-import me.tofpu.speedbridge.game.service.GameService;
-import me.tofpu.speedbridge.user.User;
-import me.tofpu.speedbridge.user.service.UserService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

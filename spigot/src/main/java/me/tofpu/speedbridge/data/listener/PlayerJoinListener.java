@@ -1,8 +1,8 @@
 package me.tofpu.speedbridge.data.listener;
 
+import me.tofpu.speedbridge.api.lobby.LobbyService;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.data.file.path.Path;
-import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

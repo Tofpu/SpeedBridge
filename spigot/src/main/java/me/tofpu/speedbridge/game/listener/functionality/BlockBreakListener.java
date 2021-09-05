@@ -1,10 +1,10 @@
 package me.tofpu.speedbridge.game.listener.functionality;
 
-import me.tofpu.speedbridge.game.service.GameService;
-import me.tofpu.speedbridge.island.Island;
-import me.tofpu.speedbridge.island.service.IslandService;
-import me.tofpu.speedbridge.user.User;
-import me.tofpu.speedbridge.user.service.UserService;
+import me.tofpu.speedbridge.api.game.GameService;
+import me.tofpu.speedbridge.api.island.Island;
+import me.tofpu.speedbridge.api.island.IslandService;
+import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.user.UserService;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
