@@ -10,10 +10,10 @@ public interface Leaderboard {
     void start(final Plugin plugin);
     void check(final User user);
     String parse(final int position);
-    List<?> positions();
+    List<BoardUser> positions();
     void cancel();
 
-    void addAll(final List<?> list);
+    void addAll(final List<BoardUser> list);
 
     String print();
 }
