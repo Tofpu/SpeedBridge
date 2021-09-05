@@ -30,13 +30,13 @@ public class GameRunnable extends BukkitRunnable {
         for (final Map.Entry<User, Island> entry : gameChecker.entrySet()) {
             final User user = entry.getKey();
             final Player player;
-            if (user == null || (player = Bukkit.getPlayer(user.getUuid())) == null) {
+            if (user == null || (player = Bukkit.getPlayer(user.uniqueId())) == null) {
                 // TODO: not handling the quits properly?
                 return;
             }
-            final TwoSection selection = (TwoSection) entry.getValue().getProperties().get("selection");
+            final TwoSection selection = (TwoSection) entry.getValue().properties().get("selection");
 
-            final Cuboid cuboid = Cuboid.of(selection.getPointA(), selection.getPointB());
+            final Cuboid cuboid = Cuboid.of(selection.pointA(), selection.pointB());
             if (!cuboid.isIn(player.getLocation())) {
                 this.gameService.reset(user);
             }

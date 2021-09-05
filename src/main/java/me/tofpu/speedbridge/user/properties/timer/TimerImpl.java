@@ -44,11 +44,6 @@ public class TimerImpl implements Timer {
         this.result = Util.toSeconds(start, end);
     }
 
-    /**
-     * @return the end timestamp
-     *
-     * @apiNote this isn't stored thus, will return 0 upon restart
-     */
     @Override
     public long end() {
         return this.end;

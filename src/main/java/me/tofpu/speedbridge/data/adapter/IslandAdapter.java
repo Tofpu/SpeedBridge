@@ -18,15 +18,15 @@ public class IslandAdapter extends TypeAdapter<Island> {
     public void write(JsonWriter out, Island value) throws IOException {
         out.beginObject();
 
-        out.name("slot").value(value.getSlot());
+        out.name("slot").value(value.slot());
         out.name("spawn");
-        DataManager.GSON.toJson(value.getLocation(), Location.class, out);
+        DataManager.GSON.toJson(value.location(), Location.class, out);
 
         out.name("properties").beginArray().beginObject();
 
-        final IslandProperties properties = value.getProperties();
-        for (int i = 0; i < properties.getTwoSections().size(); i++) {
-            final Point point = properties.getTwoSections().get(i);
+        final IslandProperties properties = value.properties();
+        for (int i = 0; i < properties.twoSections().size(); i++) {
+            final Point point = properties.twoSections().get(i);
 
             out.name(i + "").beginArray();
             out.beginObject();
@@ -34,13 +34,13 @@ public class IslandAdapter extends TypeAdapter<Island> {
                 final TwoSection section = (TwoSection) point;
                 if (!section.hasPointA() || !section.hasPointA()) continue;
 
-                out.name(section.getIdentifier() + "-a");
-                write(section.getPointA(), out);
-                out.name(section.getIdentifier() + "-b");
-                write(section.getPointB(), out);
+                out.name(section.identifier() + "-a");
+                write(section.pointA(), out);
+                out.name(section.identifier() + "-b");
+                write(section.pointB(), out);
             } else {
-                out.name(point.getIdentifier());
-                write(point.getPointA(), out);
+                out.name(point.identifier());
+                write(point.pointA(), out);
             }
 
             out.endObject();
@@ -61,13 +61,13 @@ public class IslandAdapter extends TypeAdapter<Island> {
         final Island island = new IslandImpl(in.nextInt());
 
         in.nextName();
-        island.setLocation(adapter.read(in));
+        island.location(adapter.read(in));
 
         in.nextName();
         in.beginArray();
         in.beginObject();
 
-        final IslandProperties properties = island.getProperties();
+        final IslandProperties properties = island.properties();
         while (in.hasNext()) {
             final String index = in.nextName();
             in.beginArray();
@@ -83,14 +83,14 @@ public class IslandAdapter extends TypeAdapter<Island> {
                     final TwoSection section = (TwoSection) point;
                     switch (input[1]) {
                         case "a":
-                            section.setPointA(location);
+                            section.pointA(location);
                             break;
                         case "b":
-                            section.setPointB(location);
+                            section.pointB(location);
                             break;
                     }
                 } else {
-                    point.setPointA(location);
+                    point.pointA(location);
                 }
             }
 

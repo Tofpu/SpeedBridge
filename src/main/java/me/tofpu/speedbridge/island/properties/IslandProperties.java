@@ -18,12 +18,12 @@ public class IslandProperties {
 
     public Point get(final String identifier) {
         for (final Point twoSection : twoSections) {
-            if (twoSection.getIdentifier().equalsIgnoreCase(identifier)) return twoSection;
+            if (twoSection.identifier().equalsIgnoreCase(identifier)) return twoSection;
         }
         return null;
     }
 
-    public List<Point> getTwoSections() {
+    public List<Point> twoSections() {
         return twoSections;
     }
 }

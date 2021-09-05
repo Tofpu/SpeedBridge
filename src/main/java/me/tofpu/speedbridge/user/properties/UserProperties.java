@@ -1,29 +1,28 @@
 package me.tofpu.speedbridge.user.properties;
 
-public class UserProperties {
-    private Integer islandSlot;
-    private Timer timer;
+import me.tofpu.speedbridge.user.properties.timer.Timer;
 
-    public UserProperties() {
-    }
+public interface UserProperties {
+    /**
+     * @return the player's island slot they're in, otherwise null
+     */
+    Integer islandSlot();
 
-    public UserProperties(final int islandSlot) {
-        this.islandSlot = islandSlot;
-    }
+    /**
+     * @param slot setting the player island slot
+     * @apiNote Do not use this, unless you know what you're doing
+     */
+    void islandSlot(final Integer slot);
 
-    public Integer getIslandSlot() {
-        return islandSlot;
-    }
+    /**
+     * @return the player's personal best timer, otherwise null
+     */
+    Timer timer();
 
-    public void setIslandSlot(final Integer islandSlot) {
-        this.islandSlot = islandSlot;
-    }
 
-    public Timer getTimer() {
-        return timer;
-    }
-
-    public void setTimer(final Timer timer) {
-        this.timer = timer;
-    }
+    /**
+     * @param timer the new personal best timer
+     * @apiNote Do not use this, unless you know what you're doing
+     */
+    void timer(final Timer timer);
 }

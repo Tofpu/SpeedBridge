@@ -5,7 +5,6 @@ import me.tofpu.speedbridge.user.properties.UserProperties;
 import java.util.UUID;
 
 public interface User {
-    UUID getUuid();
-
-    UserProperties getProperties();
+    UUID uniqueId();
+    UserProperties properties();
 }

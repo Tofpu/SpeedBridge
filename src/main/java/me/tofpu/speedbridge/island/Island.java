@@ -11,21 +11,15 @@ import java.util.List;
 public interface Island extends Identifier {
     boolean isAvailable();
 
-    User getTakenBy();
+    User takenBy();
+    void takenBy(final User takenBy);
 
-    void setTakenBy(final User takenBy);
-
-    Location getLocation();
-
-    void setLocation(final Location location);
-
+    Location location();
+    void location(final Location location);
     boolean hasLocation();
 
-    int getSlot();
-
-    Mode getMode();
-
-    List<Location> getPlacedBlocks();
-
-    IslandProperties getProperties();
+    int slot();
+    Mode mode();
+    List<Location> placedBlocks();
+    IslandProperties properties();
 }

@@ -30,12 +30,12 @@ public class BlockPlaceListener implements Listener {
         if (!gameService.isPlaying(player)) return;
 
         final User user = userService.searchForUUID(player.getUniqueId());
-        final Island island = islandService.getIslandBySlot(user.getProperties().getIslandSlot());
+        final Island island = islandService.getIslandBySlot(user.properties().islandSlot());
 
         final Location location = event.getBlockPlaced().getLocation();
 
-        final TwoSection twoSection = (TwoSection) island.getProperties().get("selection");
-        if (!Cuboid.of(twoSection.getPointA(), twoSection.getPointB()).isIn(location)) {
+        final TwoSection twoSection = (TwoSection) island.properties().get("selection");
+        if (!Cuboid.of(twoSection.pointA(), twoSection.pointB()).isIn(location)) {
             event.setCancelled(true);
             return;
         }
@@ -44,7 +44,7 @@ public class BlockPlaceListener implements Listener {
             gameService.addTimer(user);
         }
 
-        island.getPlacedBlocks().add(event.getBlockPlaced().getLocation());
+        island.placedBlocks().add(event.getBlockPlaced().getLocation());
         event.getItemInHand().setAmount(64);
     }
 }

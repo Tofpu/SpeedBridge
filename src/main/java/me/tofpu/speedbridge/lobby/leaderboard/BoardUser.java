@@ -16,19 +16,19 @@ public final class BoardUser implements Comparable<BoardUser> {
         this.score = score;
     }
 
-    public String getName() {
+    public String name() {
         return name;
     }
 
-    public UUID getUuid() {
+    public UUID uniqueId() {
         return uuid;
     }
 
-    public Double getScore() {
+    public Double score() {
         return score;
     }
 
-    public BoardUser setScore(Double score) {
+    public BoardUser score(Double score) {
         this.score = score;
         return this;
     }
@@ -48,8 +48,8 @@ public final class BoardUser implements Comparable<BoardUser> {
 
     @Override
     public int compareTo(@NotNull BoardUser o) {
-        if (getScore().equals(o.getScore())) return 0; // THIS EQUAL THAN O
-        else if (getScore() > o.getScore()) return 1; // THIS HIGHER THAN O
+        if (score().equals(o.score())) return 0; // THIS EQUAL THAN O
+        else if (score() > o.score()) return 1; // THIS HIGHER THAN O
         return -1; // THIS LOWER THAN O
     }
 
@@ -58,35 +58,35 @@ public final class BoardUser implements Comparable<BoardUser> {
         private UUID uuid;
         private Double result;
 
-        public String getName() {
+        public String name() {
             return name;
         }
 
-        public Builder setName(String name) {
+        public Builder name(String name) {
             this.name = name;
             return this;
         }
 
-        public UUID getUuid() {
+        public UUID uniqueId() {
             return uuid;
         }
 
-        public Builder setUuid(UUID uuid) {
+        public Builder uniqueId(UUID uuid) {
             this.uuid = uuid;
             return this;
         }
 
-        public Double getResult() {
+        public Double result() {
             return result;
         }
 
-        public Builder setResult(Double result) {
+        public Builder result(Double result) {
             this.result = result;
             return this;
         }
 
         public BoardUser build() {
-            return new BoardUser(getName(), getUuid(), getResult());
+            return new BoardUser(name(), uniqueId(), result());
         }
     }
 }

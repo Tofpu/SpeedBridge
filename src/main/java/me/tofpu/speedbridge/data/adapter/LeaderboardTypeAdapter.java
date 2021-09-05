@@ -18,12 +18,12 @@ public class LeaderboardTypeAdapter extends TypeAdapter<List<BoardUser>> {
         out.beginObject().name("users").beginArray();
 
         for (final BoardUser user : value) {
-            if (user.getUuid() == null) return;
+            if (user.uniqueId() == null) return;
             out.beginObject();
 
-            out.name("name").value(user.getName());
-            out.name("uuid").value(user.getUuid().toString());
-            out.name("result").value(user.getScore());
+            out.name("name").value(user.name());
+            out.name("uuid").value(user.uniqueId().toString());
+            out.name("result").value(user.score());
 
             out.endObject();
         }
@@ -48,14 +48,14 @@ public class LeaderboardTypeAdapter extends TypeAdapter<List<BoardUser>> {
                 if (in.peek() == JsonToken.NULL) continue;
                 switch (in.nextName()) {
                     case "name":
-                        builder.setName(in.nextString());
+                        builder.name(in.nextString());
                         break;
                     case "uuid":
-                        builder.setUuid(UUID.fromString(in.nextString()));
+                        builder.uniqueId(UUID.fromString(in.nextString()));
                         break;
                     case "result":
                         if (in.peek() != JsonToken.NULL)
-                            builder.setResult(in.nextDouble());
+                            builder.result(in.nextDouble());
                         break;
                 }
             }

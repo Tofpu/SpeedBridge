@@ -3,11 +3,11 @@ package me.tofpu.speedbridge.island.properties.point;
 import org.bukkit.Location;
 
 public interface Point {
-    String getIdentifier();
+    String identifier();
 
-    Location getPointA();
+    Location pointA();
 
-    void setPointA(final Location location);
+    void pointA(final Location location);
 
     boolean hasPointA();
 }

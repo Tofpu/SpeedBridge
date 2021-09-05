@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User searchForUUID(final UUID uuid) {
         for (final User user : this.users) {
-            if (user.getUuid().equals(uuid)) return user;
+            if (user.uniqueId().equals(uuid)) return user;
         }
         return null;
     }
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     public void saveAll(final File directory, final boolean emptyList) {
         if (!directory.exists()) directory.mkdirs();
         for (final User user : this.users) {
-            final File file = new File(directory, user.getUuid().toString() + ".json");
+            final File file = new File(directory, user.uniqueId().toString() + ".json");
             if (!file.exists()) {
                 try {
                     file.createNewFile();
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(final User user, final File directory) {
-        final File file = new File(directory, user.getUuid().toString() + ".json");
+        final File file = new File(directory, user.uniqueId().toString() + ".json");
         try {
             try (final FileWriter writer = new FileWriter(file)) {
                 writer.write(DataManager.GSON.toJson(user, User.class));

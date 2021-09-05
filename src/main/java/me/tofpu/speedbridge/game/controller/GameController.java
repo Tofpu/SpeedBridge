@@ -37,16 +37,16 @@ public class GameController {
         final Location location = player.getLocation();
         switch (stage) {
             case SPAWN:
-                island.setLocation(location);
+                island.location(location);
                 break;
             case POINT:
-                island.getProperties().get(args[0]).setPointA(location);
+                island.properties().get(args[0]).pointA(location);
                 break;
             case SELECTION_A:
             case SELECTION_B:
-                final TwoSection section = (TwoSection) island.getProperties().get(args[0]);
-                if (args[1].equalsIgnoreCase("a")) section.setPointA(location);
-                else section.setPointB(location);
+                final TwoSection section = (TwoSection) island.properties().get(args[0]);
+                if (args[1].equalsIgnoreCase("a")) section.pointA(location);
+                else section.pointB(location);
                 break;
         }
         return Result.SUCCESS;
@@ -59,7 +59,7 @@ public class GameController {
         if (island == null) return Result.DENY;
 
         islandMap.put(player.getUniqueId(), island);
-        player.teleport(island.getLocation());
+        player.teleport(island.location());
         return Result.SUCCESS;
     }
 
@@ -75,11 +75,11 @@ public class GameController {
         final Island island = islandMap.get(player.getUniqueId());
         if (island == null) return Result.INVALID_LOBBY;
 
-        final IslandProperties properties = island.getProperties();
+        final IslandProperties properties = island.properties();
         final Point sectionPoint = properties.get("point");
         final TwoSection sectionSelection = (TwoSection) properties.get("selection");
         if (island.hasLocation() && sectionPoint.hasPointA() && sectionSelection.hasPointA() && sectionSelection.hasPointB()) {
-            islandService.removeIsland(islandService.getIslandBySlot(island.getSlot()));
+            islandService.removeIsland(islandService.getIslandBySlot(island.slot()));
             islandService.addIsland(island);
             islandMap.remove(player.getUniqueId());
             return Result.SUCCESS;

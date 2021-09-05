@@ -32,9 +32,9 @@ public class PlayerInteractListener implements Listener {
 
         if (!gameService.isPlaying(player)) return;
         final User user = userService.searchForUUID(player.getUniqueId());
-        final Island island = islandService.getIslandBySlot(user.getProperties().getIslandSlot());
+        final Island island = islandService.getIslandBySlot(user.properties().islandSlot());
 
-        final Point section = island.getProperties().get("point");
+        final Point section = island.properties().get("point");
         final Location pressurePlate = event.getClickedBlock().getLocation();
 //        if (isEqual(pressurePlate, section.getPointA())) {
 //            player.sendMessage("Pressed on point-a");
@@ -42,7 +42,7 @@ public class PlayerInteractListener implements Listener {
 //            gameService.addTimer(user);
 //        } else
 
-        if (gameService.hasTimer(user) && Util.isEqual(pressurePlate, section.getPointA())) {
+        if (gameService.hasTimer(user) && Util.isEqual(pressurePlate, section.pointA())) {
             gameService.updateTimer(user);
         }
     }

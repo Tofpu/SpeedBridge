@@ -17,17 +17,17 @@ public class PointImpl implements Point {
     }
 
     @Override
-    public String getIdentifier() {
+    public String identifier() {
         return identifier;
     }
 
     @Override
-    public Location getPointA() {
+    public Location pointA() {
         return location;
     }
 
     @Override
-    public void setPointA(final Location location) {
+    public void pointA(final Location location) {
         this.location = location;
     }
 

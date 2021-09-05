@@ -29,22 +29,22 @@ public class IslandImpl extends IslandProperties implements Island {
     }
 
     @Override
-    public User getTakenBy() {
+    public User takenBy() {
         return takenBy;
     }
 
     @Override
-    public void setTakenBy(final User takenBy) {
+    public void takenBy(final User takenBy) {
         this.takenBy = takenBy;
     }
 
     @Override
-    public Location getLocation() {
+    public Location location() {
         return location;
     }
 
     @Override
-    public void setLocation(final Location location) {
+    public void location(final Location location) {
         this.location = location;
     }
 
@@ -54,27 +54,27 @@ public class IslandImpl extends IslandProperties implements Island {
     }
 
     @Override
-    public int getSlot() {
+    public int slot() {
         return slot;
     }
 
     @Override
-    public Mode getMode() {
+    public Mode mode() {
         return mode;
     }
 
     @Override
-    public List<Location> getPlacedBlocks() {
+    public List<Location> placedBlocks() {
         return placedBlocks;
     }
 
     @Override
-    public IslandProperties getProperties() {
+    public IslandProperties properties() {
         return this;
     }
 
     @Override
     public String getIdentifier() {
-        return getSlot() + "";
+        return slot() + "";
     }
 }

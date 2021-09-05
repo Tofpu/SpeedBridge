@@ -2,7 +2,7 @@ package me.tofpu.speedbridge.lobby.leaderboard;
 
 import com.google.common.collect.Lists;
 import me.tofpu.speedbridge.user.User;
-import me.tofpu.speedbridge.user.properties.Timer;
+import me.tofpu.speedbridge.user.properties.timer.Timer;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -40,16 +40,16 @@ public final class Leaderboard {
     }
 
     public void check(final User user) {
-        final Player player = Bukkit.getPlayer(user.getUuid());
+        final Player player = Bukkit.getPlayer(user.uniqueId());
         if (player == null) return;
-        final Timer timer = user.getProperties().getTimer();
+        final Timer timer = user.properties().timer();
 
-        BoardUser boardUser = get(user.getUuid());
+        BoardUser boardUser = get(user.uniqueId());
         if (boardUser == null) {
-            boardUser = new BoardUser(player.getName(), user.getUuid(), timer == null ? null : timer.getResult());
+            boardUser = new BoardUser(player.getName(), user.uniqueId(), timer == null ? null : timer.result());
         } else {
-            if (boardUser.getScore() == null || boardUser.getScore() > timer.getResult()) {
-                boardUser.setScore(timer.getResult());
+            if (boardUser.score() == null || boardUser.score() > timer.result()) {
+                boardUser.score(timer.result());
             }
         }
         add(boardUser);
@@ -67,7 +67,7 @@ public final class Leaderboard {
 
             for (int j = i; j < players.size(); j++) {
                 playerJ = players.get(j);
-                if (playerJ.getScore() < playerMax.getScore()) {
+                if (playerJ.score() < playerMax.score()) {
                     max = j;
                     playerMax = players.get(max);
                 }
@@ -83,17 +83,17 @@ public final class Leaderboard {
 
     public BoardUser get(final UUID uuid) {
         for (final BoardUser user : getCacheLeaderboard()) {
-            if (user.getUuid().equals(uuid)) return user;
+            if (user.uniqueId().equals(uuid)) return user;
         }
         return null;
     }
 
     public void add(final BoardUser boardUser) {
-        if (boardUser == null || boardUser.getScore() == null) return;
+        if (boardUser == null || boardUser.score() == null) return;
         for (final BoardUser user : getCacheLeaderboard()) {
             if (user.equals(boardUser)) {
-                if (user.getScore() > boardUser.getScore()) {
-                    user.setScore(boardUser.getScore());
+                if (user.score() > boardUser.score()) {
+                    user.score(boardUser.score());
                 }
                 return;
             }
@@ -113,7 +113,7 @@ public final class Leaderboard {
 
         int length = 1;
         for (final BoardUser user : getMainLeaderboard()) {
-            builder.append("\n").append("&e").append(length).append(". ").append(user.getName()).append(" &a(").append(user.getScore()).append(")");
+            builder.append("\n").append("&e").append(length).append(". ").append(user.name()).append(" &a(").append(user.score()).append(")");
             length++;
         }
 
@@ -123,7 +123,7 @@ public final class Leaderboard {
     public String parseAndGet(final int slot){
         if (getMainLeaderboard().size() <= slot) return "N/A";
         final BoardUser user = getMainLeaderboard().get(slot);
-        return user == null ? "N/A" : Util.colorize(user.getName() + " &a(" + user.getScore() + ")");
+        return user == null ? "N/A" : Util.colorize(user.name() + " &a(" + user.score() + ")");
     }
 
     public List<BoardUser> getMainLeaderboard() {

@@ -12,7 +12,7 @@ public class TwoSectionSimple implements TwoSection {
     }
 
     @Override
-    public String getIdentifier() {
+    public String identifier() {
         return identifier;
     }
 
@@ -21,12 +21,12 @@ public class TwoSectionSimple implements TwoSection {
     }
 
     @Override
-    public Location getPointA() {
+    public Location pointA() {
         return sectionA;
     }
 
     @Override
-    public void setPointA(final Location sectionA) {
+    public void pointA(final Location sectionA) {
         this.sectionA = sectionA;
     }
 
@@ -36,12 +36,12 @@ public class TwoSectionSimple implements TwoSection {
     }
 
     @Override
-    public Location getPointB() {
+    public Location pointB() {
         return sectionB;
     }
 
     @Override
-    public void setPointB(final Location sectionB) {
+    public void pointB(final Location sectionB) {
         this.sectionB = sectionB;
     }
 

@@ -81,9 +81,9 @@ public class MainCommand extends BridgeBaseCommand {
     @Description("Your personal best score")
     public void onScore(final Player player) {
         final User user = userService.searchForUUID(player.getUniqueId());
-        final UserProperties properties = user == null ? null : user.getProperties();
+        final UserProperties properties = user == null ? null : user.properties();
 
-        double score = user == null ? 0 : properties.getTimer() == null ? 0 : properties.getTimer().getResult();
+        double score = user == null ? 0 : properties.timer() == null ? 0 : properties.timer().result();
         Util.message(player, Path.MESSAGES_YOUR_SCORE, new String[]{"%score%"}, score + "");
     }
 

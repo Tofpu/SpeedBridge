@@ -5,7 +5,7 @@ import me.tofpu.speedbridge.game.service.GameService;
 import me.tofpu.speedbridge.lobby.leaderboard.Leaderboard;
 import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.user.User;
-import me.tofpu.speedbridge.user.properties.Timer;
+import me.tofpu.speedbridge.user.properties.timer.Timer;
 import me.tofpu.speedbridge.user.service.UserService;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
@@ -67,14 +67,14 @@ public class BridgeExpansion extends PlaceholderExpansion {
         switch (type) {
             case ISLAND:
                 Integer slot = null;
-                if (isNull || ((slot = user.getProperties().getIslandSlot()) == null)) return "Lobby";
+                if (isNull || ((slot = user.properties().islandSlot()) == null)) return "Lobby";
                 return slot + "";
             case LIVE_TIMER:
                 if (isNull || (timer = gameService.getTimer(user)) == null) return "0";
-                return Util.toSeconds(timer.getStart()) + "";
+                return Util.toSeconds(timer.start()) + "";
             case SCORE:
-                if (isNull || (timer = user.getProperties().getTimer()) == null) return "N/A";
-                return timer.getResult() + "";
+                if (isNull || (timer = user.properties().timer()) == null) return "N/A";
+                return timer.result() + "";
             case LEADERBOARD:
                 if (args.length <= 1) return null;
                 final Leaderboard leaderboard = lobbyService.getLeaderboard();

@@ -31,9 +31,9 @@ public class BlockBreakListener implements Listener {
 
         if (!gameService.isPlaying(player)) return;
         final User user = userService.searchForUUID(player.getUniqueId());
-        final Island island = islandService.getIslandBySlot(user.getProperties().getIslandSlot());
+        final Island island = islandService.getIslandBySlot(user.properties().islandSlot());
 
-        final List<Location> locations = island.getPlacedBlocks();
+        final List<Location> locations = island.placedBlocks();
         if (!locations.contains(blockLocation)) {
             event.setCancelled(true);
             return;

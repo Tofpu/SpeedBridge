@@ -40,7 +40,7 @@ public class IslandServiceImpl implements IslandService {
     @Override
     public Island getIslandBySlot(final int slot) {
         for (final Island island : this.islands) {
-            if (island.getSlot() == slot) return island;
+            if (island.slot() == slot) return island;
         }
         return null;
     }
@@ -48,7 +48,7 @@ public class IslandServiceImpl implements IslandService {
     @Override
     public Island getIslandByUser(final User takenBy) {
         for (final Island island : this.islands) {
-            if (!island.isAvailable() && island.getTakenBy() == takenBy) return island;
+            if (!island.isAvailable() && island.takenBy() == takenBy) return island;
         }
         return null;
     }
@@ -68,7 +68,7 @@ public class IslandServiceImpl implements IslandService {
     public List<Island> getAvailableIslands(final Mode mode) {
         final List<Island> islands = new ArrayList<>();
         for (final Island island : this.islands) {
-            if (island.getMode().getIdentifier().equals(mode.getIdentifier())
+            if (island.mode().getIdentifier().equals(mode.getIdentifier())
                     && island.isAvailable() && island.hasLocation()) islands.add(island);
         }
         return islands;
@@ -77,7 +77,7 @@ public class IslandServiceImpl implements IslandService {
     @Override
     public void saveAll(final File directory, final boolean emptyList) {
         for (final Island island : this.islands) {
-            final File file = new File(directory, "island-" + island.getSlot() + ".json");
+            final File file = new File(directory, "island-" + island.slot() + ".json");
             if (!file.exists()) {
                 try {
                     file.createNewFile();

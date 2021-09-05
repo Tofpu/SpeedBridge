@@ -7,14 +7,13 @@ import me.tofpu.speedbridge.game.runnable.GameRunnable;
 import me.tofpu.speedbridge.island.Island;
 import me.tofpu.speedbridge.island.mode.Mode;
 import me.tofpu.speedbridge.island.mode.ModeManager;
-import me.tofpu.speedbridge.island.properties.twosection.TwoSection;
 import me.tofpu.speedbridge.island.service.IslandService;
 import me.tofpu.speedbridge.lobby.service.LobbyService;
 import me.tofpu.speedbridge.user.User;
-import me.tofpu.speedbridge.user.properties.Timer;
 import me.tofpu.speedbridge.user.properties.UserProperties;
+import me.tofpu.speedbridge.user.properties.timer.Timer;
+import me.tofpu.speedbridge.user.properties.timer.TimerFactory;
 import me.tofpu.speedbridge.user.service.UserService;
-import me.tofpu.speedbridge.util.Cuboid;
 import me.tofpu.speedbridge.util.Util;
 import me.tofpu.speedbridge.util.XMaterial;
 import org.bukkit.Bukkit;
@@ -25,14 +24,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class GameServiceImpl implements GameService {
-    private final Plugin plugin;
-
     private final IslandService islandService;
     private final UserService userService;
     private final LobbyService lobbyService;
@@ -43,8 +42,6 @@ public class GameServiceImpl implements GameService {
     private final GameRunnable runnable;
 
     public GameServiceImpl(final Plugin plugin, final IslandService islandService, final UserService userService, final LobbyService lobbyService) {
-        this.plugin = plugin;
-
         this.islandService = islandService;
         this.userService = userService;
         this.lobbyService = lobbyService;
@@ -67,7 +64,7 @@ public class GameServiceImpl implements GameService {
         }
 
         final User user = userService.getOrDefault(player.getUniqueId());
-        if (user.getProperties().getIslandSlot() != null) return Result.DENY;
+        if (user.properties().islandSlot() != null) return Result.DENY;
 
         return join(user, islandService.getIslandBySlot(slot));
     }
@@ -79,7 +76,7 @@ public class GameServiceImpl implements GameService {
         }
 
         final User user = userService.getOrDefault(player.getUniqueId());
-        if (user.getProperties().getIslandSlot() != null) return Result.DENY;
+        if (user.properties().islandSlot() != null) return Result.DENY;
 
         final List<Island> islands;
         boolean anyIslands = false;
@@ -115,12 +112,12 @@ public class GameServiceImpl implements GameService {
         if (island == null) return Result.INVALID_ISLAND;
         else if (!island.isAvailable()) return Result.FULL;
 
-        user.getProperties().setIslandSlot(island.getSlot());
-        island.setTakenBy(user);
+        user.properties().islandSlot(island.slot());
+        island.takenBy(user);
 
-        final Player player = Bukkit.getPlayer(user.getUuid());
+        final Player player = Bukkit.getPlayer(user.uniqueId());
         if (player == null) return Result.DENY;
-        player.teleport(island.getLocation());
+        player.teleport(island.location());
 
         final Inventory inventory = player.getInventory();
         inventory.clear();
@@ -144,8 +141,8 @@ public class GameServiceImpl implements GameService {
         if (user == null) return Result.DENY;
         player.getInventory().clear();
 
-        resetIsland(user.getProperties().getIslandSlot());
-        user.getProperties().setIslandSlot(null);
+        resetIsland(user.properties().islandSlot());
+        user.properties().islandSlot(null);
 
         this.gameTimer.remove(player.getUniqueId());
         this.gameChecker.remove(user);
@@ -163,7 +160,7 @@ public class GameServiceImpl implements GameService {
         final User user;
         if ((user = userService.searchForUUID(player.getUniqueId())) == null) return false;
 
-        final Integer islandSlot = user.getProperties().getIslandSlot();
+        final Integer islandSlot = user.properties().islandSlot();
         if (islandSlot == null) return false;
 
         return islandService.getIslandBySlot(islandSlot) != null;
@@ -171,44 +168,44 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void addTimer(final User user) {
-        final Timer timer = new Timer(user.getProperties().getIslandSlot());
+        // TODO: CREATE A FACTORY FOR TIMER
+        final Timer timer = TimerFactory.of(user.properties().islandSlot());
 
-        this.gameTimer.put(user.getUuid(), timer);
+        this.gameTimer.put(user.uniqueId(), timer);
     }
 
     @Override
     public boolean hasTimer(final User user) {
-        return this.gameTimer.containsKey(user.getUuid());
+        return this.gameTimer.containsKey(user.uniqueId());
     }
 
     @Override
     public Timer getTimer(User user) {
-        return this.gameTimer.get(user.getUuid());
+        return this.gameTimer.get(user.uniqueId());
     }
 
     @Override
     public void updateTimer(final User user) {
         if (user == null) return;
-        final Timer gameTimer = this.gameTimer.get(user.getUuid());
+        final Timer gameTimer = this.gameTimer.get(user.uniqueId());
         reset(user);
 
-        final UserProperties properties = user.getProperties();
-        final Timer lowestTimer = properties.getTimer();
-        final Player player = Bukkit.getPlayer(user.getUuid());
+        final UserProperties properties = user.properties();
+        final Timer lowestTimer = properties.timer();
+        final Player player = Bukkit.getPlayer(user.uniqueId());
 
-        gameTimer.setEnd(System.currentTimeMillis());
-        gameTimer.complete();
+        gameTimer.end(System.currentTimeMillis());
 
-        Util.message(player, Path.MESSAGES_SCORED, new String[]{"%scored%"}, gameTimer.getResult() + "");
+        Util.message(player, Path.MESSAGES_SCORED, new String[]{"%scored%"}, gameTimer.result() + "");
 
-        if (lowestTimer != null && lowestTimer.getResult() <= gameTimer.getResult()) {
-            Util.message(player, Path.MESSAGES_NOT_BEATEN, new String[]{"%score%"}, lowestTimer.getResult() + "");
+        if (lowestTimer != null && lowestTimer.result() <= gameTimer.result()) {
+            Util.message(player, Path.MESSAGES_NOT_BEATEN, new String[]{"%score%"}, lowestTimer.result() + "");
         } else {
             if (lowestTimer != null) {
-                Util.message(player, Path.MESSAGES_BEATEN_SCORE, new String[]{"%calu_score%"}, String.format("%.03f", lowestTimer.getResult() - gameTimer.getResult()));
+                Util.message(player, Path.MESSAGES_BEATEN_SCORE, new String[]{"%calu_score%"}, String.format("%.03f", lowestTimer.result() - gameTimer.result()));
             }
 
-            properties.setTimer(gameTimer);
+            properties.timer(gameTimer);
             lobbyService.getLeaderboard().check(user);
         }
     }
@@ -217,8 +214,8 @@ public class GameServiceImpl implements GameService {
     public void resetTimer(final User user) {
         if (user == null) return;
 
-        this.gameTimer.remove(user.getUuid());
-        resetBlocks(islandService.getIslandBySlot(user.getProperties().getIslandSlot()));
+        this.gameTimer.remove(user.uniqueId());
+        resetBlocks(islandService.getIslandBySlot(user.properties().islandSlot()));
     }
 
     @Override
@@ -227,20 +224,20 @@ public class GameServiceImpl implements GameService {
 
         resetTimer(user);
 
-        final Player player = Bukkit.getPlayer(user.getUuid());
+        final Player player = Bukkit.getPlayer(user.uniqueId());
         if (player == null) return;
 
         player.setVelocity(new Vector(0, 0, 0));
-        player.teleport(islandService.getIslandBySlot(user.getProperties().getIslandSlot()).getLocation());
+        player.teleport(islandService.getIslandBySlot(user.properties().islandSlot()).location());
     }
 
     @Override
     public void resetBlocks(final Island island) {
-        for (final Location location : island.getPlacedBlocks()) {
-            island.getLocation().getWorld().getBlockAt(location).setType(Material.AIR);
+        for (final Location location : island.placedBlocks()) {
+            island.location().getWorld().getBlockAt(location).setType(Material.AIR);
         }
         // TODO: CHECK IF THIS ISN'T CAUSING ISSUES
-        island.getPlacedBlocks().clear();
+        island.placedBlocks().clear();
     }
 
     @Override
@@ -249,6 +246,6 @@ public class GameServiceImpl implements GameService {
         if (island == null) return;
 
         resetBlocks(island);
-        island.setTakenBy(null);
+        island.takenBy(null);
     }
 }
