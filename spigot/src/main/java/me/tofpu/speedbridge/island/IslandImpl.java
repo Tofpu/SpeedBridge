@@ -76,7 +76,7 @@ public class IslandImpl extends IslandPropertiesImpl implements Island {
     }
 
     @Override
-    public String getIdentifier() {
+    public String identifier() {
         return slot() + "";
     }
 }

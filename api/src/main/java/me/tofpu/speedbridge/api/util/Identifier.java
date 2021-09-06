@@ -4,5 +4,5 @@ public interface Identifier {
     /**
      * @return the identifier
      */
-    String getIdentifier();
+    String identifier();
 }

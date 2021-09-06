@@ -53,68 +53,16 @@ public class GameServiceImpl implements GameService {
         this.runnable = new GameRunnable(plugin, this, this.gameChecker);
     }
 
-    @Override
-    public Result join(final Player player) {
-        return join(player, null);
-    }
-
-    @Override
-    public Result join(final Player player, final int slot) {
+    private Result join(final Player player, Island island) {
         if (!lobbyService.hasLobbyLocation()) {
             return Result.INVALID_LOBBY;
         }
-
+        if (isPlaying(player)) return Result.FAIL;
         final User user = userService.getOrDefault(player.getUniqueId());
-        if (user.properties().islandSlot() != null) return Result.FAIL;
-
-        return join(user, islandService.getIslandBySlot(slot));
-    }
-
-    @Override
-    public Result join(final Player player, Mode mode) {
-        if (!lobbyService.hasLobbyLocation()) {
-            return Result.INVALID_LOBBY;
-        }
-
-        final User user = userService.getOrDefault(player.getUniqueId());
-        if (user.properties().islandSlot() != null) return Result.FAIL;
-
-        final List<Island> islands;
-        boolean anyIslands = false;
-
-        if (mode == null) {
-            // trying to get the default mode defined in the settings
-            mode = ModeManager.getModeManager().getDefault();
-            // default islands
-            final List<Island> defaultIslands = mode == null ? Lists.newArrayList() : islandService.getAvailableIslands(mode);
-            islands = defaultIslands.isEmpty() ?
-                            islandService.getAvailableIslands() :
-                            defaultIslands;
-
-            if (defaultIslands.isEmpty()){
-                // that means we grabbed the global available islands
-                anyIslands = true;
-            }
-        } else islands = islandService.getAvailableIslands(mode);
-        if (islands.size() < 1) {
-            if (!anyIslands) return Result.FULL;
-            else return Result.NONE;
-        }
-
-        return join(user, islands.get(0));
-    }
-
-    @Override
-    public Result join(final User user, Island island) {
-        if (!lobbyService.hasLobbyLocation()) {
-            return Result.INVALID_LOBBY;
-        }
 
         if (island == null) return Result.INVALID_ISLAND;
         else if (!island.isAvailable()) return Result.FULL;
 
-        final Player player = Bukkit.getPlayer(user.uniqueId());
-        if (player == null) return Result.FAIL;
         user.properties().islandSlot(island.slot());
         island.takenBy(user);
 
@@ -137,9 +85,49 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    public Result join(final Player player) {
+        return join(player, (Mode) null);
+    }
+
+    @Override
+    public Result join(final Player player, final int slot) {
+        return join(player, islandService.getIslandBySlot(slot));
+    }
+
+    @Override
+    public Result join(final Player player, Mode mode) {
+        if (!lobbyService.hasLobbyLocation()) {
+            return Result.INVALID_LOBBY;
+        }
+        final List<Island> islands;
+        boolean anyIslands = false;
+
+        if (mode == null) {
+            // trying to get the default mode defined in the settings
+            mode = ModeManager.getModeManager().getDefault();
+            // default islands
+            final List<Island> defaultIslands = mode == null ? Lists.newArrayList() : islandService.getAvailableIslands(mode);
+            islands = defaultIslands.isEmpty() ?
+                            islandService.getAvailableIslands() :
+                            defaultIslands;
+
+            if (defaultIslands.isEmpty()){
+                // that means we grabbed the global available islands
+                anyIslands = true;
+            }
+        } else islands = islandService.getAvailableIslands(mode);
+        if (islands.size() < 1) {
+            if (!anyIslands) return Result.FULL;
+            else return Result.NONE;
+        }
+
+        return join(player, islands.get(0));
+    }
+
+    @Override
     public Result leave(final Player player) {
         final User user = userService.searchForUUID(player.getUniqueId());
-        if (user == null) return Result.FAIL;
+        if (user == null || !isPlaying(player)) return Result.FAIL;
         player.getInventory().clear();
 
         resetIsland(user.properties().islandSlot());

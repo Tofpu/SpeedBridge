@@ -61,7 +61,7 @@ public class ModeManager {
 
     public Mode get(final String identifier) {
         for (final Mode mode : modes) {
-            if (mode.getIdentifier().equals(identifier)) return mode;
+            if (mode.identifier().equals(identifier)) return mode;
         }
         return null;
     }

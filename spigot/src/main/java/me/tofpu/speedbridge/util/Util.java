@@ -45,7 +45,7 @@ public class Util {
     public static List<String> toString(final List<? extends Identifier> identifiers) {
         final List<String> toIdentifiers = new ArrayList<>();
         for (final Identifier identifier : identifiers) {
-            toIdentifiers.add(identifier.getIdentifier());
+            toIdentifiers.add(identifier.identifier());
         }
         return toIdentifiers;
     }

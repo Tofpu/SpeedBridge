@@ -8,7 +8,8 @@ import org.bukkit.entity.Player;
 
 public interface GameService {
     /**
-     * This is basically a neater, shortcut method.
+     * This method will look for any available island
+     * and have the player join the island.
      *
      * @param player the player instance that trying to join
      *
@@ -18,18 +19,29 @@ public interface GameService {
     Result join(final Player player);
 
     /**
-     * This is basically a neater, shortcut method.
+     * This method will look for an island available
+     * associated with this slot.
      *
      * @param player the player instance that's trying to join
      * @param slot the island slot that the player is trying to join
      *
      * @return the result of the action
-     * @see #join(User, Island)
+     * <p>
+     * INVALID_LOBBY - if the lobby location were not defined
+     * <p>
+     * INVALID_ISLAND - if the island instance didn't exist
+     * <p>
+     * FULL - if the island is already taken
+     * <p>
+     * DENY - if the player instance is null (shouldn't happen)
+     * <p>
+     * SUCCESS - If the action was successful
+     * @see Result
      */
     Result join(final Player player, final int slot);
 
     /**
-     * This method will try have the player join an island by selective mode.
+     * This method will look for an island associated with this mode.
      * <p></p>
      * Here is the current joining process:
      * <p>
@@ -56,28 +68,6 @@ public interface GameService {
      * @see Result
      */
     Result join(final Player player, final Mode mode);
-
-    // TODO: THIS IS FOR IMPLEMENTATION ONLY, I'D SUPPOSE?
-    /**
-     * This method is for the user to join the island.
-     *
-     * @param user the user instance
-     * @param island the island instance
-     *
-     * @return the result of the action
-     * <p>
-     * INVALID_LOBBY - if the lobby location were not defined
-     * <p>
-     * INVALID_ISLAND - if the island instance didn't exist
-     * <p>
-     * FULL - if the island is already taken
-     * <p>
-     * DENY - if the player instance is null (shouldn't happen)
-     * <p>
-     * SUCCESS - If the action was successful
-     * @see Result
-     */
-    Result join(final User user, final Island island);
 
     /**
      * This method is for kicking the player out of the island and

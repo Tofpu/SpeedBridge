@@ -22,7 +22,7 @@ public class ModeImpl implements Mode {
     }
 
     @Override
-    public String getIdentifier() {
+    public String identifier() {
         return identifier;
     }
 
