@@ -18,7 +18,6 @@ public interface UserProperties {
      */
     Timer timer();
 
-
     /**
      * @param timer the new personal best timer
      */

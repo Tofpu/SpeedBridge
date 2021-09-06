@@ -65,7 +65,7 @@ public class GameServiceImpl implements GameService {
         }
 
         final User user = userService.getOrDefault(player.getUniqueId());
-        if (user.properties().islandSlot() != null) return Result.DENY;
+        if (user.properties().islandSlot() != null) return Result.FAIL;
 
         return join(user, islandService.getIslandBySlot(slot));
     }
@@ -77,7 +77,7 @@ public class GameServiceImpl implements GameService {
         }
 
         final User user = userService.getOrDefault(player.getUniqueId());
-        if (user.properties().islandSlot() != null) return Result.DENY;
+        if (user.properties().islandSlot() != null) return Result.FAIL;
 
         final List<Island> islands;
         boolean anyIslands = false;
@@ -113,11 +113,11 @@ public class GameServiceImpl implements GameService {
         if (island == null) return Result.INVALID_ISLAND;
         else if (!island.isAvailable()) return Result.FULL;
 
+        final Player player = Bukkit.getPlayer(user.uniqueId());
+        if (player == null) return Result.FAIL;
         user.properties().islandSlot(island.slot());
         island.takenBy(user);
 
-        final Player player = Bukkit.getPlayer(user.uniqueId());
-        if (player == null) return Result.DENY;
         player.teleport(island.location());
 
         final Inventory inventory = player.getInventory();
@@ -139,7 +139,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public Result leave(final Player player) {
         final User user = userService.searchForUUID(player.getUniqueId());
-        if (user == null) return Result.DENY;
+        if (user == null) return Result.FAIL;
         player.getInventory().clear();
 
         resetIsland(user.properties().islandSlot());

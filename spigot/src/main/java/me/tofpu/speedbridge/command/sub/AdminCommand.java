@@ -69,7 +69,7 @@ public class AdminCommand extends BridgeBaseCommand {
             case SUCCESS:
                 path = Path.MESSAGES_ISLAND_CREATION;
                 break;
-            case DENY:
+            case FAIL:
                 path = Path.MESSAGES_ISLAND_EXISTS;
                 break;
             default:
@@ -107,7 +107,7 @@ public class AdminCommand extends BridgeBaseCommand {
             case SUCCESS:
                 path = Path.MESSAGES_LOBBY_LOCATION;
                 break;
-            case DENY:
+            case FAIL:
                 path = Path.MESSAGES_INVALID_ISLAND;
                 break;
             default:
@@ -132,7 +132,7 @@ public class AdminCommand extends BridgeBaseCommand {
             case SUCCESS:
                 path = Path.MESSAGES_ISLAND_COMPLETED;
                 break;
-            case DENY:
+            case FAIL:
                 path = Path.MESSAGES_ISLAND_INCOMPLETE;
                 break;
             case INVALID_LOBBY:
@@ -160,7 +160,7 @@ public class AdminCommand extends BridgeBaseCommand {
             case SUCCESS:
                 path = Path.MESSAGES_ISLAND_MODIFICATION;
                 break;
-            case DENY:
+            case FAIL:
                 path = Path.MESSAGES_INVALID_ISLAND;
                 break;
             case FULL:
@@ -188,7 +188,7 @@ public class AdminCommand extends BridgeBaseCommand {
             case SUCCESS:
                 path = Path.MESSAGES_CANCEL_SETUP;
                 break;
-            case DENY:
+            case FAIL:
                 path = Path.MESSAGES_NO_SETUP;
                 break;
             default:

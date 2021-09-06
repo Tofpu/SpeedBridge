@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface Mode extends Identifier {
     /**
-     * @return the mode initial selected slots
+     * Slots defined by this mode
+     *
+     * @return the mode initial defined slots
      */
     List<Integer> slots();
 

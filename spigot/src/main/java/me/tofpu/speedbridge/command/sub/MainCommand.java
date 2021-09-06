@@ -107,7 +107,7 @@ public class MainCommand extends BridgeBaseCommand {
 
         final Path.Value<?> path;
         switch (result) {
-            case DENY:
+            case FAIL:
                 path = Path.MESSAGES_ALREADY_JOINED;
                 break;
             case FULL:

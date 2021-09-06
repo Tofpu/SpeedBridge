@@ -1,25 +1,25 @@
 package me.tofpu.speedbridge.api.island.point;
 
+import me.tofpu.speedbridge.api.util.Identifier;
 import org.bukkit.Location;
 
-public interface Point {
+public interface Point extends Identifier {
     /**
-     * @return the point identifier
-     */
-    String identifier();
-
-    /**
+     * The pointA defined location
+     *
      * @return the point location
      */
     Location pointA();
 
     /**
-     * @return true if the location is not null, otherwise false
+     * The availability of pointA location
+     *
+     * @return true if pointA is defined, otherwise false
      */
     boolean hasPointA();
 
     /**
-     * @param location new location
+     * @param location defining the pointA location
      */
     void pointA(final Location location);
 }

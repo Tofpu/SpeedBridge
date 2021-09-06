@@ -24,7 +24,7 @@ public class GameController {
 
     public Result createIsland(final Player player, int slot) {
         // if an island exists by that defined slot
-        if (islandService.getIslandBySlot(slot) != null) return Result.DENY;
+        if (islandService.getIslandBySlot(slot) != null) return Result.FAIL;
         final Island island = new IslandImpl(slot);
 
         // store the island & player to a cache map for modifying/setting-up purposes
@@ -36,7 +36,7 @@ public class GameController {
         final Island island = islandMap.get(player.getUniqueId());
 
         // if the player is not in the cache list
-        if (island == null) return Result.DENY;
+        if (island == null) return Result.FAIL;
 
         final String[] args = stage.name().split("_");
         final Location location = player.getLocation();
@@ -63,7 +63,7 @@ public class GameController {
         final Island island = islandService.getIslandBySlot(slot);
 
         // if the island defined doesn't exist
-        if (island == null) return Result.DENY;
+        if (island == null) return Result.FAIL;
 
         islandMap.put(player.getUniqueId(), island);
         player.teleport(island.location());
@@ -76,7 +76,7 @@ public class GameController {
             islandMap.remove(player.getUniqueId());
             return Result.SUCCESS;
         }
-        return Result.DENY;
+        return Result.FAIL;
     }
 
     public Result finishSetup(final Player player) {
@@ -94,6 +94,6 @@ public class GameController {
             islandService.addIsland(island);
             islandMap.remove(player.getUniqueId());
             return Result.SUCCESS;
-        } else return Result.DENY;
+        } else return Result.FAIL;
     }
 }

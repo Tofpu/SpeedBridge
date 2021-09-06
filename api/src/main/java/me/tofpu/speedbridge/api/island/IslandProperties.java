@@ -13,6 +13,8 @@ public interface IslandProperties {
     Point get(final String identifier);
 
     /**
+     * The island's defined points
+     *
      * @return the island points
      */
     List<Point> points();
