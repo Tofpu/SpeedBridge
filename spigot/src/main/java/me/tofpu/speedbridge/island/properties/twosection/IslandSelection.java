@@ -10,7 +10,7 @@ public class IslandSelection implements TwoSection {
     private Location sectionB;
 
     public IslandSelection() {
-        this.identifier = "selection";
+        this.identifier = "position";
     }
 
     @Override

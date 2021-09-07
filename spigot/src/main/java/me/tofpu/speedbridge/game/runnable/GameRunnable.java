@@ -36,7 +36,7 @@ public class GameRunnable implements Runnable {
                 // TODO: not handling the quits properly?
                 return;
             }
-            final TwoSection selection = (TwoSection) entry.getValue().properties().get("selection");
+            final TwoSection selection = (TwoSection) entry.getValue().properties().get("position");
 
             final Cuboid cuboid = Cuboid.of(selection.pointA(), selection.pointB());
             if (!cuboid.isIn(player.getLocation())) {

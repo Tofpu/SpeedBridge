@@ -9,7 +9,7 @@ public class PointImpl implements Point {
     private Location location;
 
     public PointImpl() {
-        this.identifier = "point";
+        this.identifier = "endpoint";
     }
 
     public PointImpl(final Location location) {

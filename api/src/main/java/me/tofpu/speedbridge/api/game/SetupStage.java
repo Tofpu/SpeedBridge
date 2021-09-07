@@ -5,7 +5,7 @@ public enum SetupStage {
     /**
      * The island brand-new endpoint.
      */
-    END_POINT,
+    ENDPOINT,
 
     /**
      * The lobby location.

@@ -34,7 +34,7 @@ public class BlockPlaceListener implements Listener {
         final Island island = islandService.getIslandBySlot(user.properties().islandSlot());
 
         final Location location = event.getBlockPlaced().getLocation();
-        final TwoSection twoSection = (TwoSection) island.properties().get("selection");
+        final TwoSection twoSection = (TwoSection) island.properties().get("position");
 
         // if the block placed isn't inside the island's arena
         if (!Cuboid.of(twoSection.pointA(), twoSection.pointB()).isIn(location)) {

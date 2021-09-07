@@ -53,7 +53,7 @@ public class Util {
     public static List<String> toString(final Enum<?>[] enums) {
         final List<String> toIdentifiers = new ArrayList<>();
         for (final Enum<?> identifier : enums) {
-            toIdentifiers.add(WordUtils.capitalize(identifier.name().toLowerCase(Locale.ROOT).replace("_", "-")));
+            toIdentifiers.add(identifier.name().toLowerCase(Locale.ROOT).replace("_", ""));
         }
         return toIdentifiers;
     }

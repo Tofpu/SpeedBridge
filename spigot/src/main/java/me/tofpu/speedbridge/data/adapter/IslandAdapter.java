@@ -13,6 +13,7 @@ import org.bukkit.Location;
 
 import java.io.IOException;
 
+// TODO: A WAY TO CONVERT OLD NAMES TO NEW ONES
 public class IslandAdapter extends TypeAdapter<Island> {
     @Override
     public void write(JsonWriter out, Island value) throws IOException {

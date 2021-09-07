@@ -45,13 +45,13 @@ public class GameController {
             case SPAWN:
                 island.location(location);
                 break;
-            case END_POINT:
+            case ENDPOINT:
                 island.properties().get(args[0]).pointA(location);
                 break;
             case POSITION_1:
             case POSITION_2:
                 final TwoSection section = (TwoSection) island.properties().get(args[0]);
-                if (args[1].equalsIgnoreCase("a")) section.pointA(location);
+                if (args[1].equalsIgnoreCase("1")) section.pointA(location);
                 else section.pointB(location);
                 break;
         }
@@ -86,8 +86,8 @@ public class GameController {
         // if the player is not in the cache list
         if (island == null) return Result.INVALID_LOBBY;
         final IslandProperties properties = island.properties();
-        final Point sectionPoint = properties.get("point");
-        final TwoSection sectionSelection = (TwoSection) properties.get("selection");
+        final Point sectionPoint = properties.get("endpoint");
+        final TwoSection sectionSelection = (TwoSection) properties.get("position");
 
         // If the island has a spawn, point, selection a and b set
         if (island.hasLocation() && sectionPoint.hasPointA() && sectionSelection.hasPointA() && sectionSelection.hasPointB()) {

@@ -36,7 +36,7 @@ public class PlayerInteractListener implements Listener {
         final User user = userService.searchForUUID(player.getUniqueId());
         final Island island = islandService.getIslandBySlot(user.properties().islandSlot());
 
-        final Point section = island.properties().get("point");
+        final Point section = island.properties().get("endpoint");
         final Location pressurePlate = event.getClickedBlock().getLocation();
 
         // if the timer has started and the pressure plate location equals to the island point
