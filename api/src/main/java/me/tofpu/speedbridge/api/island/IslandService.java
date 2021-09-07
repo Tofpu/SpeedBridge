@@ -60,8 +60,8 @@ public interface IslandService {
     List<Island> getAvailableIslands(final Mode mode);
 
     // TODO: Should this be here, hmm...
-    void saveAll(final File directory, final boolean emptyList);
+    void saveAll(final boolean emptyList);
 
     // TODO: Should this be here, hmm...
-    void loadAll(final File directory);
+    void loadAll();
 }

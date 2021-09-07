@@ -80,7 +80,7 @@ public class MainCommand extends BridgeBaseCommand {
     @CommandAlias("score")
     @Description("Your personal best score")
     public void onScore(final Player player) {
-        final User user = userService.searchForUUID(player.getUniqueId());
+        final User user = userService.get(player.getUniqueId());
         final UserProperties properties = user == null ? null : user.properties();
 
         double score = user == null ? 0 : properties.timer() == null ? 0 : properties.timer().result();

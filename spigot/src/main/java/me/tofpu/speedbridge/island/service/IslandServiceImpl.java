@@ -17,12 +17,17 @@ import java.util.concurrent.TimeUnit;
 
 public class IslandServiceImpl implements IslandService {
     private final List<Island> islands;
+    private File directory;
 
-    public IslandServiceImpl(final DataManager dataManager){
+    public IslandServiceImpl(){
         islands = new ArrayList<>();
+    }
+
+    public void initialize(final DataManager dataManager){
+        this.directory = dataManager.getFiles()[1];
 
         Game.EXECUTOR.scheduleWithFixedDelay(
-                () -> saveAll(dataManager.getFiles()[1], false)
+                () -> saveAll(false)
                 ,5, 5, TimeUnit.MINUTES);
     }
 
@@ -74,7 +79,7 @@ public class IslandServiceImpl implements IslandService {
     }
 
     @Override
-    public void saveAll(final File directory, final boolean emptyList) {
+    public void saveAll(final boolean emptyList) {
         for (final Island island : this.islands) {
             final File file = new File(directory, "island-" + island.slot() + ".json");
             if (!file.exists()) {
@@ -96,7 +101,7 @@ public class IslandServiceImpl implements IslandService {
     }
 
     @Override
-    public void loadAll(File directory) {
+    public void loadAll() {
         for (final File file : directory.listFiles()) {
             try {
                 if (!file.getName().endsWith(".json")) continue;

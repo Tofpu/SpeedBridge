@@ -17,12 +17,17 @@ import java.util.concurrent.TimeUnit;
 
 public class UserServiceImpl implements UserService {
     private final List<User> users;
+    private File directory;
 
-    public UserServiceImpl(final DataManager dataManager){
-        users = new ArrayList<>();
+    public UserServiceImpl(){
+        this.users = new ArrayList<>();
+    }
+
+    public void initialize(final DataManager dataManager){
+        this.directory = dataManager.getFiles()[2];
 
         Game.EXECUTOR.scheduleWithFixedDelay(
-                () -> saveAll(dataManager.getFiles()[2], false)
+                () -> saveAll(false)
                 ,5, 5, TimeUnit.MINUTES);
     }
 
@@ -34,20 +39,33 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    /**
+     * Removes this user from the user's list
+     *
+     * @param uniqueId the player unique id that you would want to remove
+     */
+    @Override
+    public void removeUser(final UUID uniqueId) {
+        this.users.remove(get(uniqueId));
+    }
+
     @Override
     public void removeUser(final User user) {
+        if (user == null) return;
         this.users.remove(user);
     }
 
     @Override
-    public User getOrDefault(final UUID uuid) {
-        User user = searchForUUID(uuid);
-        if (user == null) user = createUser(uuid);
+    public User getOrDefault(final UUID uuid, final boolean loadFromCache) {
+        User user = get(uuid);
+        if (user == null) {
+            user = load(uuid);
+        }
         return user;
     }
 
     @Override
-    public User searchForUUID(final UUID uuid) {
+    public User get(final UUID uuid) {
         for (final User user : this.users) {
             if (user.uniqueId().equals(uuid)) return user;
         }
@@ -55,10 +73,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveAll(final File directory, final boolean emptyList) {
-        if (!directory.exists()) directory.mkdirs();
+    public void saveAll( final boolean emptyList) {
+        if (!this.directory.exists()) this.directory.mkdirs();
         for (final User user : this.users) {
-            final File file = new File(directory, user.uniqueId().toString() + ".json");
+            final File file = new File(this.directory, user.uniqueId().toString() + ".json");
             if (!file.exists()) {
                 try {
                     file.createNewFile();
@@ -78,8 +96,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(final User user, final File directory) {
-        final File file = new File(directory, user.uniqueId().toString() + ".json");
+    public void save(final User user) {
+        final File file = new File(this.directory, user.uniqueId().toString() + ".json");
         try {
             try (final FileWriter writer = new FileWriter(file)) {
                 writer.write(DataManager.GSON.toJson(user, User.class));
@@ -90,8 +108,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User load(final UUID uuid, final File directory) {
-        final File file = new File(directory, uuid.toString() + ".json");
+    public User load(final UUID uuid) {
+        final File file = new File(this.directory, uuid.toString() + ".json");
         if (!file.exists()) return null;
 
         User user = null;
@@ -104,5 +122,9 @@ public class UserServiceImpl implements UserService {
 
         this.users.add(user);
         return user;
+    }
+
+    public File getDirectory() {
+        return directory;
     }
 }

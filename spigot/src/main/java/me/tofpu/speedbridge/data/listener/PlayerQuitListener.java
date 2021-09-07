@@ -24,7 +24,7 @@ public class PlayerQuitListener implements Listener {
     private void onPlayerQuit(final PlayerQuitEvent event) {
         final Player player = event.getPlayer();
         if (gameService.isPlaying(player)) {
-            final User user = userService.searchForUUID(player.getUniqueId());
+            final User user = userService.get(player.getUniqueId());
 
             gameService.resetIsland(user.properties().islandSlot());
             gameService.leave(player);

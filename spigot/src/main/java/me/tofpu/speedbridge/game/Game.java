@@ -49,8 +49,8 @@ public class Game {
         this.speedBridge = speedBridge;
         this.dataManager = new DataManager();
 
-        this.islandService = new IslandServiceImpl(dataManager);
-        this.userService = new UserServiceImpl(dataManager);
+        this.islandService = new IslandServiceImpl();
+        this.userService = new UserServiceImpl();
         this.lobbyService = new LobbyServiceImpl();
 
         this.gameController = new GameController(islandService);
@@ -82,6 +82,10 @@ public class Game {
                 this.speedBridge,
                 this.speedBridge.getDataFolder()
         );
+
+        // TEMPORALLY WHILE I DOUBLE CHECK MY THOUGHTS
+        ((UserServiceImpl) this.userService).initialize(this.dataManager);
+        ((IslandServiceImpl) this.islandService).initialize(this.dataManager);
 
         registerListeners();
     }

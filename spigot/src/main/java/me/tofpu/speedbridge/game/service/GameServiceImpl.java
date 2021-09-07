@@ -65,7 +65,7 @@ public class GameServiceImpl implements GameService {
         }
 
         // getting an instance of user associated with this player unique id
-        final User user = userService.getOrDefault(player.getUniqueId());
+        final User user = userService.getOrDefault(player.getUniqueId(), false);
 
         // if the island doesn't exist
         if (island == null) {
@@ -204,7 +204,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public Result leave(final Player player) {
         // getting an instance of user associated with this player unique id
-        final User user = userService.searchForUUID(player.getUniqueId());
+        final User user = userService.get(player.getUniqueId());
 
         // if the user instance returned null or the player isn't playing
         if (user == null || !isPlaying(player)) {
@@ -244,7 +244,7 @@ public class GameServiceImpl implements GameService {
     public boolean isPlaying(final Player player) {
         final User user;
         // checking if the user instance is null
-        if ((user = userService.searchForUUID(player.getUniqueId())) == null) {
+        if ((user = userService.get(player.getUniqueId())) == null) {
             // since we have no user instance associated with
             // this player unique id, we're returning false
             return false;

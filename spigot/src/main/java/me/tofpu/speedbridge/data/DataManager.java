@@ -99,28 +99,28 @@ public class DataManager {
 
     public User loadUser(final UUID uuid) {
         if (!files[0].exists()) return null;
-        User user = userService.load(uuid, files[2]);
+        User user = userService.load(uuid);
         return user == null ? userService.createUser(uuid) : user;
     }
 
     public void unloadUser(final UUID uuid) {
-        final User user = userService.searchForUUID(uuid);
+        final User user = userService.get(uuid);
         if (user == null) return;
 
-        userService.save(user, files[2]);
+        userService.save(user);
         userService.removeUser(user);
     }
 
     public void load() {
         Game.EXECUTOR.execute(() -> {
             lobbyService.load(GSON, files[3], files[4]);
-            islandService.loadAll(files[1]);
+            islandService.loadAll();
         });
     }
 
     public void save() {
-        islandService.saveAll(files[1], true);
-        userService.saveAll(files[2], true);
+        islandService.saveAll(true);
+        userService.saveAll(true);
         lobbyService.save(GSON, files[3], files[4]);
     }
 

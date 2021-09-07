@@ -31,7 +31,7 @@ public class BlockBreakListener implements Listener {
 
         // if the player is not not playing
         if (!gameService.isPlaying(player)) return;
-        final User user = userService.searchForUUID(player.getUniqueId());
+        final User user = userService.get(player.getUniqueId());
         final Island island = islandService.getIslandBySlot(user.properties().islandSlot());
 
         final List<Location> locations = island.placedBlocks();
