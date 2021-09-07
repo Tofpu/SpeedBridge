@@ -2,6 +2,10 @@ package me.tofpu.speedbridge.api.island.point;
 
 import org.bukkit.Location;
 
+/**
+ * This represents a two-way location point that extends Point. Used for bordering the island.
+ * @see Point
+ */
 public interface TwoSection extends Point {
     /**
      * The pointB defined location

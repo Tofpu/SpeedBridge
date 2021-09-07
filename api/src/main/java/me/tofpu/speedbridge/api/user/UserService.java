@@ -3,6 +3,9 @@ package me.tofpu.speedbridge.api.user;
 import java.io.File;
 import java.util.UUID;
 
+/**
+ * This handles everything that is user related. From creating to getting user instance.
+ */
 public interface UserService {
     /**
      * Creates a user instance associated with this unique id

@@ -6,6 +6,9 @@ import me.tofpu.speedbridge.api.user.User;
 import me.tofpu.speedbridge.api.user.timer.Timer;
 import org.bukkit.entity.Player;
 
+/**
+ * This handles everything game related. From joining to resetting islands back to their state.
+ */
 public interface GameService {
     /**
      * This method will look for any available island

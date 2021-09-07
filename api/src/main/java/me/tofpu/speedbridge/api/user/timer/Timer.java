@@ -1,5 +1,8 @@
 package me.tofpu.speedbridge.api.user.timer;
 
+/**
+ * This represents timestamp for scoring purposes.
+ */
 public interface Timer {
     /**
      * @return the island slot

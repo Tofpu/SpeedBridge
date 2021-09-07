@@ -1,5 +1,8 @@
 package me.tofpu.speedbridge.api.game;
 
+/**
+ * The result of an action.
+ */
 public enum Result {
     /**
      * The action were successful.

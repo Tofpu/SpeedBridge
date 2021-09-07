@@ -6,6 +6,10 @@ import me.tofpu.speedbridge.api.user.User;
 import java.io.File;
 import java.util.List;
 
+/**
+ * This handles everything that is island related.
+ * @see Island
+ */
 public interface IslandService {
     /**
      * Adds this island instance to the island's list

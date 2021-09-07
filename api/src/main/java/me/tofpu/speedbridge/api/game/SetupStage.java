@@ -1,5 +1,8 @@
 package me.tofpu.speedbridge.api.game;
 
+/**
+ * This includes a setup stage.
+ */
 public enum SetupStage {
 
     /**

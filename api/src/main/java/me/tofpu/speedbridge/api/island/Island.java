@@ -7,6 +7,9 @@ import org.bukkit.Location;
 
 import java.util.List;
 
+/**
+ * This represents an island, each to their own.
+ */
 public interface Island extends Identifier {
     /**
      * The island availability

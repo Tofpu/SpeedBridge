@@ -4,6 +4,10 @@ import me.tofpu.speedbridge.api.util.Identifier;
 
 import java.util.List;
 
+/**
+ * This allows island slots to be categorized under a single identity. Standard, Hardcore, etc.
+ * @see Identifier
+ */
 public interface Mode extends Identifier {
     /**
      * Slots defined by this mode

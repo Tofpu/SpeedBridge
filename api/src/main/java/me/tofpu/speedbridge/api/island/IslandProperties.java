@@ -4,6 +4,10 @@ import me.tofpu.speedbridge.api.island.point.Point;
 
 import java.util.List;
 
+/**
+ * The island property. Useful for getting their points.
+ * @see Point
+ */
 public interface IslandProperties {
     /**
      * @param identifier point identifier
