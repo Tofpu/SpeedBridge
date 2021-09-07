@@ -24,6 +24,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -55,7 +56,7 @@ public class Game {
         this.gameController = new GameController(islandService);
         this.gameService = new GameServiceImpl(speedBridge, islandService, userService, lobbyService);
 
-        this.listeners = Arrays.asList(
+        this.listeners = new ArrayList<>(Arrays.asList(
                 new PlayerJoinListener(lobbyService, dataManager),
                 new PlayerQuitListener(userService, gameService, dataManager),
                 new PlayerInteractListener(userService, islandService, gameService),
@@ -63,7 +64,7 @@ public class Game {
                 new BlockBreakListener(userService, islandService, gameService),
                 new EntityDamageListener(gameService),
                 new FoodLevelChangeListener(gameService)
-        );
+        ));
     }
 
     public void initialize(){

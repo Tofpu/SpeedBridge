@@ -1,6 +1,5 @@
 package me.tofpu.speedbridge.game.service;
 
-import com.google.common.collect.Lists;
 import me.tofpu.speedbridge.api.game.GameService;
 import me.tofpu.speedbridge.api.game.Result;
 import me.tofpu.speedbridge.api.island.Island;
@@ -27,10 +26,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class GameServiceImpl implements GameService {
     private final IslandService islandService;
@@ -114,16 +110,16 @@ public class GameServiceImpl implements GameService {
         // adding a wool block with 64 amount for bridging purposes
         inventory.addItem(new ItemStack(XMaterial.WHITE_WOOL.parseMaterial(), 64));
 
+        // storing an instance of user & the island that
+        // they're in for the runnable to keep track of them
+        gameChecker.put(user, island);
+
         // if the runnable is paused
         if (this.runnable.isPaused()) {
             // since the runnable is paused
             // we'll start it
-            this.runnable.start();
+            this.runnable.resume();
         }
-
-        // storing an instance of user & the island that
-        // they're in for the runnable to keep track of them
-        gameChecker.put(user, island);
 
         // returning SUCCESS result
         return Result.SUCCESS;
@@ -145,30 +141,47 @@ public class GameServiceImpl implements GameService {
         if (!lobbyService.hasLobbyLocation()) {
             return Result.INVALID_LOBBY;
         }
-        final List<Island> islands;
+        final List<Island> islands = new ArrayList<>();
+        boolean defaultMode = false;
         boolean anyIslands = false;
 
-        // no mode were specified
-        if (mode == null) {
+//        // no mode were specified
+//        if (mode == null) {
+//            // since no mode were specified,
+//            // we will try to get the default mode that
+//            // was defined in the settings
+//            mode = ModeManager.getModeManager().getDefault();
+//        }
+
+        // if no mode were specified
+        if (mode == null){
             // since no mode were specified,
             // we will try to get the default mode that
-            // was defined in the settings
+            // were defined in the settings
             mode = ModeManager.getModeManager().getDefault();
+
+            // so we can keep track whether we used the original
+            // mode or used the default mode
+            defaultMode = true;
         }
 
-        // If the default mode instance is still null
-        if (mode == null ){
-            // since the default mode didn't exist,
-            // we'll look for any other islands that
-            // is available right now
-            islands = islandService.getAvailableIslands();
+        // now we're getting the available islands associated with the mode
+        final List<Island> defaultIslands = new ArrayList<>(
+                islandService.getAvailableIslands(mode)
+        );
+
+        // If it's not default mode && the list is empty
+        if (defaultMode && defaultIslands.isEmpty()) {
+            // since the list were empty
+            // we'll look for any other islands that is available right now
+            islands.addAll(islandService.getAvailableIslands());
 
             // this is set to true for message purposes
             anyIslands = true;
-        } else {
-            // since the mode were specified
-            // get the islands list associated with this mode
-            islands = islandService.getAvailableIslands(mode);
+        } else if (!defaultIslands.isEmpty()) {
+            // since we had an island available associated with
+            // the mode we'll add it to the islands list
+            islands.addAll(defaultIslands);
         }
 
         // if the islands list is empty
@@ -216,7 +229,7 @@ public class GameServiceImpl implements GameService {
         if (this.gameChecker.isEmpty()){
             // since no one is playing right now
             // we'll stop the runnable to save up resources
-            this.runnable.cancel();
+            this.runnable.pause();
         }
 
         // teleporting the player to the lobby location

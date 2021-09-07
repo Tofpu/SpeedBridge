@@ -9,14 +9,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Map;
 
-public class GameRunnable extends BukkitRunnable {
+public class GameRunnable implements Runnable {
     private final Plugin plugin;
     private final GameService gameService;
     private final Map<User, Island> gameChecker;
 
+    private BukkitTask task;
     private boolean paused = true;
 
     public GameRunnable(final Plugin plugin, final GameService gameService, final Map<User, Island> gameChecker) {
@@ -43,17 +45,20 @@ public class GameRunnable extends BukkitRunnable {
         }
     }
 
-    public void start(){
+    public void resume() {
         if (!isPaused()) return;
-
         this.paused = false;
-        runTaskTimer(plugin, 1L, 10L);
+
+        this.task = Bukkit.getScheduler().runTaskTimer(plugin, this, 1L, 10L);
     }
 
-    @Override
-    public synchronized void cancel() throws IllegalStateException {
-        super.cancel();
+    public void pause() {
         this.paused = true;
+        this.task.cancel();
+    }
+
+    public BukkitTask getTask() {
+        return task;
     }
 
     public boolean isPaused() {
