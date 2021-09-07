@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge.game.controller;
 
 import me.tofpu.speedbridge.api.game.Result;
+import me.tofpu.speedbridge.api.game.SetupStage;
 import me.tofpu.speedbridge.api.island.Island;
 import me.tofpu.speedbridge.api.island.IslandProperties;
 import me.tofpu.speedbridge.api.island.IslandService;
@@ -44,11 +45,11 @@ public class GameController {
             case SPAWN:
                 island.location(location);
                 break;
-            case POINT:
+            case END_POINT:
                 island.properties().get(args[0]).pointA(location);
                 break;
-            case SELECTION_A:
-            case SELECTION_B:
+            case POSITION_1:
+            case POSITION_2:
                 final TwoSection section = (TwoSection) island.properties().get(args[0]);
                 if (args[1].equalsIgnoreCase("a")) section.pointA(location);
                 else section.pointB(location);
