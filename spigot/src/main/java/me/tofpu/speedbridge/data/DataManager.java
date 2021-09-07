@@ -20,6 +20,8 @@ import me.tofpu.speedbridge.data.file.path.PathType;
 import me.tofpu.speedbridge.data.file.type.MessageFile;
 import me.tofpu.speedbridge.data.file.type.SettingsFile;
 import me.tofpu.speedbridge.game.Game;
+import me.tofpu.speedbridge.island.service.IslandServiceImpl;
+import me.tofpu.speedbridge.user.service.UserServiceImpl;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -45,8 +47,8 @@ public class DataManager {
     private final File[] files;
     private final PluginFile[] pluginFiles;
 
-    private IslandService islandService;
-    private UserService userService;
+    private IslandServiceImpl islandService;
+    private UserServiceImpl userService;
     private LobbyService lobbyService;
 
     public DataManager() {
@@ -55,8 +57,8 @@ public class DataManager {
     }
 
     public void initialize(final IslandService islandService, final UserService userService, final LobbyService lobbyService, final Plugin plugin, final File parentDirectory) {
-        this.islandService = islandService;
-        this.userService = userService;
+        this.islandService = (IslandServiceImpl) islandService;
+        this.userService = (UserServiceImpl) userService;
         this.lobbyService = lobbyService;
 
         this.files[0] = parentDirectory;
@@ -99,6 +101,8 @@ public class DataManager {
 
     public User loadUser(final UUID uuid) {
         if (!files[0].exists()) return null;
+
+        //TODO: DOUBTING
         User user = userService.load(uuid);
         return user == null ? userService.createUser(uuid) : user;
     }
@@ -107,6 +111,7 @@ public class DataManager {
         final User user = userService.get(uuid);
         if (user == null) return;
 
+        //TODO: DOUBTING
         userService.save(user);
         userService.removeUser(user);
     }
@@ -114,11 +119,13 @@ public class DataManager {
     public void load() {
         Game.EXECUTOR.execute(() -> {
             lobbyService.load(GSON, files[3], files[4]);
+            //TODO: DOUBTING
             islandService.loadAll();
         });
     }
 
     public void save() {
+        //TODO: DOUBTING
         islandService.saveAll(true);
         userService.saveAll(true);
         lobbyService.save(GSON, files[3], files[4]);

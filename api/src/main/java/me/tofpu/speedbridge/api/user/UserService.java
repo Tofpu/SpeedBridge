@@ -47,13 +47,4 @@ public interface UserService {
      * @return the associated user or null if not found
      */
     User get(final UUID uniqueId);
-
-    // TODO: This shouldn't even be here, remove it
-    void saveAll(final boolean emptyList);
-
-    // TODO: Should this be here, hmm...
-    void save(final User user);
-
-    // TODO: Should this be here, hmm... maybe?
-    User load(final UUID uniqueId);
 }

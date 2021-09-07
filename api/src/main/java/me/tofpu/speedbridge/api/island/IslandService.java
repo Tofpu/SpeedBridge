@@ -3,7 +3,6 @@ package me.tofpu.speedbridge.api.island;
 import me.tofpu.speedbridge.api.island.mode.Mode;
 import me.tofpu.speedbridge.api.user.User;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -58,10 +57,4 @@ public interface IslandService {
      * @return a list of available islands associated with this mode
      */
     List<Island> getAvailableIslands(final Mode mode);
-
-    // TODO: Should this be here, hmm...
-    void saveAll(final boolean emptyList);
-
-    // TODO: Should this be here, hmm...
-    void loadAll();
 }

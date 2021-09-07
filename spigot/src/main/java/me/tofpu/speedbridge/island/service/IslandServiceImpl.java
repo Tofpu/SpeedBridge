@@ -78,7 +78,6 @@ public class IslandServiceImpl implements IslandService {
         return islands;
     }
 
-    @Override
     public void saveAll(final boolean emptyList) {
         for (final Island island : this.islands) {
             final File file = new File(directory, "island-" + island.slot() + ".json");
@@ -100,7 +99,6 @@ public class IslandServiceImpl implements IslandService {
         if (emptyList) this.islands.clear();
     }
 
-    @Override
     public void loadAll() {
         for (final File file : directory.listFiles()) {
             try {
