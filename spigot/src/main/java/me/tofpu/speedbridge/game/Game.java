@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge.game;
 
 import me.tofpu.speedbridge.SpeedBridge;
+import me.tofpu.speedbridge.api.SpeedBridgeAPI;
 import me.tofpu.speedbridge.api.game.GameService;
 import me.tofpu.speedbridge.api.island.IslandService;
 import me.tofpu.speedbridge.api.lobby.LobbyService;
@@ -36,8 +37,8 @@ public class Game {
     private final SpeedBridge speedBridge;
     private final DataManager dataManager;
 
-    private final IslandService islandService;
-    private final UserService userService;
+    private final IslandServiceImpl islandService;
+    private final UserServiceImpl userService;
     private final LobbyService lobbyService;
 
     private final GameController gameController;
@@ -68,11 +69,8 @@ public class Game {
     }
 
     public void initialize(){
-        // initializing the commands
-        new CommandHandler(this, speedBridge);
-
-        // starting the basic metrics
-        new Metrics(speedBridge, 12679);
+        // initializing the API
+        SpeedBridgeAPI.setInstance(this.speedBridge.getLogger(), this.userService, this.islandService, this.gameService, this.lobbyService);
 
         // initializing the files
         this.dataManager.initialize(
@@ -84,8 +82,16 @@ public class Game {
         );
 
         // TEMPORALLY WHILE I DOUBLE CHECK MY THOUGHTS
-        ((UserServiceImpl) this.userService).initialize(this.dataManager);
-        ((IslandServiceImpl) this.islandService).initialize(this.dataManager);
+        this.userService.initialize(this.dataManager);
+        this.islandService.initialize(this.dataManager);
+    }
+
+    public void load(){
+        // initializing the commands
+        new CommandHandler(this, speedBridge);
+
+        // starting the basic metrics
+        new Metrics(speedBridge, 12679);
 
         registerListeners();
     }

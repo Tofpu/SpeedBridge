@@ -102,7 +102,6 @@ public class DataManager {
     public User loadUser(final UUID uuid) {
         if (!files[0].exists()) return null;
 
-        //TODO: DOUBTING
         User user = userService.load(uuid);
         return user == null ? userService.createUser(uuid) : user;
     }
@@ -111,7 +110,6 @@ public class DataManager {
         final User user = userService.get(uuid);
         if (user == null) return;
 
-        //TODO: DOUBTING
         userService.save(user);
         userService.removeUser(user);
     }
@@ -119,13 +117,11 @@ public class DataManager {
     public void load() {
         Game.EXECUTOR.execute(() -> {
             lobbyService.load(GSON, files[3], files[4]);
-            //TODO: DOUBTING
             islandService.loadAll();
         });
     }
 
     public void save() {
-        //TODO: DOUBTING
         islandService.saveAll(true);
         userService.saveAll(true);
         lobbyService.save(GSON, files[3], files[4]);

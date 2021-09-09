@@ -21,10 +21,13 @@ public final class SpeedBridge extends JavaPlugin {
     }
 
     @Override
-    public void onEnable() {
+    public void onLoad() {
         // initializing phase
         initialize();
+    }
 
+    @Override
+    public void onEnable() {
         // loading phase
         load();
     }
