@@ -7,6 +7,9 @@ import me.tofpu.speedbridge.api.user.UserService;
 
 import java.util.logging.Logger;
 
+/**
+ * Represents the speedbridge's services.
+ */
 public final class SpeedBridgeAPI {
     private static final SpeedBridgeAPI SPEED_BRIDGE_API = new SpeedBridgeAPI();
 
@@ -55,5 +58,9 @@ public final class SpeedBridgeAPI {
 
     public static LobbyService getLobbyService() {
         return lobbyService;
+    }
+
+    public static Logger getLogger() {
+        return logger;
     }
 }
