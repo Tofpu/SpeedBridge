@@ -76,6 +76,8 @@ public final class SpeedBridge extends JavaPlugin {
 
     private void load(){
         // starting the loading phase
+        game.load();
+
         game.dataManager().load();
 
         // reload patch
