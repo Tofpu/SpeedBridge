@@ -10,6 +10,7 @@ import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class IslandImpl extends IslandPropertiesImpl implements Island {
     private final List<Location> placedBlocks = new ArrayList<>();
@@ -78,5 +79,18 @@ public class IslandImpl extends IslandPropertiesImpl implements Island {
     @Override
     public String identifier() {
         return slot() + "";
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IslandImpl)) return false;
+        final IslandImpl island = (IslandImpl) o;
+        return slot == island.slot;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(slot);
     }
 }

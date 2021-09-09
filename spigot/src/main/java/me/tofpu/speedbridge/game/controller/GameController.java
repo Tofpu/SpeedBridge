@@ -24,9 +24,10 @@ public class GameController {
     }
 
     public Result createIsland(final Player player, int slot) {
-        // if an island exists by that defined slot
-        if (islandService.getIslandBySlot(slot) != null) return Result.FAIL;
         final Island island = new IslandImpl(slot);
+
+        // if an island exists by that defined slot
+        if (islandService.getIslandBySlot(slot) != null || islandMap.containsValue(island)) return Result.FAIL;
 
         // store the island & player to a cache map for modifying/setting-up purposes
         islandMap.put(player.getUniqueId(), island);
