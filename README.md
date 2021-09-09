@@ -10,6 +10,9 @@ I spent a full week working on this plugin for our fellow members, I'd like to s
 
 You can also check the live version (whose not operated/hosted by me) at **Squidical.net**.
 
+## API
+On v2.0.0 version and above, There is API Support but it's unstable so be careful.
+
 ## Official Tutorial (Shoutout to Eben for doing this)  
 https://youtu.be/Sx9fTFKCnhw
 
