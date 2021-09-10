@@ -109,17 +109,12 @@
         </dependency>
 
         <dependency>
-            <groupId>me.Tofpu</groupId>
+            <groupId>me.tofpu</groupId>
             <artifactId>speedbridge-api</artifactId>
             <version>1.2.0</version>
+            <scope>compile</scope>
         </dependency>
 
-        <!--        <dependency>-->
-<!--            <groupId>me.tofpu.speedbridge</groupId>-->
-<!--            <artifactId>speedbridge-api</artifactId>-->
-<!--            <version>b2eb4c815c</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
