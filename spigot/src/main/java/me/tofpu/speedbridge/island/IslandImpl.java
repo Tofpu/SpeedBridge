@@ -28,7 +28,7 @@ public class IslandImpl extends IslandPropertiesImpl implements Island {
 
     @Override
     public boolean isAvailable() {
-        return takenBy == null;
+        return this.takenBy == null;
     }
 
     @Override

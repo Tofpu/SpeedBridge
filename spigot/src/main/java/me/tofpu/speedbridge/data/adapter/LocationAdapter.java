@@ -7,6 +7,7 @@ import com.google.gson.stream.JsonWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
 
 import java.io.IOException;
 
@@ -32,7 +33,9 @@ public class LocationAdapter extends TypeAdapter<Location> {
 
         in.nextName();
         if (in.peek() == JsonToken.NULL) return null;
-        final World world = Bukkit.getWorld(in.nextString());
+        final String worldName = in.nextString();
+
+        World world = WorldCreator.name(worldName).createWorld();
 
         in.nextName();
         final double x = in.nextDouble();

@@ -80,6 +80,7 @@ public class IslandServiceImpl implements IslandService {
 
     public void saveAll(final boolean emptyList) {
         for (final Island island : this.islands) {
+            if (island.location().getWorld() == null) continue;
             final File file = new File(directory, "island-" + island.slot() + ".json");
             if (!file.exists()) {
                 try {
