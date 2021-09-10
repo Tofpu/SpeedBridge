@@ -32,7 +32,7 @@ messages:
     - " &61.1. &eYou can create an island by typing &6\"/island create (island-slot)\""
     - " "
     - "&62. &eHow to setup an Island:"
-    - " &62.1 &eYou can set &6spawn/point/selection-a/selection-b &elocations types by"
+    - " &62.1 &eYou can set &6spawn/endpoint/position-1/position-2 &elocations types by"
     - " going to their respective locations and typing &6\"/island set <location-types>\""
     - " &eand once you're done with that, type &6\"/island finish\""
     - " "

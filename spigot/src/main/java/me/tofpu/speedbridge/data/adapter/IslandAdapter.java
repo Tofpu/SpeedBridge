@@ -35,9 +35,9 @@ public class IslandAdapter extends TypeAdapter<Island> {
                 final TwoSection section = (TwoSection) point;
                 if (!section.hasPointA() || !section.hasPointA()) continue;
 
-                out.name(section.identifier() + "-a");
+                out.name(section.identifier() + "-1");
                 write(section.pointA(), out);
-                out.name(section.identifier() + "-b");
+                out.name(section.identifier() + "-2");
                 write(section.pointB(), out);
             } else {
                 out.name(point.identifier());
@@ -79,14 +79,18 @@ public class IslandAdapter extends TypeAdapter<Island> {
                 final String[] input = in.nextName().split("-");
                 final Location location = toLocation(adapter, in);
 
+                if (input[0].equals("selection")) input[0] = "position";
+                else if (input[0].equals("point")) input[0] = "endpoint";
                 final Point point = properties.get(input[0]);
                 if (point instanceof TwoSection) {
                     final TwoSection section = (TwoSection) point;
                     switch (input[1]) {
                         case "a":
+                        case "1":
                             section.pointA(location);
                             break;
                         case "b":
+                        case "2":
                             section.pointB(location);
                             break;
                     }
