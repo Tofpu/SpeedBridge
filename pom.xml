@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>spigot</module>
         <module>api</module>
+        <module>spigot</module>
     </modules>
 </project>
