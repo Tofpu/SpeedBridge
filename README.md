@@ -11,9 +11,9 @@ I spent a full week working on this plugin for our fellow members, I'd like to s
 You can also check the live version (whose not operated/hosted by me) at **Squidical.net**.
 
 ## API
-On v2.0.0 version and above, There is API Support but it's unstable so be careful.
+API Support has been implemented ever since v1.2.X but be very of the API instabilities. I cannot guarantee a stable API.
 
-## Official Tutorial (Shoutout to Eben for doing this)  
+## Official v1.0.X Tutorial (Shoutout to Eben for doing this)  
 https://youtu.be/Sx9fTFKCnhw
 
 ## Commands
@@ -39,10 +39,7 @@ https://youtu.be/Sx9fTFKCnhw
 | `/island expansions` | N/A | N/A | Lists the PlaceholderAPI expansions | island.info |
 | `/island guide` | N/A | N/A | A simple guide for starters | island.info |
 
-
 **Screenshots**  
-![image](https://user-images.githubusercontent.com/47629321/129747833-047ba1c7-96de-47df-87f9-64e5ae4c3597.png)
-
 ![image](https://user-images.githubusercontent.com/47629321/129747461-aafe9755-c1c9-441a-965c-168b1058fd1f.png)
 ![image](https://user-images.githubusercontent.com/47629321/129747540-c48c4156-186d-4838-acec-c754763e30da.png)
 ![image](https://user-images.githubusercontent.com/47629321/129747642-ede4c9eb-ff82-479f-b9a2-72102a5bd4b1.png)
