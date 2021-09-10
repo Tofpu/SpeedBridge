@@ -3,9 +3,14 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>me.tofpu</groupId>
+        <artifactId>speedbridge</artifactId>
+        <version>1.2.0</version>
+    </parent>
 
-    <groupId>me.tofpu.speedbridge</groupId>
-    <artifactId>speedbridge</artifactId>
+    <groupId>me.tofpu</groupId>
+    <artifactId>speedbridge-api</artifactId>
     <version>1.2.2</version>
     <packaging>jar</packaging>
 
@@ -104,12 +109,17 @@
         </dependency>
 
         <dependency>
-            <groupId>me.tofpu.speedbridge</groupId>
+            <groupId>me.Tofpu</groupId>
             <artifactId>speedbridge-api</artifactId>
             <version>1.2.0</version>
-            <scope>compile</scope>
         </dependency>
 
+        <!--        <dependency>-->
+<!--            <groupId>me.tofpu.speedbridge</groupId>-->
+<!--            <artifactId>speedbridge-api</artifactId>-->
+<!--            <version>b2eb4c815c</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
