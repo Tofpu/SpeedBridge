@@ -19,7 +19,6 @@ import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.data.file.path.PathType;
 import me.tofpu.speedbridge.data.file.type.MessageFile;
 import me.tofpu.speedbridge.data.file.type.SettingsFile;
-import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.island.service.IslandServiceImpl;
 import me.tofpu.speedbridge.user.service.UserServiceImpl;
 import org.bukkit.Location;
