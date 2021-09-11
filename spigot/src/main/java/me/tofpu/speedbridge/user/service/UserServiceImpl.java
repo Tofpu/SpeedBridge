@@ -59,7 +59,11 @@ public class UserServiceImpl implements UserService {
     public User getOrDefault(final UUID uuid, final boolean loadFromCache) {
         User user = get(uuid);
         if (user == null) {
-            user = load(uuid);
+            if (loadFromCache)
+                user = load(uuid);
+
+            if (user == null) 
+                user = createUser(uuid);
         }
         return user;
     }
@@ -67,7 +71,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User get(final UUID uuid) {
         for (final User user : this.users) {
-            if (user.uniqueId().equals(uuid)) return user;
+            if (user.uniqueId().equals(uuid))
+                return user;
         }
         return null;
     }

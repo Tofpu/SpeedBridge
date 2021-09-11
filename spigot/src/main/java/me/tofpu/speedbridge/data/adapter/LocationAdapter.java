@@ -21,8 +21,8 @@ public class LocationAdapter extends TypeAdapter<Location> {
         out.name("x").value(value.getX());
         out.name("y").value(value.getY());
         out.name("z").value(value.getZ());
-        out.name("pitch").value(value.getPitch());
-        out.name("yaw").value(value.getYaw());
+        out.name("yaw").value(value.getYaw() + "");
+        out.name("pitch").value(value.getPitch() + "");
 
         out.endObject();
     }
