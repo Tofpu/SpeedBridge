@@ -68,6 +68,9 @@ public final class SpeedBridge extends JavaPlugin {
         // initializing the two configs
         ConfigAPI.initialize(settingsIdentifier, messagesIdentifier);
 
+        // reloading the configurations
+        dataManager.reload();
+
         // initializing the mode manager
         ModeManager.getModeManager().initialize();
 

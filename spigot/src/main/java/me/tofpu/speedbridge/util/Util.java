@@ -116,8 +116,13 @@ public class Util {
 
     public static void message(final CommandSender sender, Path.Value<?> path, final String[] replaceArray, final String... replaceWith) {
         final Object value = path.getValue();
-        String message = value != null ? value instanceof String ? (String) value : string((List<String>) value) : path.getDefaultMessage();
-        if (message == null || message.equals("null")) message = path.getDefaultMessage();
+
+        String message = null;
+        if (value instanceof String){
+            message = (String) path.getValue();
+        } else if (value instanceof List){
+            message = string((List<String>) value);
+        }
         if (message == null || message.isEmpty()) return;
 
         message(sender, message, replaceArray, true, replaceWith);

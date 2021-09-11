@@ -1,3 +1,8 @@
+settings:
+  # if true, you will get teleported to the lobby upon joining
+  # if false, you won't get teleported to the lobby upon joining
+  teleport: true
+
 mode:
   default: hard
   list:

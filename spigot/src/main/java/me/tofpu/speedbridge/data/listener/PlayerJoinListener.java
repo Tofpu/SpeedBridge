@@ -21,8 +21,12 @@ public class PlayerJoinListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     private void onPlayerJoin(final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-        if (lobbyService.hasLobbyLocation()) player.teleport(lobbyService.getLobbyLocation());
-        else if (player.isOp()) {
+        final boolean teleport = Path.SETTINGS_TELEPORT.getValue();
+        final boolean location = lobbyService.hasLobbyLocation();
+
+        if (teleport && location) {
+            player.teleport(lobbyService.getLobbyLocation());
+        } else if (!location && teleport && player.isOp()) {
             Util.message(player, Path.MESSAGES_NO_LOBBY);
         }
 
