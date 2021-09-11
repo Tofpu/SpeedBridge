@@ -23,25 +23,6 @@ messages:
   island-completed: "&eThe island setup has been completed!"
   island-incomplete: "&cIncomplete island setup, please double check!"
 
-  guide:
-    - "&e&l&m<&6&m------&r &e&lGuide &6&m------&e&l&m>"
-    - "&61. &eHow to create an Island:"
-    - " &61.1. &eYou can create an island by typing &6\"/island create (island-slot)\""
-    - " "
-    - "&62. &eHow to setup an Island:"
-    - " &62.1 &eYou can set &6spawn/endpoint/position-1/position-2 &elocations types by"
-    - " going to their respective locations and typing &6\"/island set <location-types>\""
-    - " &eand once you're done with that, type &6\"/island finish\""
-    - " "
-    - "&63. &eHow to join an island:"
-    - " &63.1. &eYou can join an island by typing &6\"/join (island-slot)\""
-    - " "
-    - "&64. &eHow to set a lobby:"
-    - " &64.1. &eYou can set a lobby by typing &6\"/island set lobby\""
-    - " &64.2. &eYou can go to the lobby by typing &6\"/lobby\""
-    - " &e&l&m<&r&6&m----------------&e&l&m>"
-
-
   cancel-setup: "&cThe current island setup has been canceled!"
   no-setup: "&cYou don't have anything to cancel."
 

@@ -214,12 +214,4 @@ public class AdminCommand extends BridgeBaseCommand {
             Util.message(sender, format, new String[]{"#name#"}, false, expansion.toLowerCase(Locale.ROOT));
         }
     }
-
-    //TODO: MAKE THIS CONFIGURABLE
-    @Subcommand("guide")
-    @Description("A simple guide for starters")
-    @CommandPermission("island.info")
-    public void onGuide(final CommandSender sender) {
-        Util.message(sender, Path.MESSAGES_GUIDE);
-    }
 }
