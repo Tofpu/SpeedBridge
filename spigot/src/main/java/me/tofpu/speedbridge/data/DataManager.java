@@ -115,10 +115,8 @@ public class DataManager {
     }
 
     public void load() {
-        Game.EXECUTOR.execute(() -> {
-            lobbyService.load(GSON, files[3], files[4]);
-            islandService.loadAll();
-        });
+        lobbyService.load(GSON, files[3], files[4]);
+        islandService.loadAll();
     }
 
     public void save() {
