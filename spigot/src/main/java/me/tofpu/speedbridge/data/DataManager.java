@@ -111,7 +111,7 @@ public class DataManager {
     }
 
     public User loadUser(final UUID uuid) {
-        if (!files[0].exists()) return null;
+        if (!files[0].exists()) files[0].mkdirs();
 
         User user = userService.load(uuid);
         return user == null ? userService.createUser(uuid) : user;

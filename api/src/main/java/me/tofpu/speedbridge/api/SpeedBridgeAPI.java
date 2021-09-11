@@ -37,9 +37,6 @@ public final class SpeedBridgeAPI {
         SpeedBridgeAPI.islandService = islandService;
         SpeedBridgeAPI.gameService = gameService;
         SpeedBridgeAPI.lobbyService = lobbyService;
-
-        // TEMPORALLY
-        logger.info("The SpeedBridgeAPI has been initialized!");
     }
 
     private SpeedBridgeAPI() {}
