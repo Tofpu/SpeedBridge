@@ -5,12 +5,14 @@ import com.github.requestpluginsforfree.config.type.identifier.ConfigIdentifier;
 import com.github.requestpluginsforfree.dependency.api.DependencyAPI;
 import com.github.requestpluginsforfree.dependency.impl.PlaceholderDependency;
 import me.tofpu.speedbridge.data.DataManager;
+import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.expansion.BridgeExpansion;
 import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.util.UpdateChecker;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SpeedBridge extends JavaPlugin {
@@ -35,7 +37,7 @@ public final class SpeedBridge extends JavaPlugin {
     @Override
     public void onDisable() {
         // saving phase
-        game().dataManager().save();
+        game().dataManager().shutdown();
 
         // cancelling the leaderboard task
         game().lobbyService().getLeaderboard().cancel();
@@ -82,6 +84,26 @@ public final class SpeedBridge extends JavaPlugin {
         game.load();
 
         game.dataManager().load();
+
+        // adds in options that are missing from the configurations
+        boolean update = false;
+        for (Path.Value<?> value : Path.values()){
+            final String identifier = value.getPathType().name();
+
+            final FileConfiguration configuration = ConfigAPI.get(identifier).configuration();
+            final String path = value.getPath();
+
+            if (configuration.get(path, null) != null) continue;
+            update = true;
+
+            configuration.set(path, value.getDefaultValue());
+        }
+
+        // if there was a change, save & reload
+        if (update) {
+            game.dataManager().save();
+            game.dataManager().reload();
+        }
 
         // reload patch
         Bukkit.getOnlinePlayers().forEach(player -> game().dataManager().loadUser(player.getUniqueId()));

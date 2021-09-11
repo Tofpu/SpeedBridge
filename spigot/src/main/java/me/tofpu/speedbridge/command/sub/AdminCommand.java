@@ -135,8 +135,6 @@ public class AdminCommand extends BridgeBaseCommand {
             case FAIL:
                 path = Path.MESSAGES_ISLAND_INCOMPLETE;
                 break;
-            case INVALID_LOBBY:
-                path = Path.MESSAGES_NO_COMPLETE;
             default:
                 throw new IllegalStateException("Unexpected value: " + result);
         }
@@ -215,13 +213,5 @@ public class AdminCommand extends BridgeBaseCommand {
         for (final String expansion : Util.toString(ExpansionType.values())) {
             Util.message(sender, format, new String[]{"#name#"}, false, expansion.toLowerCase(Locale.ROOT));
         }
-    }
-
-    //TODO: MAKE THIS CONFIGURABLE
-    @Subcommand("guide")
-    @Description("A simple guide for starters")
-    @CommandPermission("island.info")
-    public void onGuide(final CommandSender sender) {
-        Util.message(sender, Path.MESSAGES_GUIDE);
     }
 }
