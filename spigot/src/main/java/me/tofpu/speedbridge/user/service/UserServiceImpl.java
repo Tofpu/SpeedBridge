@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
             if (loadFromCache)
                 user = load(uuid);
 
-            if (user == null) 
+            if (user == null)
                 user = createUser(uuid);
         }
         return user;
