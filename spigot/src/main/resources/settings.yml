@@ -3,6 +3,11 @@ settings:
   # if false, you won't get teleported to the lobby upon joining
   teleport: true
 
+  # A block of your choice, it also accepts data values
+  # This is the block the players will be placing while practicing
+  # block: WOOL:14 = RED WOOL
+  block: WOOL
+
 mode:
   default: hard
   list:

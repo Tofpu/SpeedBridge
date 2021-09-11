@@ -104,8 +104,17 @@ public class GameServiceImpl implements GameService {
         // resetting their food levels back to full
         player.setFoodLevel(20);
 
-        // adding a wool block with 64 amount for bridging purposes
-        inventory.addItem(new ItemStack(XMaterial.WHITE_WOOL.parseMaterial(), 64));
+        // trying to get the material that matches the server version
+        final Optional<XMaterial> material = XMaterial.matchXMaterial(Path.SETTINGS_BLOCK.getValue());
+
+        // if the material is present
+        if (material.isPresent()){
+            // parsing the material chosen
+            inventory.addItem(new ItemStack(material.get().parseMaterial(), 64));
+        } else {
+            // default material
+            inventory.addItem(new ItemStack(XMaterial.WHITE_WOOL.parseMaterial(), 64));
+        }
 
         // storing an instance of user & the island that
         // they're in for the runnable to keep track of them

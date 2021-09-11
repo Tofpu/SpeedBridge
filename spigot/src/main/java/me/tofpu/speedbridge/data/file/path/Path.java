@@ -13,6 +13,7 @@ public class Path {
     private static final String MESSAGES = "messages.";
 
     public static final Value<Boolean> SETTINGS_TELEPORT = new Value<>(SETTINGS + "teleport", true, PathType.SETTINGS);
+    public static final Value<String> SETTINGS_BLOCK = new Value<>(SETTINGS + "block", "WOOL", PathType.SETTINGS);
 
     public static final Value<String> MESSAGES_JOINED = new Value<>(MESSAGES + "joined", "&aGood Luck!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_LEFT = new Value<>(MESSAGES + "left", "", PathType.MESSAGES);
