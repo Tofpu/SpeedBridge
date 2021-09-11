@@ -85,7 +85,7 @@ public class GameController {
         final Island island = islandMap.get(player.getUniqueId());
 
         // if the player is not in the cache list
-        if (island == null) return Result.INVALID_LOBBY;
+        if (island == null) return Result.FAIL;
         final IslandProperties properties = island.properties();
         final Point sectionPoint = properties.get("endpoint");
         final TwoSection sectionSelection = (TwoSection) properties.get("position");

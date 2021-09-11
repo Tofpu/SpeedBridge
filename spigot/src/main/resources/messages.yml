@@ -10,12 +10,11 @@ messages:
   your-score: "&eYour personal best score is: &a%score%&e!"
 
   cannot-edit: "&cYou cannot edit an island while playing."
-  insert-number: "&cYou can only insert numbers here!"
   no-lobby: "&cYou have to setup a lobby first!"
   invalid-type: "&cInvalid location type!"
   single-edit-only: "&cYou can edit an island one at a time."
 
-  reloaded: "SpeedBridge has applied the new configuration changes!"
+  reloaded: "&eSpeedBridge has applied the new configuration changes!"
   island-creation: "&aThe island has been created!"
   island-modification: "&aYou can start modifying your island locations now!"
   lobby-location: "&aSuccess!"
@@ -23,8 +22,6 @@ messages:
   invalid-island: "&cThat island does not exist!"
   island-completed: "&eThe island setup has been completed!"
   island-incomplete: "&cIncomplete island setup, please double check!"
-  cancel-setup: "&cThe current island setup has been canceled!"
-  no-setup: "&cYou don't have anything to cancel."
 
   guide:
     - "&e&l&m<&6&m------&r &e&lGuide &6&m------&e&l&m>"
@@ -43,6 +40,10 @@ messages:
     - " &64.1. &eYou can set a lobby by typing &6\"/island set lobby\""
     - " &64.2. &eYou can go to the lobby by typing &6\"/lobby\""
     - " &e&l&m<&r&6&m----------------&e&l&m>"
+
+
+  cancel-setup: "&cThe current island setup has been canceled!"
+  no-setup: "&cYou don't have anything to cancel."
 
   not-beaten: "&cYou didn't beat your personal best score. (%score% seconds)"
   beaten-score: "&aYou topped your old personal best score by %calu_score% seconds!"
