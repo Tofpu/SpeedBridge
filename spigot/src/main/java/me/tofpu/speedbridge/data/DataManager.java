@@ -98,6 +98,18 @@ public class DataManager {
         }
     }
 
+    public void save(){
+        // TODO: combine file & config, it's basically the same
+        for (final PathType type : PathType.values()){
+            final String name = type.name().toLowerCase(Locale.ROOT);
+            try {
+                ConfigAPI.get(name).configuration().save(new File(files[0], name + ".yml"));
+            } catch (IllegalArgumentException | IOException e) {
+                throw new IllegalStateException(e);
+            }
+        }
+    }
+
     public User loadUser(final UUID uuid) {
         if (!files[0].exists()) return null;
 
@@ -118,7 +130,7 @@ public class DataManager {
         islandService.loadAll();
     }
 
-    public void save() {
+    public void shutdown() {
         islandService.saveAll(true);
         userService.saveAll(true);
         lobbyService.save(GSON, files[3], files[4]);
