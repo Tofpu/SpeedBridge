@@ -1,7 +1,6 @@
 package me.tofpu.speedbridge.lobby.service;
 
 import com.google.gson.Gson;
-import me.tofpu.speedbridge.api.lobby.Leaderboard;
 import me.tofpu.speedbridge.api.lobby.LobbyService;
 import org.bukkit.Location;
 
