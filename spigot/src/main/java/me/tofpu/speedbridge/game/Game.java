@@ -120,7 +120,6 @@ public class Game {
 
         this.userService.initialize(this.dataManager);
         this.islandService.initialize(this.dataManager);
-        this.lobbyService.initialize();
 
         leaderboardService.initialize(this.dataManager.getFiles()[3]);
 
