@@ -119,7 +119,9 @@ public abstract class AbstractLeaderboard implements Leaderboard {
         final StringBuilder builder = new StringBuilder();
         builder.append("&e").append(identifier).append(" ").append("Leaderboard");
 
-        for (int i = 0; i < capacity; i++) {
+        for (int i = 0; i < positions().size(); i++) {
+            if (i >= capacity) break;
+
             if (builder.capacity() != 1) builder.append("\n");
             builder.append("&e").append(i + 1).append(". ").append(parse(i));
         }
