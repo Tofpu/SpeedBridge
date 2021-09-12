@@ -54,7 +54,7 @@ public class Game {
 
     private final IslandServiceImpl islandService;
     private final UserServiceImpl userService;
-    private final LobbyService lobbyService;
+    private final LobbyServiceImpl lobbyService;
 
     private final LeaderboardServiceImpl leaderboardService;
 

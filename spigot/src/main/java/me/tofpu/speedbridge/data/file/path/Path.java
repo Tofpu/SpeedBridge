@@ -15,6 +15,11 @@ public class Path {
     public static final Value<Boolean> SETTINGS_TELEPORT = new Value<>(SETTINGS + "teleport", true, PathType.SETTINGS);
     public static final Value<String> SETTINGS_BLOCK = new Value<>(SETTINGS + "block", "WOOL", PathType.SETTINGS);
 
+    private static final String LEADERBOARD = SETTINGS + "leaderboard.";
+    public static final Value<Integer> LEADERBOARD_SIZE = new Value<>(LEADERBOARD + "size", 10, PathType.SETTINGS);
+    public static final Value<String> LEADERBOARD_HEADER = new Value<>(LEADERBOARD + "header", "&eLeaderboard", PathType.SETTINGS);
+    public static final Value<String> LEADERBOARD_STYLE = new Value<>(LEADERBOARD + "style", "&e{position}. {name} &a({score})", PathType.SETTINGS);
+
     public static final Value<String> MESSAGES_JOINED = new Value<>(MESSAGES + "joined", "&aGood Luck!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_LEFT = new Value<>(MESSAGES + "left", "", PathType.MESSAGES);
     public static final Value<String> MESSAGES_NO_AVAILABLE = new Value<>(MESSAGES + "no-available", "&cThere is no available island right now; try again later!", PathType.MESSAGES);
