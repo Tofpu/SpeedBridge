@@ -4,12 +4,14 @@ import co.aikar.commands.annotation.*;
 import me.tofpu.speedbridge.api.game.GameService;
 import me.tofpu.speedbridge.api.game.Result;
 import me.tofpu.speedbridge.api.island.mode.Mode;
+import me.tofpu.speedbridge.api.leaderboard.LeaderboardService;
 import me.tofpu.speedbridge.api.lobby.LobbyService;
 import me.tofpu.speedbridge.api.user.User;
 import me.tofpu.speedbridge.api.user.UserProperties;
 import me.tofpu.speedbridge.api.user.UserService;
 import me.tofpu.speedbridge.command.BridgeBaseCommand;
 import me.tofpu.speedbridge.data.file.path.Path;
+import me.tofpu.speedbridge.api.leaderboard.LeaderboardType;
 import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.command.CommandSender;
@@ -17,16 +19,17 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("speedbridge|game")
 public class MainCommand extends BridgeBaseCommand {
-
     private final UserService userService;
     private final GameService gameService;
     private final LobbyService lobbyService;
+    private final LeaderboardService leaderboardService;
 
-    public MainCommand(final UserService userService, final GameService gameService, final LobbyService lobbyService) {
+    public MainCommand(final UserService userService, final GameService gameService, final LobbyService lobbyService, final LeaderboardService leaderboardService) {
         super("game");
         this.userService = userService;
         this.gameService = gameService;
         this.lobbyService = lobbyService;
+        this.leaderboardService = leaderboardService;
     }
 
     @Override
@@ -73,7 +76,7 @@ public class MainCommand extends BridgeBaseCommand {
     @CommandAlias("leaderboard")
     @Description("Lists the top 10 best performers")
     public void onLeaderboard(final CommandSender player) {
-        player.sendMessage(lobbyService.getLeaderboard().print());
+        player.sendMessage(leaderboardService.get(LeaderboardType.GLOBAL).print());
     }
 
     @Subcommand("score")

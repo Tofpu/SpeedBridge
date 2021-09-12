@@ -30,7 +30,7 @@ public class CommandHandler {
         this.commandManager.getCommandCompletions().registerCompletion("setupStage", context -> Util.toString(SetupStage.values()));
 
         // registrations
-        registerCommand(new MainCommand(game.userService(), game.gameService(), game.lobbyService()));
+        registerCommand(new MainCommand(game.userService(), game.gameService(), game.lobbyService(), game.leaderboardManager()));
         registerCommand(new AdminCommand(plugin, game.lobbyService(), game.gameService(), game.gameController(), game.dataManager()));
     }
 

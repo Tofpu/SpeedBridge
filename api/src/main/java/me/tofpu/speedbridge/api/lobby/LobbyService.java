@@ -12,9 +12,7 @@ public interface LobbyService {
 
     boolean hasLobbyLocation();
 
-    void save(final Gson gson, final File lobbyFile, final File leaderboardFile);
+    void save(final Gson gson, final File lobbyFile);
 
-    void load(final Gson gson, final File lobbyFile, final File leaderboardFile);
-
-    Leaderboard getLeaderboard();
+    void load(final Gson gson, final File lobbyFile);
 }

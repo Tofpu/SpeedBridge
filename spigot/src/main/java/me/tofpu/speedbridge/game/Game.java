@@ -8,6 +8,7 @@ import me.tofpu.speedbridge.SpeedBridge;
 import me.tofpu.speedbridge.api.SpeedBridgeAPI;
 import me.tofpu.speedbridge.api.game.GameService;
 import me.tofpu.speedbridge.api.island.IslandService;
+import me.tofpu.speedbridge.api.leaderboard.LeaderboardService;
 import me.tofpu.speedbridge.api.lobby.LobbyService;
 import me.tofpu.speedbridge.api.user.UserService;
 import me.tofpu.speedbridge.command.CommandHandler;
@@ -17,6 +18,8 @@ import me.tofpu.speedbridge.data.listener.PlayerJoinListener;
 import me.tofpu.speedbridge.data.listener.PlayerQuitListener;
 import me.tofpu.speedbridge.expansion.BridgeExpansion;
 import me.tofpu.speedbridge.game.controller.GameController;
+import me.tofpu.speedbridge.game.leaderboard.AbstractLeaderboard;
+import me.tofpu.speedbridge.game.leaderboard.LeaderboardServiceImpl;
 import me.tofpu.speedbridge.game.listener.functionality.BlockBreakListener;
 import me.tofpu.speedbridge.game.listener.functionality.EntityDamageListener;
 import me.tofpu.speedbridge.game.listener.functionality.FoodLevelChangeListener;
@@ -35,6 +38,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,6 +56,8 @@ public class Game {
     private final UserServiceImpl userService;
     private final LobbyService lobbyService;
 
+    private final LeaderboardServiceImpl leaderboardService;
+
     private final GameController gameController;
     private final GameService gameService;
 
@@ -59,17 +65,19 @@ public class Game {
 
     public Game(final SpeedBridge speedBridge) {
         this.speedBridge = speedBridge;
-        this.dataManager = new DataManager();
+        this.dataManager = new DataManager(speedBridge);
 
         this.islandService = new IslandServiceImpl();
         this.userService = new UserServiceImpl();
         this.lobbyService = new LobbyServiceImpl();
 
+        this.leaderboardService = new LeaderboardServiceImpl();
+
         this.gameController = new GameController(islandService);
-        this.gameService = new GameServiceImpl(speedBridge, islandService, userService, lobbyService);
+        this.gameService = new GameServiceImpl(speedBridge, islandService, userService, lobbyService, leaderboardService);
 
         this.listeners = new ArrayList<>(Arrays.asList(
-                new PlayerJoinListener(lobbyService, dataManager),
+                new PlayerJoinListener(userService, lobbyService, leaderboardService),
                 new PlayerQuitListener(userService, gameService, dataManager),
                 new PlayerInteractListener(userService, islandService, gameService),
                 new BlockPlaceListener(userService, islandService, gameService),
@@ -90,7 +98,7 @@ public class Game {
         if (!DependencyAPI.get("PlaceholderAPI").isAvailable()) return;
 
         Util.isPlaceholderHooked = true;
-        new BridgeExpansion(speedBridge.getDescription(), userService, gameService, lobbyService).register();
+        new BridgeExpansion(speedBridge.getDescription(), userService, gameService, leaderboardService).register();
     }
 
     private void registerListeners(){
@@ -108,10 +116,12 @@ public class Game {
         SpeedBridgeAPI.setInstance(this.speedBridge.getLogger(), this.userService, this.islandService, this.gameService, this.lobbyService);
 
         // initializing the files
-        this.dataManager.initialize(this.islandService, this.userService, this.lobbyService, this.speedBridge, this.speedBridge.getDataFolder());
+        this.dataManager.initialize(this.islandService, this.userService, this.lobbyService, this.leaderboardService, this.speedBridge, this.speedBridge.getDataFolder());
 
         this.userService.initialize(this.dataManager);
         this.islandService.initialize(this.dataManager);
+
+        leaderboardService.initialize(this.dataManager.getFiles()[3]);
 
         // update checker async
         UpdateChecker.init(speedBridge, 95918).requestUpdateCheck().whenComplete((updateResult, throwable) -> {
@@ -151,7 +161,11 @@ public class Game {
 
         registerListeners();
 
-        this.dataManager.load();
+        try {
+            this.dataManager.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // adds in options that are missing from the configurations
         boolean update = false;
@@ -177,7 +191,7 @@ public class Game {
         Bukkit.getOnlinePlayers().forEach(player -> dataManager.loadUser(player.getUniqueId()));
 
         // starting up the leaderboard
-        lobbyService.getLeaderboard().start(speedBridge);
+        leaderboardService.compute(null, leaderboard -> ((AbstractLeaderboard) leaderboard).start(speedBridge));
     }
 
     public IslandService islandService() {
@@ -194,6 +208,10 @@ public class Game {
 
     public GameService gameService() {
         return this.gameService;
+    }
+
+    public LeaderboardService leaderboardManager() {
+        return leaderboardService;
     }
 
     public LobbyService lobbyService() {
