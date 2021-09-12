@@ -54,7 +54,7 @@ public class Game {
 
     private final IslandServiceImpl islandService;
     private final UserServiceImpl userService;
-    private final LobbyService lobbyService;
+    private final LobbyServiceImpl lobbyService;
 
     private final LeaderboardServiceImpl leaderboardService;
 
@@ -120,6 +120,7 @@ public class Game {
 
         this.userService.initialize(this.dataManager);
         this.islandService.initialize(this.dataManager);
+        this.lobbyService.initialize();
 
         leaderboardService.initialize(this.dataManager.getFiles()[3]);
 
