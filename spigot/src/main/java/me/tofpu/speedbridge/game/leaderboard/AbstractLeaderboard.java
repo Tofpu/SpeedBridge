@@ -74,8 +74,8 @@ public abstract class AbstractLeaderboard implements Leaderboard {
 
     public void check(final User user) {
         final Player player = Bukkit.getPlayer(user.uniqueId());
-        if (player == null) return;
         final Timer timer = user.properties().timer();
+        if (player == null || timer == null) return;
 
         BoardUser boardUser = get(user.uniqueId());
         if (boardUser == null) {
