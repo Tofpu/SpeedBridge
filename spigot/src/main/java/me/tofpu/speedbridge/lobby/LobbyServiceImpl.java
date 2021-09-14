@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.lobby.service;
+package me.tofpu.speedbridge.lobby;
 
 import com.google.gson.Gson;
 import me.tofpu.speedbridge.api.lobby.LobbyService;

@@ -28,7 +28,7 @@ import me.tofpu.speedbridge.game.listener.machanic.PlayerInteractListener;
 import me.tofpu.speedbridge.game.service.GameServiceImpl;
 import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.island.service.IslandServiceImpl;
-import me.tofpu.speedbridge.lobby.service.LobbyServiceImpl;
+import me.tofpu.speedbridge.lobby.LobbyServiceImpl;
 import me.tofpu.speedbridge.user.service.UserServiceImpl;
 import me.tofpu.speedbridge.util.UpdateChecker;
 import me.tofpu.speedbridge.util.Util;

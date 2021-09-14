@@ -4,7 +4,6 @@ import me.tofpu.speedbridge.api.lobby.BoardUser;
 import me.tofpu.speedbridge.api.leaderboard.Leaderboard;
 import me.tofpu.speedbridge.api.user.User;
 import me.tofpu.speedbridge.api.user.timer.Timer;
-import me.tofpu.speedbridge.lobby.leaderboard.BoardUserImpl;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
