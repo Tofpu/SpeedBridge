@@ -72,7 +72,9 @@ public class IslandServiceImpl implements IslandService {
     public List<Island> getAvailableIslands(final Mode mode) {
         final List<Island> islands = new ArrayList<>();
         for (final Island island : this.islands) {
-            if (island.mode().identifier().equals(mode.identifier())
+            final Mode islandMode = island.mode();
+
+            if (islandMode != null && islandMode.identifier().equals(mode.identifier())
                     && island.isAvailable() && island.hasLocation()) islands.add(island);
         }
         return islands;
