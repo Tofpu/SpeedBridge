@@ -2,11 +2,12 @@ package me.tofpu.speedbridge.expansion;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.tofpu.speedbridge.api.game.GameService;
-import me.tofpu.speedbridge.api.lobby.Leaderboard;
-import me.tofpu.speedbridge.api.lobby.LobbyService;
+import me.tofpu.speedbridge.api.leaderboard.Leaderboard;
+import me.tofpu.speedbridge.api.leaderboard.LeaderboardService;
 import me.tofpu.speedbridge.api.user.User;
 import me.tofpu.speedbridge.api.user.UserService;
 import me.tofpu.speedbridge.api.user.timer.Timer;
+import me.tofpu.speedbridge.api.leaderboard.LeaderboardType;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -19,13 +20,13 @@ public class BridgeExpansion extends PlaceholderExpansion {
 
     private final UserService userService;
     private final GameService gameService;
-    private final LobbyService lobbyService;
+    private final LeaderboardService leaderboardService;
 
-    public BridgeExpansion(final PluginDescriptionFile description, final UserService userService, final GameService gameService, final LobbyService lobbyService) {
+    public BridgeExpansion(final PluginDescriptionFile description, final UserService userService, final GameService gameService, final LeaderboardService leaderboardService) {
         this.description = description;
         this.userService = userService;
         this.gameService = gameService;
-        this.lobbyService = lobbyService;
+        this.leaderboardService = leaderboardService;
     }
 
     @Override
@@ -66,7 +67,7 @@ public class BridgeExpansion extends PlaceholderExpansion {
         final Timer timer;
         switch (type) {
             case ISLAND:
-                Integer slot = null;
+                Integer slot;
                 if (isNull || ((slot = user.properties().islandSlot()) == null)) return "Lobby";
                 return slot + "";
             case LIVE_TIMER:
@@ -77,8 +78,8 @@ public class BridgeExpansion extends PlaceholderExpansion {
                 return timer.result() + "";
             case LEADERBOARD:
                 if (args.length <= 1) return null;
-                final Leaderboard leaderboard = lobbyService.getLeaderboard();
-                System.out.println(Arrays.toString(args));
+                final Leaderboard leaderboard = leaderboardService.get(LeaderboardType.GLOBAL);
+
                 final Integer integer = Util.parseInt(args[1]);
                 return integer == null ? "Provide a number!" : integer == 0 ? "Only number 1 or above is allowed!" : leaderboard.parse(integer - 1);
             default:

@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.lobby.leaderboard;
+package me.tofpu.speedbridge.game.leaderboard;
 
 import com.google.common.base.Objects;
 import me.tofpu.speedbridge.api.lobby.BoardUser;

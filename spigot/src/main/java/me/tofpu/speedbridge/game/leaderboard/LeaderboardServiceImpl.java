@@ -1,0 +1,90 @@
+package me.tofpu.speedbridge.game.leaderboard;
+
+import me.tofpu.speedbridge.api.leaderboard.Leaderboard;
+import me.tofpu.speedbridge.api.leaderboard.LeaderboardService;
+import me.tofpu.speedbridge.api.leaderboard.LeaderboardType;
+import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.data.DataManager;
+import me.tofpu.speedbridge.game.Game;
+import me.tofpu.speedbridge.game.leaderboard.impl.GlobalLeaderboard;
+import me.tofpu.speedbridge.game.leaderboard.impl.SeasonalLeaderboard;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
+public class LeaderboardServiceImpl implements LeaderboardService {
+    private final List<AbstractLeaderboard> leaderboards = new ArrayList<>();
+    private File directory;
+
+    public LeaderboardServiceImpl() {
+        leaderboards.addAll(Arrays.asList(new GlobalLeaderboard(), new SeasonalLeaderboard()));
+    }
+
+    public void initialize(final File directory) {
+        this.directory = directory;
+
+        // TODO: automatic save here
+        Game.EXECUTOR.scheduleWithFixedDelay(this::save, 5, 5, TimeUnit.MINUTES);
+    }
+
+    @Override
+    public AbstractLeaderboard get(final LeaderboardType type) {
+        for (final AbstractLeaderboard leaderboard : leaderboards){
+            if (!leaderboard.identifier().equalsIgnoreCase(type.name())) continue;
+            return leaderboard;
+        }
+        return null;
+    }
+
+    public void check(final User user, final Predicate<AbstractLeaderboard> filter) {
+        for (final AbstractLeaderboard leaderboard : leaderboards){
+            if (filter != null && filter.test(leaderboard)) continue;
+            leaderboard.check(user);
+        }
+    }
+
+    @Override
+    public void compute(final Predicate<Leaderboard> filter, Consumer<Leaderboard> consumer){
+        for (final AbstractLeaderboard leaderboard : leaderboards){
+            if (filter != null && filter.test(leaderboard)) continue;
+            consumer.accept(leaderboard);
+        }
+    }
+
+    public void load() {
+        for (final File file : directory.listFiles()) {
+            final String name = file.getName();
+
+            if (!name.endsWith(".json")) continue;
+            try (final FileReader reader = new FileReader(file)) {
+                final AbstractLeaderboard leaderboard = DataManager.GSON.fromJson(reader, AbstractLeaderboard.class);
+
+                final LeaderboardType type = LeaderboardType.match(leaderboard.identifier());
+                if (type == null) continue;
+
+                get(type).addAll(leaderboard.positions());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void save() {
+        for (final AbstractLeaderboard leaderboard : leaderboards){
+            try (final FileWriter writer = new FileWriter(new File(directory, leaderboard.identifier() + ".json"))) {
+                writer.write(DataManager.GSON.toJson(leaderboard, AbstractLeaderboard.class));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public File directory() {
+        return directory;
+    }
+}

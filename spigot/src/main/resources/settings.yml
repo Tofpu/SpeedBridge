@@ -8,6 +8,18 @@ settings:
   # block: WOOL:14 = RED WOOL
   block: WOOL
 
+  leaderboard:
+    # the leaderboard size
+    size: 10
+
+    format:
+      # the message header
+      header: "&eLeaderboard"
+
+      # the message style
+      style: "&e{position}. {name} &a({score})"
+
+
 mode:
   default: hard
   list:
