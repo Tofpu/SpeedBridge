@@ -1,4 +1,5 @@
 ![bannar](https://github.com/Tofpu/media/blob/master/images/banners/rpf-bannar.jpg?raw=true)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Frequest-plugins-for-free%2FSpeedBridge.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Frequest-plugins-for-free%2FSpeedBridge?ref=badge_shield)
 
 What is SpeedBridge?
 ---
@@ -19,3 +20,7 @@ Willing to contribute? Here's a few things you could do:
 * Assist users who created an issue in the [issues](https://github.com/request-plugins-for-free/SpeedBridge/issues) page.
 * Contribute to the [wiki](https://github.com/request-plugins-for-free/SpeedBridge/wiki) page.
 * Take a peek at the open [issues](https://github.com/request-plugins-for-free/SpeedBridge/issues) page and pr bug fixes or suggestions.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Frequest-plugins-for-free%2FSpeedBridge.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Frequest-plugins-for-free%2FSpeedBridge?ref=badge_large)
