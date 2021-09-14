@@ -11,6 +11,7 @@ import me.tofpu.speedbridge.api.user.UserProperties;
 import me.tofpu.speedbridge.api.user.UserService;
 import me.tofpu.speedbridge.api.user.timer.Timer;
 import me.tofpu.speedbridge.data.file.path.Path;
+import me.tofpu.speedbridge.game.leaderboard.LeaderboardServiceImpl;
 import me.tofpu.speedbridge.game.runnable.GameRunnable;
 import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.user.properties.timer.TimerFactory;
@@ -29,16 +30,18 @@ public class GameServiceImpl implements GameService {
     private final IslandService islandService;
     private final UserService userService;
     private final LobbyService lobbyService;
+    private final LeaderboardServiceImpl leaderboardService;
 
     private final Map<UUID, Timer> gameTimer;
     private final Map<User, Island> gameChecker;
 
     private final GameRunnable runnable;
 
-    public GameServiceImpl(final Plugin plugin, final IslandService islandService, final UserService userService, final LobbyService lobbyService) {
+    public GameServiceImpl(final Plugin plugin, final IslandService islandService, final UserService userService, final LobbyService lobbyService, final LeaderboardServiceImpl leaderboardService) {
         this.islandService = islandService;
         this.userService = userService;
         this.lobbyService = lobbyService;
+        this.leaderboardService = leaderboardService;
 
         this.gameTimer = new HashMap<>();
         this.gameChecker = new HashMap<>();
@@ -334,8 +337,9 @@ public class GameServiceImpl implements GameService {
 
             // replacing the old record with the player's current record
             properties.timer(gameTimer);
+
             // manually triggering the leaderboard
-            lobbyService.getLeaderboard().check(user);
+            leaderboardService.check(user, null);
         }
     }
 
