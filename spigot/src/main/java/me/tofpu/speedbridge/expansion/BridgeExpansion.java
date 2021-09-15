@@ -13,8 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-
 public class BridgeExpansion extends PlaceholderExpansion {
     private final PluginDescriptionFile description;
 
@@ -58,7 +56,7 @@ public class BridgeExpansion extends PlaceholderExpansion {
     public String onPlaceholderRequest(Player player, @NotNull String params) {
         if (params.isEmpty()) return "";
         final String[] args = params.split("_");
-        final ExpansionType type = ExpansionType.getMatch(args[0]);
+        final ExpansionType type = ExpansionType.match(args[0]);
         if (type == null) return "";
 
         final User user = userService.get(player.getUniqueId());
