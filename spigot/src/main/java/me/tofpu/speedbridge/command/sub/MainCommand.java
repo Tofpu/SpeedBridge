@@ -14,6 +14,7 @@ import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.api.leaderboard.LeaderboardType;
 import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -59,6 +60,39 @@ public class MainCommand extends BridgeBaseCommand {
             mode = ModeManager.getModeManager().get(arg);
         }
         onJoin(player, integer, mode);
+    }
+
+    @Subcommand("spectate")
+    @CommandAlias("spectate")
+    @Syntax("<target>")
+    @CommandCompletion("@players")
+    @Description("Spectates a player")
+    public void onSpectate(final Player issuer, final String arg) {
+        final Player target = Bukkit.getPlayer(arg);
+        if (target == null) {
+            Util.message(issuer, Path.MESSAGES_SPECTATOR_UNKNOWN);
+            return;
+        }
+        if (issuer.getName().equalsIgnoreCase(target.getName())) {
+            Util.message(issuer, Path.MESSAGES_SPECTATOR_SELF);
+            return;
+        }
+        final Result result = gameService.spectate(issuer, target);
+
+        final Path.Value<?> path;
+        switch (result) {
+            case FULL:
+                path = Path.MESSAGES_SPECTATOR_SELF_PLAYING;
+                break;
+            case FAIL:
+                path = Path.MESSAGES_SPECTATOR_TARGET;
+                break;
+            case SUCCESS:
+                return;
+            default:
+                throw new IllegalStateException("Unexpected value: " + result);
+        }
+        Util.message(issuer, path);
     }
 
     @Subcommand("leave")

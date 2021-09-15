@@ -208,10 +208,10 @@ public class AdminCommand extends BridgeBaseCommand {
     @Description("Lists the PlaceholderAPI extensions")
     @CommandPermission("island.info")
     public void onExpansion(final CommandSender sender) {
-        final String format = " &6&l&m*&r &e%bridge_#name#%";
+        final String format = " &6&l&m*&r &e%bridge_#name#% &6- &e#description#";
 
-        for (final String expansion : Util.toString(ExpansionType.values())) {
-            Util.message(sender, format, new String[]{"#name#"}, false, expansion.toLowerCase(Locale.ROOT));
+        for (final ExpansionType expansion : ExpansionType.values()) {
+            Util.message(sender, format, new String[]{"#name#", "#description#"}, false, expansion.name().toLowerCase(Locale.ROOT).replace("_", "-"), expansion.description());
         }
     }
 }

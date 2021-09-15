@@ -5,6 +5,7 @@ import me.tofpu.speedbridge.api.leaderboard.LeaderboardService;
 import me.tofpu.speedbridge.api.leaderboard.LeaderboardType;
 import me.tofpu.speedbridge.api.user.User;
 import me.tofpu.speedbridge.data.DataManager;
+import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.game.Game;
 import me.tofpu.speedbridge.game.leaderboard.impl.GlobalLeaderboard;
 import me.tofpu.speedbridge.game.leaderboard.impl.SeasonalLeaderboard;
@@ -18,17 +19,19 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class LeaderboardServiceImpl implements LeaderboardService {
-    private final List<AbstractLeaderboard> leaderboards = new ArrayList<>();
+    private final List<AbstractLeaderboard> leaderboards;
     private File directory;
 
     public LeaderboardServiceImpl() {
-        leaderboards.addAll(Arrays.asList(new GlobalLeaderboard(), new SeasonalLeaderboard()));
+        leaderboards = new ArrayList<>();
     }
 
     public void initialize(final File directory) {
         this.directory = directory;
 
-        // TODO: automatic save here
+        final int capacity = Path.LEADERBOARD_SIZE.getValue();
+        leaderboards.addAll(Arrays.asList(new GlobalLeaderboard(capacity), new SeasonalLeaderboard(capacity)));
+
         Game.EXECUTOR.scheduleWithFixedDelay(this::save, 5, 5, TimeUnit.MINUTES);
     }
 

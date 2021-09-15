@@ -29,3 +29,16 @@ messages:
   not-beaten: "&cYou didn't beat your personal best score. (%score% seconds)"
   beaten-score: "&aYou topped your old personal best score by %calu_score% seconds!"
   scored: "&eYou scored &a%scored% &eseconds!"
+
+  spectating: "&eYou are spectating &6%player%&e!"
+  notify-spectate: "&6%player% &eis spectating you!"
+  no-longer-spectating: "&eYou're no longer spectating &6%player%!"
+  notify-not-spectating: "&6%player% &eis no longer spectating you!"
+
+  spectator-beaten-score: "&6%player% &etopped their personal score by &a%calu_score% &eseconds!"
+  spectotor-score: "&6%player% &escored &a%scored% &eseconds!"
+
+  spectate-unknown: "&eYou cannot spectate offline players!"
+  spectate-self: "&eYou cannot spectate yourself!"
+  spectate-self-playing: "&eYou cannot spectate while playing!"
+  spectate-target: "&eYou cannot spectate somebody who isn't playing!"
