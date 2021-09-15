@@ -23,6 +23,11 @@ messages:
   island-completed: "&eThe island setup has been completed!"
   island-incomplete: "&cIncomplete island setup, please double check!"
 
+  island-removal: "&eIsland &6%slot% &ehas been removed!\n&eYou can revert the removal by typing /island revert"
+  island-removal-fail: "&eIsland &6%slot% &ecouldn't be removed... check the console!"
+  island-revert: "&eIsland &6%slot% &ehas been reverted back!"
+  island-revert-fail: "&cThere is nothing to revert back!"
+
   cancel-setup: "&cThe current island setup has been canceled!"
   no-setup: "&cYou don't have anything to cancel."
 

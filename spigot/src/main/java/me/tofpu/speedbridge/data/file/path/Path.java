@@ -41,7 +41,12 @@ public class Path {
     public static final Value<String> MESSAGES_INVALID_ISLAND = new Value<>(MESSAGES + "invalid-island", "&cThat island does not exist!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_ISLAND_COMPLETED = new Value<>(MESSAGES + "island-completed", "&eThe island setup has been completed!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_ISLAND_INCOMPLETE = new Value<>(MESSAGES + "island-incomplete", "&cIncomplete island setup, please double check!", PathType.MESSAGES);
-    
+
+    public static final Value<String> MESSAGES_ISLAND_REMOVAL = new Value<>(MESSAGES + "island-removal", "&eIsland &6%slot% &ehas been removed!\n&eYou can revert the removal by typing /island revert", PathType.MESSAGES);
+    public static final Value<String> messages_ISLAND_REMOVAL_FAIL = new Value<>(MESSAGES + "island-removal-fail", "&eIsland &6%slot% &ecouldn't be removed... check the console!", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_ISLAND_REVERT = new Value<>(MESSAGES + "island-revert", "&eIsland &6%slot% &ehas been reverted back", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_ISLAND_REVERT_FAIL = new Value<>(MESSAGES + "island-revert-fail", "&cThere is nothing to revert back!", PathType.MESSAGES);
+
     public static final Value<String> MESSAGES_CANCEL_SETUP = new Value<>(MESSAGES + "cancel-setup", "&cThe current island setup has been canceled!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_NO_SETUP = new Value<>(MESSAGES + "no-setup", "&cYou don't have anything to cancel.", PathType.MESSAGES);
 
