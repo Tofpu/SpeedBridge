@@ -14,6 +14,7 @@ import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.api.leaderboard.LeaderboardType;
 import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -59,6 +60,30 @@ public class MainCommand extends BridgeBaseCommand {
             mode = ModeManager.getModeManager().get(arg);
         }
         onJoin(player, integer, mode);
+    }
+
+    @Subcommand("spectate")
+    @CommandAlias("spectate")
+    @Syntax("<target>")
+    @CommandCompletion("@players")
+    @Description("Spectates a player")
+    public void onSpectate(final Player issuer, final @Single String arg) {
+        final Player target = Bukkit.getPlayer(arg);
+        if (target == null) {
+            issuer.sendMessage("You cannot spectate someone who isn't playing.");
+            return;
+        }
+        final Result result = gameService.spectate(issuer, target);
+
+        // TODO: HAVE THIS CONFIGURABLE
+        switch (result) {
+            case FULL:
+                issuer.sendMessage("You cannot spectate someone whilst playing a game.");
+                break;
+            case FAIL:
+                issuer.sendMessage("You cannot spectate someone who isn't playing.");
+                break;
+        }
     }
 
     @Subcommand("leave")
