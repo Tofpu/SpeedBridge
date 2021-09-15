@@ -49,6 +49,14 @@ public class Path {
     public static final Value<String> MESSAGES_BEATEN_SCORE = new Value<>(MESSAGES + "beaten-score", "&aYou topped your old personal best score by %calu_score% seconds!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_SCORED = new Value<>(MESSAGES + "scored", "&eYou scored &a%scored% &eseconds!", PathType.MESSAGES);
 
+    public static final Value<String> MESSAGES_SPECTATING = new Value<>(MESSAGES + "spectating", "&eYou are spectating &6%player%&e!", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_NOTIFY_SPECTATING = new Value<>(MESSAGES + "notify-spectating", "&6%player% &eis spectating you!", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_NO_LONGER_SPECTATING = new Value<>(MESSAGES + "no-longer-spectating", "&eYou're no longer spectating &6%player%!", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_NOTIFY_NOT_SPECTATING = new Value<>(MESSAGES + "notify-not-spectating", "&6%player% &eis no longer spectating you!", PathType.MESSAGES);
+    
+    public static final Value<String> MESSAGES_SPECTATOR_BEATEN_SCORE = new Value<>(MESSAGES + "spectator-beaten-score", "&6%player% &etopped their personal score by &a%calu_score% &eseconds!", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_SPECTATOR_SCORED = new Value<>(MESSAGES + "spectator-scored", "&6%player% &escored &a%scored% &eseconds!", PathType.MESSAGES);
+
     public static List<Value<?>> values() {
         return VALUE_LIST;
     }
