@@ -1,5 +1,7 @@
 package me.tofpu.speedbridge.api.user;
 
+import org.bukkit.entity.Player;
+
 import java.util.UUID;
 
 /**
@@ -15,4 +17,11 @@ public interface User {
      * @return the user properties
      */
     UserProperties properties();
+
+    /**
+     * Player instance of this user.
+     *
+     * @return a player instance of this user, null if they're offline
+     */
+    Player player();
 }

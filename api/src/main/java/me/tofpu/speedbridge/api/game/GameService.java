@@ -73,6 +73,30 @@ public interface GameService {
     Result join(final Player player, final Mode mode);
 
     /**
+     * This method will teleport the issuer to the target
+     * to spectate in their island.
+     * <p></p>
+     * The issuer will also get notified when the target scores
+     * and whether the target have beaten their
+     * personal score or not.
+     * <p></p>
+     * The issuer will also get teleported back to the lobby
+     * once the target leaves/disconnect from the island.
+     *
+     * @param issuer the one whom issued the command
+     * @param target the one whom the issuer wants to spectate to
+     *
+     * @return the result of the action
+     * <p>
+     * FULL - If the issuer is playing
+     * <p>
+     * FAIL - if the target wasn't playing
+     * <p>
+     * SUCCESS - If the action was successful
+     */
+    Result spectate(final Player issuer, final Player target);
+
+    /**
      * This method is for kicking the player out of the island and
      * teleporting them back to the lobby's location.
      *
