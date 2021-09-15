@@ -1,7 +1,7 @@
 package me.tofpu.speedbridge.expansion;
 
 public enum ExpansionType {
-    SCORE("Displays your personal best score"), ISLAND("Displays the island slot you are in"), LIVE_TIMER("Displays a live timer of the game"), LEADERBOARD("Displays data from the leaderboard");
+    SCORE("Displays your personal best score"), BLOCKS("Displays the amount of blocks you placed"), ISLAND("Displays the island slot you are in"), LIVE_TIMER("Displays a live timer of the game"), LEADERBOARD("Displays data from the leaderboard");
 
     private final String description;
 

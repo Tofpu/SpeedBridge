@@ -98,7 +98,7 @@ public class Game {
         if (!DependencyAPI.get("PlaceholderAPI").isAvailable()) return;
 
         Util.isPlaceholderHooked = true;
-        new BridgeExpansion(speedBridge.getDescription(), userService, gameService, leaderboardService).register();
+        new BridgeExpansion(speedBridge.getDescription(), userService, islandService, gameService, leaderboardService).register();
     }
 
     private void registerListeners(){
