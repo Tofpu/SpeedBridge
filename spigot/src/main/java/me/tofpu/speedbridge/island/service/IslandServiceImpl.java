@@ -1,5 +1,6 @@
 package me.tofpu.speedbridge.island.service;
 
+import me.tofpu.speedbridge.api.game.Result;
 import me.tofpu.speedbridge.api.island.Island;
 import me.tofpu.speedbridge.api.island.IslandService;
 import me.tofpu.speedbridge.api.island.mode.Mode;
@@ -11,12 +12,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.Files;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class IslandServiceImpl implements IslandService {
     private final List<Island> islands;
+    private final Deque<Island> islandDeque = new ArrayDeque<>();
+
     private File directory;
 
     public IslandServiceImpl(){
@@ -31,6 +34,24 @@ public class IslandServiceImpl implements IslandService {
                 ,5, 5, TimeUnit.MINUTES);
     }
 
+    public Result removeIsland(final int slot) {
+        final Island island = getIslandBySlot(slot);
+        if (island == null) {
+            return Result.INVALID_ISLAND;
+        }
+
+        final File islandFile = new File(directory, "island-" + island.slot() + ".json");
+        try {
+            Files.deleteIfExists(islandFile.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Result.FAIL;
+        }
+        removeIsland(island);
+
+        return Result.SUCCESS;
+    }
+
     @Override
     public void addIsland(final Island island) {
         this.islands.add(island);
@@ -38,7 +59,17 @@ public class IslandServiceImpl implements IslandService {
 
     @Override
     public void removeIsland(final Island island) {
+        if (island == null) return;
+
         this.islands.remove(island);
+        this.islandDeque.push(island);
+    }
+
+    public Island revert() {
+        if (islandDeque.isEmpty()) {
+            return null;
+        }
+        return islandDeque.pop();
     }
 
     @Override
@@ -106,8 +137,13 @@ public class IslandServiceImpl implements IslandService {
         for (final File file : directory.listFiles()) {
             try {
                 if (!file.getName().endsWith(".json")) continue;
-                final Island island = DataManager.GSON.fromJson(new FileReader(file), Island.class);
+
+                final Island island;
+                try (final FileReader reader = new FileReader(file)) {
+                    island = DataManager.GSON.fromJson(reader, Island.class);;
+                }
                 if (island == null) continue;
+
                 addIsland(island);
             } catch (IOException e) {
                 e.printStackTrace();

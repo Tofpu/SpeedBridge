@@ -31,7 +31,7 @@ public class CommandHandler {
 
         // registrations
         registerCommand(new MainCommand(game.userService(), game.gameService(), game.lobbyService(), game.leaderboardManager()));
-        registerCommand(new AdminCommand(plugin, game.lobbyService(), game.gameService(), game.gameController(), game.dataManager()));
+        registerCommand(new AdminCommand(plugin, game.islandService(), game.lobbyService(), game.gameService(), game.gameController(), game.dataManager()));
     }
 
     public void registerCommand(final BaseCommand command) {

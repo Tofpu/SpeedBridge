@@ -5,12 +5,14 @@ import me.tofpu.speedbridge.SpeedBridge;
 import me.tofpu.speedbridge.api.game.GameService;
 import me.tofpu.speedbridge.api.game.Result;
 import me.tofpu.speedbridge.api.game.SetupStage;
+import me.tofpu.speedbridge.api.island.Island;
 import me.tofpu.speedbridge.api.lobby.LobbyService;
 import me.tofpu.speedbridge.command.BridgeBaseCommand;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.expansion.ExpansionType;
 import me.tofpu.speedbridge.game.controller.GameController;
+import me.tofpu.speedbridge.island.service.IslandServiceImpl;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,15 +23,17 @@ import java.util.Locale;
 public class AdminCommand extends BridgeBaseCommand {
     private final SpeedBridge plugin;
 
+    private final IslandServiceImpl islandService;
     private final LobbyService lobbyService;
     private final GameService gameService;
 
     private final GameController gameController;
     private final DataManager dataManager;
 
-    public AdminCommand(SpeedBridge plugin, final LobbyService lobbyService, final GameService gameService, final GameController gameController, final DataManager dataManager) {
+    public AdminCommand(SpeedBridge plugin, final IslandServiceImpl islandService, final LobbyService lobbyService, final GameService gameService, final GameController gameController, final DataManager dataManager) {
         super("island");
         this.plugin = plugin;
+        this.islandService = islandService;
         this.lobbyService = lobbyService;
         this.gameService = gameService;
         this.gameController = gameController;
@@ -77,6 +81,61 @@ public class AdminCommand extends BridgeBaseCommand {
         }
 
         Util.message(player, path);
+    }
+
+    @Subcommand("remove")
+    @CommandPermission("island.remove")
+    @Syntax("<slot>")
+    @Description("Removes an island")
+    public void onDelete(final Player player, int slot) {
+        if (gameService.isPlaying(player)) {
+            Util.message(player, Path.MESSAGES_CANNOT_EDIT);
+            return;
+        }
+        final Result result = islandService.removeIsland(slot);
+
+        final Path.Value<?> path;
+        switch (result) {
+            case SUCCESS:
+                path = Path.MESSAGES_ISLAND_REMOVAL;
+                break;
+            case FAIL:
+                path = Path.messages_ISLAND_REMOVAL_FAIL;
+                break;
+            case INVALID_ISLAND:
+                path = Path.MESSAGES_INVALID_ISLAND;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + result);
+        }
+
+        Util.message(player, path, new String[]{"%slot%"}, slot + "");
+    }
+
+    @Subcommand("revert")
+    @CommandPermission("island.revert")
+    @Syntax("")
+    @Description("Reverts the removal of an island")
+    public void onRevert(final Player player) {
+        if (gameService.isPlaying(player)) {
+            Util.message(player, Path.MESSAGES_CANNOT_EDIT);
+            return;
+        }
+        final Island island = islandService.revert();
+
+        final Path.Value<?> path;
+        if (island == null) {
+            path = Path.MESSAGES_ISLAND_REVERT_FAIL;
+        } else {
+            path = Path.MESSAGES_ISLAND_REVERT;
+            islandService.addIsland(island);
+        }
+
+        if (island != null) {
+            Util.message(player, path, new String[]{"%slot%"}, island.identifier());
+        } else {
+            Util.message(player, path);
+        }
     }
 
     @Subcommand("set")
