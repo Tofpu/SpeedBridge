@@ -57,6 +57,11 @@ public class Path {
     public static final Value<String> MESSAGES_SPECTATOR_BEATEN_SCORE = new Value<>(MESSAGES + "spectator-beaten-score", "&6%player% &etopped their personal score by &a%calu_score% &eseconds!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_SPECTATOR_SCORED = new Value<>(MESSAGES + "spectator-scored", "&6%player% &escored &a%scored% &eseconds!", PathType.MESSAGES);
 
+    public static final Value<String> MESSAGES_SPECTATOR_UNKNOWN = new Value<>(MESSAGES + "spectate-unknown", "&eYou cannot spectate offline players!", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_SPECTATOR_SELF = new Value<>(MESSAGES + "spectate-self", "&eYou cannot spectate yourself!", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_SPECTATOR_SELF_PLAYING = new Value<>(MESSAGES + "spectate-self-playing", "&eYou cannot spectate while playing!", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_SPECTATOR_TARGET = new Value<>(MESSAGES + "spectate-target", "&eYou cannot spectate somebody who isn't playing!", PathType.MESSAGES);
+
     public static List<Value<?>> values() {
         return VALUE_LIST;
     }

@@ -37,3 +37,8 @@ messages:
 
   spectator-beaten-score: "&6%player% &etopped their personal score by &a%calu_score% &eseconds!"
   spectotor-score: "&6%player% &escored &a%scored% &eseconds!"
+
+  spectate-unknown: "&eYou cannot spectate offline players!"
+  spectate-self: "&eYou cannot spectate yourself!"
+  spectate-self-playing: "&eYou cannot spectate while playing!"
+  spectate-target: "&eYou cannot spectate somebody who isn't playing!"

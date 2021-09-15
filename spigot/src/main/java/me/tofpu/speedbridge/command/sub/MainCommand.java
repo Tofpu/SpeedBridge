@@ -67,23 +67,32 @@ public class MainCommand extends BridgeBaseCommand {
     @Syntax("<target>")
     @CommandCompletion("@players")
     @Description("Spectates a player")
-    public void onSpectate(final Player issuer, final @Single String arg) {
+    public void onSpectate(final Player issuer, final String arg) {
         final Player target = Bukkit.getPlayer(arg);
         if (target == null) {
-            issuer.sendMessage("You cannot spectate someone who isn't playing.");
+            Util.message(issuer, Path.MESSAGES_SPECTATOR_UNKNOWN);
+            return;
+        }
+        if (issuer.getName().equalsIgnoreCase(target.getName())) {
+            Util.message(issuer, Path.MESSAGES_SPECTATOR_SELF);
             return;
         }
         final Result result = gameService.spectate(issuer, target);
 
-        // TODO: HAVE THIS CONFIGURABLE
+        final Path.Value<?> path;
         switch (result) {
             case FULL:
-                issuer.sendMessage("You cannot spectate someone whilst playing a game.");
+                path = Path.MESSAGES_SPECTATOR_SELF_PLAYING;
                 break;
             case FAIL:
-                issuer.sendMessage("You cannot spectate someone who isn't playing.");
+                path = Path.MESSAGES_SPECTATOR_TARGET;
                 break;
+            case SUCCESS:
+                return;
+            default:
+                throw new IllegalStateException("Unexpected value: " + result);
         }
+        Util.message(issuer, path);
     }
 
     @Subcommand("leave")

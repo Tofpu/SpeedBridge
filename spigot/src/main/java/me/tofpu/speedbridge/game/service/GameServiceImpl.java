@@ -198,7 +198,6 @@ public class GameServiceImpl implements GameService {
         Util.message(playerIssuer, Path.MESSAGES_SPECTATING, new String[]{"%player%"}, playerTarget.getName());
         Util.message(playerTarget, Path.MESSAGES_NOTIFY_SPECTATING, new String[]{"%player%"}, playerIssuer.getName());
 
-
         return Result.SUCCESS;
     }
 
@@ -221,14 +220,6 @@ public class GameServiceImpl implements GameService {
         final List<Island> islands = new ArrayList<>();
         boolean defaultMode = false;
         boolean anyIslands = false;
-
-//        // no mode were specified
-//        if (mode == null) {
-//            // since no mode were specified,
-//            // we will try to get the default mode that
-//            // was defined in the settings
-//            mode = ModeManager.getModeManager().getDefault();
-//        }
 
         // if no mode were specified
         if (mode == null){
