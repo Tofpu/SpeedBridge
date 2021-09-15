@@ -121,7 +121,6 @@ public class Game {
         this.userService.initialize(this.dataManager);
         this.islandService.initialize(this.dataManager);
 
-        leaderboardService.initialize(this.dataManager.getFiles()[3]);
 
         // update checker async
         UpdateChecker.init(speedBridge, 95918).requestUpdateCheck().whenComplete((updateResult, throwable) -> {
@@ -143,6 +142,9 @@ public class Game {
 
         // reloading the configurations
         dataManager.reload();
+
+        // initializing the leaderboards
+        leaderboardService.initialize(this.dataManager.getFiles()[3]);
 
         // initializing the mode manager
         ModeManager.getModeManager().initialize();
