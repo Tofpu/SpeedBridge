@@ -159,29 +159,56 @@ public class GameServiceImpl implements GameService {
 
     private Result spectate(final User issuer, final User target) {
         // if the userIssuer is already in the spectators list
-        boolean spectate = spectators.containsKey(issuer);
+        final boolean spectate = spectators.containsKey(issuer);
 
         if (spectate) {
-            // remove them
-            spectators.remove(issuer);
-
             // spectator processor
             Processor.GAME_SPECTATOR.process(this,
                     lobbyService.getLobbyLocation(),
                     ProcessType.REVERSE, issuer, target);
+
+            // remove the spectator from the list
+            spectators.remove(issuer);
         } else {
             // Island the target is in
             final Island island = islandService.getIslandBySlot(target.properties()
                     .islandSlot());
 
-            // storing the issuer to the spectators list to keep track of them
-            spectators.put(issuer, island);
-
             // spectator processor
             Processor.GAME_SPECTATOR.process(this, island.location(),
                     ProcessType.PROCESS, issuer, target);
+
+            // storing the issuer to the spectators list to keep track of them
+            spectators.put(issuer, island);
+
         }
         return Result.SUCCESS;
+    }
+
+    private boolean removeSpectator(final Iterator<?> iterator,
+            final Player spectator, final Player target) {
+        final User spectatorUser = userService.get(spectator.getUniqueId());
+        final User targetUser = userService.get(target.getUniqueId());
+
+        return removeSpectator(iterator, spectatorUser, targetUser);
+    }
+
+    private boolean removeSpectator(final Iterator<?> iterator,
+            final User spectator, final User target) {
+        // if the userIssuer is already in the spectators list
+        boolean spectate = spectators.containsKey(spectator);
+
+        if (spectate) {
+            // remove them
+            iterator.remove();
+
+            // spectator processor
+            Processor.GAME_SPECTATOR.process(this,
+                    lobbyService.getLobbyLocation(), ProcessType.REVERSE, spectator,
+                    target);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -294,18 +321,20 @@ public class GameServiceImpl implements GameService {
             spectate(user, target);
         } else {
             // looping through the spectators of this user
-            for (final Map.Entry<User, Island> entry : spectators.entrySet()) {
+            final Iterator<Map.Entry<User, Island>> iterator = spectators.entrySet().iterator();
+            while (iterator.hasNext()) {
+                final Map.Entry<User, Island> entry = iterator.next();
                 if (entry.getValue().slot() != user.properties().islandSlot())
                     continue;
                 final User userSpectator = entry.getKey();
 
                 final Player spectator = Bukkit.getPlayer(userSpectator.uniqueId());
                 if (spectator == null) {
-                    spectators.remove(userSpectator);
+                    iterator.remove();
                     continue;
                 }
                 // teleporting the spectator back to the lobby
-                spectate(spectator, player);
+                removeSpectator(iterator, spectator, player);
             }
 
             // cleaning their inventory yet again
