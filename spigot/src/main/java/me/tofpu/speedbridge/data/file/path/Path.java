@@ -25,7 +25,7 @@ public class Path {
     public static final Value<String> MESSAGES_NO_AVAILABLE = new Value<>(MESSAGES + "no-available", "&cThere is no available island right now; try again later!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_NOT_AVAILABLE = new Value<>(MESSAGES + "not-available", "&cThis island is not available right now, try again later!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_NOT_PLAYING = new Value<>(MESSAGES + "not-playing", "&cYou're not playing!", PathType.MESSAGES);
-    public static final Value<String> MESSAGES_ALREADY_JOINED = new Value<>(MESSAGES + "already-joined", "&cYou're already joined!", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_ALREADY_JOINED = new Value<>(MESSAGES + "already-joined", "&cYou cannot join a game while playing or spectating!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_YOUR_SCORE = new Value<>(MESSAGES + "your-score", "&eYour personal best score is: &a%score%&e!", PathType.MESSAGES);
 
     public static final Value<String> MESSAGES_CANNOT_EDIT = new Value<>(MESSAGES + "cannot-edit", "&cYou cannot edit an island while playing.", PathType.MESSAGES);
@@ -41,7 +41,12 @@ public class Path {
     public static final Value<String> MESSAGES_INVALID_ISLAND = new Value<>(MESSAGES + "invalid-island", "&cThat island does not exist!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_ISLAND_COMPLETED = new Value<>(MESSAGES + "island-completed", "&eThe island setup has been completed!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_ISLAND_INCOMPLETE = new Value<>(MESSAGES + "island-incomplete", "&cIncomplete island setup, please double check!", PathType.MESSAGES);
-    
+
+    public static final Value<String> MESSAGES_ISLAND_REMOVAL = new Value<>(MESSAGES + "island-removal", "&eIsland &6%slot% &ehas been removed!\n&eYou can revert the removal by typing /island revert", PathType.MESSAGES);
+    public static final Value<String> messages_ISLAND_REMOVAL_FAIL = new Value<>(MESSAGES + "island-removal-fail", "&eIsland &6%slot% &ecouldn't be removed... check the console!", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_ISLAND_REVERT = new Value<>(MESSAGES + "island-revert", "&eIsland &6%slot% &ehas been reverted back", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_ISLAND_REVERT_FAIL = new Value<>(MESSAGES + "island-revert-fail", "&cThere is nothing to revert back!", PathType.MESSAGES);
+
     public static final Value<String> MESSAGES_CANCEL_SETUP = new Value<>(MESSAGES + "cancel-setup", "&cThe current island setup has been canceled!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_NO_SETUP = new Value<>(MESSAGES + "no-setup", "&cYou don't have anything to cancel.", PathType.MESSAGES);
 
@@ -50,9 +55,9 @@ public class Path {
     public static final Value<String> MESSAGES_SCORED = new Value<>(MESSAGES + "scored", "&eYou scored &a%scored% &eseconds!", PathType.MESSAGES);
 
     public static final Value<String> MESSAGES_SPECTATING = new Value<>(MESSAGES + "spectating", "&eYou are spectating &6%player%&e!", PathType.MESSAGES);
-    public static final Value<String> MESSAGES_NOTIFY_SPECTATING = new Value<>(MESSAGES + "notify-spectating", "&6%player% &eis spectating you!", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_NOTIFY_SPECTATING = new Value<>(MESSAGES + "notify-spectating", "&6%player% &eis spectating!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_NO_LONGER_SPECTATING = new Value<>(MESSAGES + "no-longer-spectating", "&eYou're no longer spectating &6%player%!", PathType.MESSAGES);
-    public static final Value<String> MESSAGES_NOTIFY_NOT_SPECTATING = new Value<>(MESSAGES + "notify-not-spectating", "&6%player% &eis no longer spectating you!", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_NOTIFY_NOT_SPECTATING = new Value<>(MESSAGES + "notify-not-spectating", "&6%player% &eis no longer spectating!", PathType.MESSAGES);
     
     public static final Value<String> MESSAGES_SPECTATOR_BEATEN_SCORE = new Value<>(MESSAGES + "spectator-beaten-score", "&6%player% &etopped their personal score by &a%calu_score% &eseconds!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_SPECTATOR_SCORED = new Value<>(MESSAGES + "spectator-scored", "&6%player% &escored &a%scored% &eseconds!", PathType.MESSAGES);

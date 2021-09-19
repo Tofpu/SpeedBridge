@@ -6,7 +6,7 @@ messages:
   no-available: "&cThere is no available island right now, try again later!"
   not-available: "&cThis island is not available right now, try again later!"
   not-playing: "&cYou're not playing!"
-  already-joined: "&cYou're already joined!"
+  already-joined: "&cYou cannot join a game while playing or spectating!"
   your-score: "&eYour personal best score is: &a%score%&e!"
 
   cannot-edit: "&cYou cannot edit an island while playing."
@@ -23,6 +23,11 @@ messages:
   island-completed: "&eThe island setup has been completed!"
   island-incomplete: "&cIncomplete island setup, please double check!"
 
+  island-removal: "&eIsland &6%slot% &ehas been removed!\n&eYou can revert the removal by typing /island revert"
+  island-removal-fail: "&eIsland &6%slot% &ecouldn't be removed... check the console!"
+  island-revert: "&eIsland &6%slot% &ehas been reverted back!"
+  island-revert-fail: "&cThere is nothing to revert back!"
+
   cancel-setup: "&cThe current island setup has been canceled!"
   no-setup: "&cYou don't have anything to cancel."
 
@@ -31,9 +36,9 @@ messages:
   scored: "&eYou scored &a%scored% &eseconds!"
 
   spectating: "&eYou are spectating &6%player%&e!"
-  notify-spectate: "&6%player% &eis spectating you!"
+  notify-spectate: "&6%player% &eis spectating!"
   no-longer-spectating: "&eYou're no longer spectating &6%player%!"
-  notify-not-spectating: "&6%player% &eis no longer spectating you!"
+  notify-not-spectating: "&6%player% &eis no longer spectating!"
 
   spectator-beaten-score: "&6%player% &etopped their personal score by &a%calu_score% &eseconds!"
   spectotor-score: "&6%player% &escored &a%scored% &eseconds!"

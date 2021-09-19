@@ -196,7 +196,7 @@ public class Game {
         leaderboardService.compute(null, leaderboard -> ((AbstractLeaderboard) leaderboard).start(speedBridge));
     }
 
-    public IslandService islandService() {
+    public IslandServiceImpl islandService() {
         return this.islandService;
     }
 
