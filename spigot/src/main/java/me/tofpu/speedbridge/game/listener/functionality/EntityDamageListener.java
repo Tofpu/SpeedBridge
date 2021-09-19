@@ -19,6 +19,6 @@ public class EntityDamageListener implements Listener {
         final Player player = (Player) event.getEntity();
 
         // if the player is playing, cancel entity damage
-        if (gameService.isPlaying(player)) event.setCancelled(true);
+        if (gameService.isPlaying(player) || gameService.isSpectating(player)) event.setCancelled(true);
     }
 }

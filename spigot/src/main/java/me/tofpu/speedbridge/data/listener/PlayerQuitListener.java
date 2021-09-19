@@ -23,10 +23,12 @@ public class PlayerQuitListener implements Listener {
     @EventHandler
     private void onPlayerQuit(final PlayerQuitEvent event) {
         final Player player = event.getPlayer();
-        if (gameService.isPlaying(player)) {
+        final boolean playing = gameService.isPlaying(player);
+
+        if (playing || gameService.isSpectating(player)) {
             final User user = userService.get(player.getUniqueId());
 
-            gameService.resetIsland(user.properties().islandSlot());
+            if (playing) gameService.resetIsland(user.properties().islandSlot());
             gameService.leave(player);
         }
 
