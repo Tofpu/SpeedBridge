@@ -25,7 +25,7 @@ public class Path {
     public static final Value<String> MESSAGES_NO_AVAILABLE = new Value<>(MESSAGES + "no-available", "&cThere is no available island right now; try again later!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_NOT_AVAILABLE = new Value<>(MESSAGES + "not-available", "&cThis island is not available right now, try again later!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_NOT_PLAYING = new Value<>(MESSAGES + "not-playing", "&cYou're not playing!", PathType.MESSAGES);
-    public static final Value<String> MESSAGES_ALREADY_JOINED = new Value<>(MESSAGES + "already-joined", "&cYou're already joined!", PathType.MESSAGES);
+    public static final Value<String> MESSAGES_ALREADY_JOINED = new Value<>(MESSAGES + "already-joined", "&cYou cannot join a game while playing or spectating!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_YOUR_SCORE = new Value<>(MESSAGES + "your-score", "&eYour personal best score is: &a%score%&e!", PathType.MESSAGES);
 
     public static final Value<String> MESSAGES_CANNOT_EDIT = new Value<>(MESSAGES + "cannot-edit", "&cYou cannot edit an island while playing.", PathType.MESSAGES);

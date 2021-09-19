@@ -6,7 +6,7 @@ messages:
   no-available: "&cThere is no available island right now, try again later!"
   not-available: "&cThis island is not available right now, try again later!"
   not-playing: "&cYou're not playing!"
-  already-joined: "&cYou're already joined!"
+  already-joined: "&cYou cannot join a game while playing or spectating!"
   your-score: "&eYour personal best score is: &a%score%&e!"
 
   cannot-edit: "&cYou cannot edit an island while playing."

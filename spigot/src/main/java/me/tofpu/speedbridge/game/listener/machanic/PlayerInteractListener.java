@@ -7,6 +7,7 @@ import me.tofpu.speedbridge.api.island.point.Point;
 import me.tofpu.speedbridge.api.user.User;
 import me.tofpu.speedbridge.api.user.UserService;
 import me.tofpu.speedbridge.util.Util;
+import me.tofpu.speedbridge.util.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,21 +28,41 @@ public class PlayerInteractListener implements Listener {
 
     @EventHandler
     private void onPlayerInteract(final PlayerInteractEvent event) {
-        // if the event action is not physical (e.g: pressure-plate)
-        if (event.getAction() != Action.PHYSICAL) return;
         final Player player = event.getPlayer();
+        // if the player is not playing
 
-        // if the player is not not playing
-        if (!gameService.isPlaying(player)) return;
-        final User user = userService.get(player.getUniqueId());
-        final Island island = islandService.getIslandBySlot(user.properties().islandSlot());
+        boolean spectating = gameService.isSpectating(player);
+        if (!gameService.isPlaying(player) && !spectating) return;
 
-        final Point section = island.properties().get("endpoint");
-        final Location pressurePlate = event.getClickedBlock().getLocation();
+        if (spectating) event.setCancelled(true);
 
-        // if the timer has started and the pressure plate location equals to the island point
-        if (gameService.hasTimer(user) && Util.isEqual(pressurePlate, section.pointA())) {
-            gameService.updateTimer(user);
+        switch (event.getAction()) {
+            case LEFT_CLICK_BLOCK:
+            case RIGHT_CLICK_BLOCK:
+            case RIGHT_CLICK_AIR:
+                // if the player haven't interacted with an item, or the item
+                // material doesn't equal to red dye or the player isn't
+                // spectating
+                if (!event.hasItem() || event.getMaterial() != XMaterial.RED_DYE
+                        .parseMaterial() || !spectating)
+                    return;
+                gameService.leave(player);
+                break;
+            case PHYSICAL:
+                // if the player is not not playing
+                final User user = userService.get(player.getUniqueId());
+                final Island island = islandService.getIslandBySlot(user.properties()
+                        .islandSlot());
+
+                final Point section = island.properties().get("endpoint");
+                final Location pressurePlate = event.getClickedBlock().getLocation();
+
+                // if the timer has started and the pressure plate location equals to the island point
+                if (gameService.hasTimer(user) && Util.isEqual(pressurePlate, section
+                        .pointA())) {
+                    gameService.updateTimer(user);
+                }
+                break;
         }
     }
 }

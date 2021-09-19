@@ -99,11 +99,11 @@ public class MainCommand extends BridgeBaseCommand {
     @CommandAlias("leave")
     @Description("Leaves the practice island")
     public void onLeave(final Player player) {
-        if (!gameService.isPlaying(player)) {
+        final Result result = gameService.leave(player);
+
+        if (result == Result.FAIL) {
             Util.message(player, Path.MESSAGES_NOT_PLAYING);
-            return;
         }
-        gameService.leave(player);
     }
 
     @Subcommand("leaderboard")
