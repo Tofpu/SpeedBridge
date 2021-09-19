@@ -12,6 +12,8 @@ import me.tofpu.speedbridge.api.user.UserService;
 import me.tofpu.speedbridge.api.user.timer.Timer;
 import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.game.leaderboard.LeaderboardServiceImpl;
+import me.tofpu.speedbridge.game.processor.ProcessType;
+import me.tofpu.speedbridge.game.processor.Processor;
 import me.tofpu.speedbridge.game.runnable.GameRunnable;
 import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.user.properties.timer.TimerFactory;
@@ -66,6 +68,10 @@ public class GameServiceImpl implements GameService {
         return islandService.getIslandBySlot(islandSlot) != null;
     }
 
+    private boolean isSpectating(final User user) {
+        return spectators.containsKey(user);
+    }
+
     private Result join(final Player player, Island island) {
         // if the lobby location were not defined
         if (!lobbyService.hasLobbyLocation()) {
@@ -75,7 +81,7 @@ public class GameServiceImpl implements GameService {
         }
 
         // if the player is playing
-        if (isPlaying(player)) {
+        if (isPlaying(player) || isSpectating(player)) {
             // since the player is already playing
             // we're returning FAIL result
             return Result.FAIL;
@@ -151,53 +157,30 @@ public class GameServiceImpl implements GameService {
         return Result.SUCCESS;
     }
 
-    private void messageSpectator(final User target, final String message) {
-        // looping through the spectators of this user
-        for (final Map.Entry<User, Island> entry : spectators.entrySet()) {
-            if (entry.getValue().slot() != target.properties().islandSlot()) continue;
-            final User userSpectator = entry.getKey();
-
-            final Player spectator = userSpectator.player();
-            if (spectator == null) {
-                continue;
-            }
-
-            // messaging the spectator
-            spectator.sendMessage(Util.colorize("&6&lGame &e&l&m*&r " + message));
-        }
-    }
-
     private Result spectate(final User issuer, final User target) {
-        final Player playerIssuer = issuer.player();
-        final Player playerTarget = target.player();
-
         // if the userIssuer is already in the spectators list
-        if (spectators.containsKey(issuer)) {
+        boolean spectate = spectators.containsKey(issuer);
+
+        if (spectate) {
             // remove them
             spectators.remove(issuer);
 
-            // back to the lobby
-            playerIssuer.teleport(lobbyService.getLobbyLocation());
-            playerIssuer.setGameMode(GameMode.SURVIVAL);
+            // spectator processor
+            Processor.GAME_SPECTATOR.process(this,
+                    lobbyService.getLobbyLocation(),
+                    ProcessType.REVERSE, issuer, target);
+        } else {
+            // Island the target is in
+            final Island island = islandService.getIslandBySlot(target.properties()
+                    .islandSlot());
 
-            Util.message(playerIssuer, Path.MESSAGES_NO_LONGER_SPECTATING, new String[]{"%player%"}, playerTarget.getName());
-            Util.message(playerTarget, Path.MESSAGES_NOTIFY_NOT_SPECTATING, new String[]{"%player%"}, playerIssuer.getName());
+            // storing the issuer to the spectators list to keep track of them
+            spectators.put(issuer, island);
 
-            return Result.SUCCESS;
+            // spectator processor
+            Processor.GAME_SPECTATOR.process(this, island.location(),
+                    ProcessType.PROCESS, issuer, target);
         }
-
-        // Island the target is in
-        final Island island = islandService.getIslandBySlot(target.properties().islandSlot());
-
-        // storing the issuer to the spectators list to keep track of them
-        spectators.put(issuer, island);
-
-        playerIssuer.teleport(island.location());
-        playerIssuer.setGameMode(GameMode.SPECTATOR);
-
-        Util.message(playerIssuer, Path.MESSAGES_SPECTATING, new String[]{"%player%"}, playerTarget.getName());
-        Util.message(playerTarget, Path.MESSAGES_NOTIFY_SPECTATING, new String[]{"%player%"}, playerIssuer.getName());
-
         return Result.SUCCESS;
     }
 
@@ -290,54 +273,90 @@ public class GameServiceImpl implements GameService {
     public Result leave(final Player player) {
         // getting an instance of user associated with this player unique id
         final User user = userService.get(player.getUniqueId());
+        // true if player is spectating, otherwise false
+        final boolean spectating = user != null && isSpectating(user);
+        // true if player is playing, otherwise false
+        final boolean playing = user != null && isPlaying(user);
 
-        // if the user instance returned null or the player isn't playing
-        if (user == null || !isPlaying(player)) {
-            // since they're definitely not in a game
+        // if the user instance returned null, or the player isn't playing
+        // nor spectating
+        if (!spectating & !playing) {
+            // since they're definitely not in a game nor spectating
             // returning FAIL result
             return Result.FAIL;
         }
 
-        // looping through the spectators of this user
-        for (final Map.Entry<User, Island> entry : spectators.entrySet()) {
-            if (entry.getValue().slot() != user.properties().islandSlot()) continue;
-            final User userSpectator = entry.getKey();
+        // if the player is spectating a player
+        if (spectating) {
+            final User target =
+                    userService.get(spectators.get(user).takenBy()
+                    .uniqueId());
+            spectate(user, target);
+        } else {
+            // looping through the spectators of this user
+            for (final Map.Entry<User, Island> entry : spectators.entrySet()) {
+                if (entry.getValue().slot() != user.properties().islandSlot())
+                    continue;
+                final User userSpectator = entry.getKey();
 
-            final Player spectator = Bukkit.getPlayer(userSpectator.uniqueId());
-            if (spectator == null) {
-                spectators.remove(userSpectator);
-                continue;
+                final Player spectator = Bukkit.getPlayer(userSpectator.uniqueId());
+                if (spectator == null) {
+                    spectators.remove(userSpectator);
+                    continue;
+                }
+                // teleporting the spectator back to the lobby
+                spectate(spectator, player);
             }
-            // teleporting the spectator back to the lobby
-            spectate(spectator, player);
+
+            // cleaning their inventory yet again
+            player.getInventory().clear();
+
+            // resetting the island for the next player
+            resetIsland(user.properties().islandSlot());
+            // resetting the user's properties slot to null
+            // since they're not playing anymore
+            user.properties().islandSlot(null);
+
+            // removing them from our tracker
+            this.gameTimer.remove(player.getUniqueId());
+            this.gameChecker.remove(user);
+
+            // if the gameChecker is empty
+            if (this.gameChecker.isEmpty()) {
+                // since no one is playing right now
+                // we'll stop the runnable to save up resources
+                this.runnable.pause();
+            }
+
+            // teleporting the player to the lobby location
+            player.teleport(lobbyService.getLobbyLocation());
+            // sending a message to player that they've left (configurable)
+            Util.message(player, Path.MESSAGES_LEFT);
         }
-
-        // cleaning their inventory yet again
-        player.getInventory().clear();
-
-        // resetting the island for the next player
-        resetIsland(user.properties().islandSlot());
-        // resetting the user's properties slot to null
-        // since they're not playing anymore
-        user.properties().islandSlot(null);
-
-        // removing them from our tracker
-        this.gameTimer.remove(player.getUniqueId());
-        this.gameChecker.remove(user);
-
-        // if the gameChecker is empty
-        if (this.gameChecker.isEmpty()){
-            // since no one is playing right now
-            // we'll stop the runnable to save up resources
-            this.runnable.pause();
-        }
-
-        // teleporting the player to the lobby location
-        player.teleport(lobbyService.getLobbyLocation());
-        // sending a message to player that they've left (configurable)
-        Util.message(player, Path.MESSAGES_LEFT);
 
         return Result.SUCCESS;
+    }
+
+    public void messageSpectator(final User target, final String message,
+            boolean includeTarget) {
+        // if includeTarget is true, message the target too!
+        if (includeTarget) {
+            target.player().sendMessage(Util.colorize(message));
+        }
+
+        // looping through the spectators of this target
+        for (final Map.Entry<User, Island> entry : spectators.entrySet()) {
+            if (entry.getValue().slot() != target.properties().islandSlot()) continue;
+            final User userSpectator = entry.getKey();
+
+            final Player spectator = userSpectator.player();
+            if (spectator == null) {
+                continue;
+            }
+
+            // messaging the spectator
+            spectator.sendMessage(Util.colorize(message));
+        }
     }
 
     @Override
@@ -351,6 +370,19 @@ public class GameServiceImpl implements GameService {
         }
 
         return isPlaying(user);
+    }
+
+    @Override
+    public boolean isSpectating(final Player player) {
+        final User user;
+        // checking if the user instance is null
+        if ((user = userService.get(player.getUniqueId())) == null) {
+            // since we have no user instance associated with
+            // this player unique id, we're returning false
+            return false;
+        }
+
+        return isSpectating(user);
     }
 
     @Override
@@ -398,11 +430,9 @@ public class GameServiceImpl implements GameService {
         // ending the timer with the current system millis second
         gameTimer.end(System.currentTimeMillis());
 
-        // notifying the spectators
-        messageSpectator(user, Util.WordReplacer.replace(Path.MESSAGES_SPECTATOR_SCORED.getValue(), new String[]{"%player%", "%scored%"}, player.getName(), gameTimer.result() + ""));
-
-        // sending a message to player that they've scored
-        Util.message(player, Path.MESSAGES_SCORED, new String[]{"%scored%"}, gameTimer.result() + "");
+        // notifying the spectators & target
+        messageSpectator(user,
+                Util.WordReplacer.replace(Path.MESSAGES_SPECTATOR_SCORED.getValue(), new String[]{"%player%", "%scored%"}, player.getName(), gameTimer.result() + ""), true);
 
         // checking if the player has a personal best record
         // and if the timer was higher than the player's best record
@@ -419,11 +449,9 @@ public class GameServiceImpl implements GameService {
                 // subtracting with the current timer and sending it to them
                 final String result = String.format("%.03f", lowestTimer.result() - gameTimer.result());
 
-                // notifying the spectators
-                messageSpectator(user, Util.WordReplacer.replace(Path.MESSAGES_SPECTATOR_BEATEN_SCORE.getValue(), new String[]{"%player%", "%calu_score%"}, player.getName(), result));
-
-                // messaging the player
-                Util.message(player, Path.MESSAGES_BEATEN_SCORE, new String[]{"%calu_score%"}, result);
+                // notifying the target & spectators
+                messageSpectator(user,
+                        Util.WordReplacer.replace(Path.MESSAGES_SPECTATOR_BEATEN_SCORE.getValue(), new String[]{"%player%", "%calu_score%"}, player.getName(), result), true);
             }
 
             // replacing the old record with the player's current record
