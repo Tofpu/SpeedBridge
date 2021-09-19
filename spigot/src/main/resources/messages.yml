@@ -36,9 +36,9 @@ messages:
   scored: "&eYou scored &a%scored% &eseconds!"
 
   spectating: "&eYou are spectating &6%player%&e!"
-  notify-spectate: "&6%player% &eis spectating you!"
+  notify-spectate: "&6%player% &eis spectating!"
   no-longer-spectating: "&eYou're no longer spectating &6%player%!"
-  notify-not-spectating: "&6%player% &eis no longer spectating you!"
+  notify-not-spectating: "&6%player% &eis no longer spectating!"
 
   spectator-beaten-score: "&6%player% &etopped their personal score by &a%calu_score% &eseconds!"
   spectotor-score: "&6%player% &escored &a%scored% &eseconds!"
