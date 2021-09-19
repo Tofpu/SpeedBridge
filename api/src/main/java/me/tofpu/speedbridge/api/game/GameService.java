@@ -111,13 +111,22 @@ public interface GameService {
     Result leave(final Player player);
 
     /**
-     * This method is for checking if the player were playing or not.
+     * This method is for checking if the player are playing or not.
      *
-     * @param player the player instance
+     * @param player the player you want to check against
      *
      * @return true if player is an island, otherwise false
      */
     boolean isPlaying(final Player player);
+
+    /**
+     * This method is for checking if the player are spectating or not.
+     *
+     * @param player the player you want to check against
+     *
+     * @return true if player is spectating, otherwise false
+     */
+    boolean isSpectating(final Player player);
 
     /**
      * This method is for adding a brand new timer
