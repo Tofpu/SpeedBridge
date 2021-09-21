@@ -1,8 +1,8 @@
-package me.tofpu.speedbridge.game.processor.type;
+package me.tofpu.speedbridge.game.process.type;
 
 import me.tofpu.speedbridge.api.island.Island;
 import me.tofpu.speedbridge.api.user.User;
-import me.tofpu.speedbridge.game.processor.ProcessType;
+import me.tofpu.speedbridge.game.process.ProcessType;
 import me.tofpu.speedbridge.game.service.GameServiceImpl;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
