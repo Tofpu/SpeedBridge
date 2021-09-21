@@ -61,7 +61,6 @@ public class GameServiceImpl implements GameService {
             // returning false
             return false;
         }
-
         // will return true if the island exists, otherwise false
         return islandService.getIslandBySlot(islandSlot) != null;
     }
@@ -144,10 +143,9 @@ public class GameServiceImpl implements GameService {
 
     private boolean removeSpectator(final Iterator<?> iterator,
             final User spectator, final User target) {
-        // if the userIssuer is already in the spectators list
-        boolean spectate = spectators.containsKey(spectator);
 
-        if (spectate) {
+        // if the userIssuer is already in the spectators list
+        if (spectators.containsKey(spectator)) {
             // remove them
             iterator.remove();
 
@@ -191,13 +189,12 @@ public class GameServiceImpl implements GameService {
             // mode or used the default mode
             defaultMode = true;
         }
-
         // now we're getting the available islands associated with the mode
         final List<Island> defaultIslands = new ArrayList<>(
                 islandService.getAvailableIslands(mode)
         );
 
-        // If it's not default mode && the list is empty
+        // if it's not default mode && the list is empty
         if (defaultMode && defaultIslands.isEmpty()) {
             // since the list were empty
             // we'll look for any other islands that is available right now
@@ -224,7 +221,6 @@ public class GameServiceImpl implements GameService {
                 return Result.NONE;
             }
         }
-
         return join(player, islands.get(0));
     }
 
@@ -241,7 +237,6 @@ public class GameServiceImpl implements GameService {
         if (userTarget == null || !isPlaying(target)) {
             return Result.FAIL;
         }
-
         return spectate(userIssuer, userTarget);
     }
 
@@ -293,7 +288,6 @@ public class GameServiceImpl implements GameService {
             // sending a message to player that they've left (configurable)
             Util.message(player, Path.MESSAGES_LEFT);
         }
-
         return Result.SUCCESS;
     }
 
@@ -328,7 +322,6 @@ public class GameServiceImpl implements GameService {
             // this player unique id, we're returning false
             return false;
         }
-
         return isPlaying(user);
     }
 
@@ -341,7 +334,6 @@ public class GameServiceImpl implements GameService {
             // this player unique id, we're returning false
             return false;
         }
-
         return isSpectating(user);
     }
 
@@ -372,7 +364,6 @@ public class GameServiceImpl implements GameService {
             // hence, they're not playing
             return;
         }
-
         Process.GAME_UPDATE.process(this, user, user.player(),
                 ProcessType.PROCESS);
     }
@@ -385,7 +376,6 @@ public class GameServiceImpl implements GameService {
             // hence, they're not playing
             return;
         }
-
         // removing the player's cached timer
         this.gameTimer.remove(user.uniqueId());
         // resetting the blocks that the
