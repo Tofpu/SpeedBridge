@@ -9,6 +9,11 @@ import org.bukkit.entity.Player;
 
 public abstract class GameProcessor {
     public void process(final GameServiceImpl gameService,
+            final User user,
+            final Player player,
+            final ProcessType type) {}
+
+    public void process(final GameServiceImpl gameService,
             final Island island, final User user,
             final Player player,
             final ProcessType type) {}
