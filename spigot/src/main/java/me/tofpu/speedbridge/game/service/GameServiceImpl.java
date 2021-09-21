@@ -391,9 +391,12 @@ public class GameServiceImpl implements GameService {
         // ending the timer with the current system millis second
         gameTimer.end(System.currentTimeMillis());
 
-        // notifying the spectators & target
+        // messaging this player that they scored
+        Util.message(player, Path.MESSAGES_SCORED, new String[]{"%scored%"}, gameTimer.result() + "");
+
+        // notifying the spectators
         messageSpectator(user,
-                Util.WordReplacer.replace(Path.MESSAGES_SPECTATOR_SCORED.getValue(), new String[]{"%player%", "%scored%"}, player.getName(), gameTimer.result() + ""), true);
+                Util.WordReplacer.replace(Path.MESSAGES_SPECTATOR_SCORED.getValue(), new String[]{"%player%", "%scored%"}, player.getName(), gameTimer.result() + ""), false);
 
         // checking if the player has a personal best record
         // and if the timer was higher than the player's best record
@@ -409,6 +412,10 @@ public class GameServiceImpl implements GameService {
                 // since they do, we are calculating the player's best record
                 // subtracting with the current timer and sending it to them
                 final String result = String.format("%.03f", lowestTimer.result() - gameTimer.result());
+
+                // messaging this player that they have beaten their score
+                Util.message(player, Path.MESSAGES_BEATEN_SCORE, new String[]{"%calu_score%"},
+                        result);
 
                 // notifying the target & spectators
                 messageSpectator(user,
