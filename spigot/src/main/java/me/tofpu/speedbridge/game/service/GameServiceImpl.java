@@ -7,13 +7,12 @@ import me.tofpu.speedbridge.api.island.IslandService;
 import me.tofpu.speedbridge.api.island.mode.Mode;
 import me.tofpu.speedbridge.api.lobby.LobbyService;
 import me.tofpu.speedbridge.api.user.User;
-import me.tofpu.speedbridge.api.user.UserProperties;
 import me.tofpu.speedbridge.api.user.UserService;
 import me.tofpu.speedbridge.api.user.timer.Timer;
 import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.game.leaderboard.LeaderboardServiceImpl;
-import me.tofpu.speedbridge.game.process.ProcessType;
 import me.tofpu.speedbridge.game.process.Process;
+import me.tofpu.speedbridge.game.process.ProcessType;
 import me.tofpu.speedbridge.game.runnable.GameRunnable;
 import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.user.properties.timer.TimerFactory;
@@ -374,60 +373,8 @@ public class GameServiceImpl implements GameService {
             return;
         }
 
-        // getting an instance of timer that were
-        // associated with this users unique id
-        final Timer gameTimer = this.gameTimer.get(user.uniqueId());
-
-        // resetting the island state
-        reset(user);
-
-        // temporally instance of user's properties for ease of use
-        final UserProperties properties = user.properties();
-        // temporally instance of user's timer for ease of use
-        final Timer lowestTimer = properties.timer();
-        // an instance of player associated with this user unique id
-        final Player player = Bukkit.getPlayer(user.uniqueId());
-
-        // ending the timer with the current system millis second
-        gameTimer.end(System.currentTimeMillis());
-
-        // messaging this player that they scored
-        Util.message(player, Path.MESSAGES_SCORED, new String[]{"%scored%"}, gameTimer.result() + "");
-
-        // notifying the spectators
-        messageSpectator(user,
-                Util.WordReplacer.replace(Path.MESSAGES_SPECTATOR_SCORED.getValue(), new String[]{"%player%", "%scored%"}, player.getName(), gameTimer.result() + ""), false);
-
-        // checking if the player has a personal best record
-        // and if the timer was higher than the player's best record
-        if (lowestTimer != null && lowestTimer.result() <= gameTimer.result()) {
-            // since the timer was higher than the player's best record
-            // sending a message saying they've not beaten their best score
-
-            // messaging the player
-            Util.message(player, Path.MESSAGES_NOT_BEATEN, new String[]{"%score%"}, lowestTimer.result() + "");
-        } else {
-            // if the player has personal best score
-            if (lowestTimer != null) {
-                // since they do, we are calculating the player's best record
-                // subtracting with the current timer and sending it to them
-                final String result = String.format("%.03f", lowestTimer.result() - gameTimer.result());
-
-                // messaging this player that they have beaten their score
-                Util.message(player, Path.MESSAGES_BEATEN_SCORE, new String[]{"%calu_score%"},
-                        result);
-
-                // notifying the target & spectators
-                messageSpectator(user,
-                        Util.WordReplacer.replace(Path.MESSAGES_SPECTATOR_BEATEN_SCORE.getValue(), new String[]{"%player%", "%calu_score%"}, player.getName(), result), true);
-            }
-
-            // replacing the old record with the player's current record
-            properties.timer(gameTimer);
-
-            // manually triggering the leaderboard
-            leaderboardService.check(user, null);
-        }
+        Process.GAME_UPDATE.process(this, user, user.player(),
+                ProcessType.PROCESS);
     }
 
     @Override
@@ -503,6 +450,10 @@ public class GameServiceImpl implements GameService {
 
     public LobbyService lobbyService() {
         return lobbyService;
+    }
+
+    public LeaderboardServiceImpl leaderboardService() {
+        return leaderboardService;
     }
 
     public Map<UUID, Timer> gameTimer() {
