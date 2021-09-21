@@ -8,16 +8,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public abstract class GameProcessor {
-    public void process(final User user, final ProcessType type) {
-        process(user, user.player(), type);
-    }
-
-    public void process(final User user, final Player player,
+    public void process(final GameServiceImpl gameService,
+            final Island island, final User user,
+            final Player player,
             final ProcessType type) {}
-
-    public void process(final GameServiceImpl gameService, final User user,
-            final Player player, Island island,
-     final ProcessType type) {}
 
     public void process(final GameServiceImpl gameService,
             final Location location,
