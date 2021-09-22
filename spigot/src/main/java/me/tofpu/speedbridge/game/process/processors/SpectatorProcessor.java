@@ -1,10 +1,10 @@
-package me.tofpu.speedbridge.game.processor.game;
+package me.tofpu.speedbridge.game.process.processors;
 
 import me.tofpu.speedbridge.api.user.User;
 import me.tofpu.speedbridge.data.file.path.Path;
-import me.tofpu.speedbridge.game.processor.ProcessType;
-import me.tofpu.speedbridge.game.processor.type.GameProcessor;
-import me.tofpu.speedbridge.game.processor.Processor;
+import me.tofpu.speedbridge.game.process.ProcessType;
+import me.tofpu.speedbridge.game.process.type.GameProcessor;
+import me.tofpu.speedbridge.game.process.Process;
 import me.tofpu.speedbridge.game.service.GameServiceImpl;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
@@ -95,6 +95,6 @@ public class SpectatorProcessor extends GameProcessor {
         }
 
         // item processor
-        Processor.ITEM_SPECTATOR.process(spectator, spectatorPlayer, type);
+        Process.ITEM_SPECTATOR.process(spectator, spectatorPlayer, type);
     }
 }

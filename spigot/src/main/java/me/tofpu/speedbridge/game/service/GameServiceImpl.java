@@ -7,22 +7,20 @@ import me.tofpu.speedbridge.api.island.IslandService;
 import me.tofpu.speedbridge.api.island.mode.Mode;
 import me.tofpu.speedbridge.api.lobby.LobbyService;
 import me.tofpu.speedbridge.api.user.User;
-import me.tofpu.speedbridge.api.user.UserProperties;
 import me.tofpu.speedbridge.api.user.UserService;
 import me.tofpu.speedbridge.api.user.timer.Timer;
 import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.game.leaderboard.LeaderboardServiceImpl;
-import me.tofpu.speedbridge.game.processor.ProcessType;
-import me.tofpu.speedbridge.game.processor.Processor;
+import me.tofpu.speedbridge.game.process.Process;
+import me.tofpu.speedbridge.game.process.ProcessType;
 import me.tofpu.speedbridge.game.runnable.GameRunnable;
 import me.tofpu.speedbridge.island.mode.ModeManager;
 import me.tofpu.speedbridge.user.properties.timer.TimerFactory;
 import me.tofpu.speedbridge.util.Util;
-import me.tofpu.speedbridge.util.XMaterial;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
@@ -63,7 +61,6 @@ public class GameServiceImpl implements GameService {
             // returning false
             return false;
         }
-
         // will return true if the island exists, otherwise false
         return islandService.getIslandBySlot(islandSlot) != null;
     }
@@ -100,58 +97,9 @@ public class GameServiceImpl implements GameService {
             // we're returning FULL result
             return Result.FULL;
         }
-
-        // setting the user properties island slot
-        // to this island's slot for tracking purposes
-        user.properties().islandSlot(island.slot());
-
-        // setting the island takenBy to this user
-        // for availability reasons
-        island.takenBy(user);
-
-        // teleporting player to the island's location
-        // MULTI-WORLD PATCH
-        player.teleport(island.location());
-
-        // getting an instance of the player's inventory
-        final Inventory inventory = player.getInventory();
-
-        // clearing their inventory
-        inventory.clear();
-
-        // removing their effects
-        player.getActivePotionEffects().clear();
-
-        // setting their gamemode to survival
-        player.setGameMode(GameMode.SURVIVAL);
-
-        // resetting their health back to the max health attribute
-        player.setHealth(player.getMaxHealth());
-        // resetting their food levels back to full
-        player.setFoodLevel(20);
-
-        // trying to get the material that matches the server version
-        final Optional<XMaterial> material = XMaterial.matchXMaterial(Path.SETTINGS_BLOCK.getValue());
-
-        // if the material is present
-        if (material.isPresent()){
-            // parsing the material chosen
-            inventory.addItem(new ItemStack(material.get().parseMaterial(), 64));
-        } else {
-            // default material
-            inventory.addItem(new ItemStack(XMaterial.WHITE_WOOL.parseMaterial(), 64));
-        }
-
-        // storing an instance of user & the island that
-        // they're in for the runnable to keep track of them
-        gameChecker.put(user, island);
-
-        // if the runnable is paused
-        if (this.runnable.isPaused()) {
-            // since the runnable is paused
-            // we'll start it
-            this.runnable.resume();
-        }
+        // processing the joining process for this user
+        Process.GAME_JOIN.process(this, island, user, player,
+                ProcessType.PROCESS);
 
         // returning SUCCESS result
         return Result.SUCCESS;
@@ -162,8 +110,8 @@ public class GameServiceImpl implements GameService {
         final boolean spectate = spectators.containsKey(issuer);
 
         if (spectate) {
-            // spectator processor
-            Processor.GAME_SPECTATOR.process(this,
+            // reversing the spectating process for this user
+            Process.GAME_SPECTATOR.process(this,
                     lobbyService.getLobbyLocation(),
                     ProcessType.REVERSE, issuer, target);
 
@@ -174,8 +122,8 @@ public class GameServiceImpl implements GameService {
             final Island island = islandService.getIslandBySlot(target.properties()
                     .islandSlot());
 
-            // spectator processor
-            Processor.GAME_SPECTATOR.process(this, island.location(),
+            // processing the spectating process with this user
+            Process.GAME_SPECTATOR.process(this, island.location(),
                     ProcessType.PROCESS, issuer, target);
 
             // storing the issuer to the spectators list to keep track of them
@@ -195,15 +143,14 @@ public class GameServiceImpl implements GameService {
 
     private boolean removeSpectator(final Iterator<?> iterator,
             final User spectator, final User target) {
-        // if the userIssuer is already in the spectators list
-        boolean spectate = spectators.containsKey(spectator);
 
-        if (spectate) {
+        // if the userIssuer is already in the spectators list
+        if (spectators.containsKey(spectator)) {
             // remove them
             iterator.remove();
 
             // spectator processor
-            Processor.GAME_SPECTATOR.process(this,
+            Process.GAME_SPECTATOR.process(this,
                     lobbyService.getLobbyLocation(), ProcessType.REVERSE, spectator,
                     target);
             return true;
@@ -242,13 +189,12 @@ public class GameServiceImpl implements GameService {
             // mode or used the default mode
             defaultMode = true;
         }
-
         // now we're getting the available islands associated with the mode
         final List<Island> defaultIslands = new ArrayList<>(
                 islandService.getAvailableIslands(mode)
         );
 
-        // If it's not default mode && the list is empty
+        // if it's not default mode && the list is empty
         if (defaultMode && defaultIslands.isEmpty()) {
             // since the list were empty
             // we'll look for any other islands that is available right now
@@ -275,7 +221,6 @@ public class GameServiceImpl implements GameService {
                 return Result.NONE;
             }
         }
-
         return join(player, islands.get(0));
     }
 
@@ -292,7 +237,6 @@ public class GameServiceImpl implements GameService {
         if (userTarget == null || !isPlaying(target)) {
             return Result.FAIL;
         }
-
         return spectate(userIssuer, userTarget);
     }
 
@@ -337,32 +281,13 @@ public class GameServiceImpl implements GameService {
                 removeSpectator(iterator, spectator, player);
             }
 
-            // cleaning their inventory yet again
-            player.getInventory().clear();
+            // reversing the leaving process for this user
+            Process.GAME_JOIN.process(this, null, user, player,
+                    ProcessType.REVERSE);
 
-            // resetting the island for the next player
-            resetIsland(user.properties().islandSlot());
-            // resetting the user's properties slot to null
-            // since they're not playing anymore
-            user.properties().islandSlot(null);
-
-            // removing them from our tracker
-            this.gameTimer.remove(player.getUniqueId());
-            this.gameChecker.remove(user);
-
-            // if the gameChecker is empty
-            if (this.gameChecker.isEmpty()) {
-                // since no one is playing right now
-                // we'll stop the runnable to save up resources
-                this.runnable.pause();
-            }
-
-            // teleporting the player to the lobby location
-            player.teleport(lobbyService.getLobbyLocation());
             // sending a message to player that they've left (configurable)
             Util.message(player, Path.MESSAGES_LEFT);
         }
-
         return Result.SUCCESS;
     }
 
@@ -397,7 +322,6 @@ public class GameServiceImpl implements GameService {
             // this player unique id, we're returning false
             return false;
         }
-
         return isPlaying(user);
     }
 
@@ -410,7 +334,6 @@ public class GameServiceImpl implements GameService {
             // this player unique id, we're returning false
             return false;
         }
-
         return isSpectating(user);
     }
 
@@ -441,54 +364,8 @@ public class GameServiceImpl implements GameService {
             // hence, they're not playing
             return;
         }
-
-        // getting an instance of timer that were
-        // associated with this users unique id
-        final Timer gameTimer = this.gameTimer.get(user.uniqueId());
-
-        // resetting the island state
-        reset(user);
-
-        // temporally instance of user's properties for ease of use
-        final UserProperties properties = user.properties();
-        // temporally instance of user's timer for ease of use
-        final Timer lowestTimer = properties.timer();
-        // an instance of player associated with this user unique id
-        final Player player = Bukkit.getPlayer(user.uniqueId());
-
-        // ending the timer with the current system millis second
-        gameTimer.end(System.currentTimeMillis());
-
-        // notifying the spectators & target
-        messageSpectator(user,
-                Util.WordReplacer.replace(Path.MESSAGES_SPECTATOR_SCORED.getValue(), new String[]{"%player%", "%scored%"}, player.getName(), gameTimer.result() + ""), true);
-
-        // checking if the player has a personal best record
-        // and if the timer was higher than the player's best record
-        if (lowestTimer != null && lowestTimer.result() <= gameTimer.result()) {
-            // since the timer was higher than the player's best record
-            // sending a message saying they've not beaten their best score
-
-            // messaging the player
-            Util.message(player, Path.MESSAGES_NOT_BEATEN, new String[]{"%score%"}, lowestTimer.result() + "");
-        } else {
-            // if the player has personal best score
-            if (lowestTimer != null) {
-                // since they do, we are calculating the player's best record
-                // subtracting with the current timer and sending it to them
-                final String result = String.format("%.03f", lowestTimer.result() - gameTimer.result());
-
-                // notifying the target & spectators
-                messageSpectator(user,
-                        Util.WordReplacer.replace(Path.MESSAGES_SPECTATOR_BEATEN_SCORE.getValue(), new String[]{"%player%", "%calu_score%"}, player.getName(), result), true);
-            }
-
-            // replacing the old record with the player's current record
-            properties.timer(gameTimer);
-
-            // manually triggering the leaderboard
-            leaderboardService.check(user, null);
-        }
+        Process.GAME_UPDATE.process(this, user, user.player(),
+                ProcessType.PROCESS);
     }
 
     @Override
@@ -499,7 +376,6 @@ public class GameServiceImpl implements GameService {
             // hence, they're not playing
             return;
         }
-
         // removing the player's cached timer
         this.gameTimer.remove(user.uniqueId());
         // resetting the blocks that the
@@ -560,5 +436,25 @@ public class GameServiceImpl implements GameService {
         resetBlocks(island);
         // making the island available for others to join
         island.takenBy(null);
+    }
+
+    public LobbyService lobbyService() {
+        return lobbyService;
+    }
+
+    public LeaderboardServiceImpl leaderboardService() {
+        return leaderboardService;
+    }
+
+    public Map<UUID, Timer> gameTimer() {
+        return gameTimer;
+    }
+
+    public Map<User, Island> gameChecker() {
+        return gameChecker;
+    }
+
+    public GameRunnable runnable() {
+        return runnable;
     }
 }

@@ -26,6 +26,7 @@ public final class SpeedBridge extends JavaPlugin {
     @Override
     public void onDisable() {
         // saving phase
+        Game.EXECUTOR.shutdown();
         game().dataManager().shutdown();
 
         // cancelling the leaderboard task
