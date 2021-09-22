@@ -124,16 +124,6 @@ public class MainCommand extends BridgeBaseCommand {
         Util.message(player, Path.MESSAGES_YOUR_SCORE, new String[]{"%score%"}, score + "");
     }
 
-    @Subcommand("lobby")
-    @CommandAlias("lobby")
-    @Description("Teleports you to the lobby")
-    public void onLobby(final Player player) {
-        if (gameService.isPlaying(player)) {
-            gameService.leave(player);
-        }
-        if (lobbyService.hasLobbyLocation()) player.teleport(lobbyService.getLobbyLocation());
-    }
-
     private void onJoin(final Player player, final Integer integer, final Mode mode) {
         final Result result;
         if (integer != null) {
