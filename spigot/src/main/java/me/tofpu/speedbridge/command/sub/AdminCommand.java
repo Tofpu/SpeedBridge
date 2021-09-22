@@ -244,6 +244,8 @@ public class AdminCommand extends BridgeBaseCommand {
         switch (result) {
             case SUCCESS:
                 path = Path.MESSAGES_CANCEL_SETUP;
+                if (lobbyService.hasLobbyLocation())
+                    player.teleport(lobbyService.getLobbyLocation());
                 break;
             case FAIL:
                 path = Path.MESSAGES_NO_SETUP;
