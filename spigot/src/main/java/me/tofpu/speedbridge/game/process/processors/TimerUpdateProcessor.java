@@ -1,6 +1,5 @@
 package me.tofpu.speedbridge.game.process.processors;
 
-import me.tofpu.speedbridge.api.island.Island;
 import me.tofpu.speedbridge.api.user.User;
 import me.tofpu.speedbridge.api.user.UserProperties;
 import me.tofpu.speedbridge.api.user.timer.Timer;
@@ -59,14 +58,13 @@ public class TimerUpdateProcessor extends GameProcessor {
 
                 // notifying the target & spectators
                 gameService.messageSpectator(user,
-                        Util.WordReplacer.replace(Path.MESSAGES_SPECTATOR_BEATEN_SCORE.getValue(), new String[]{"%player%", "%calu_score%"}, player.getName(), result), true);
+                        Util.WordReplacer.replace(Path.MESSAGES_SPECTATOR_BEATEN_SCORE.getValue(), new String[]{"%player%", "%calu_score%"}, player.getName(), result), false);
             }
 
             // replacing the old record with the player's current record
             properties.timer(gameTimer);
-
-            // manually triggering the leaderboard
-            gameService.leaderboardService().check(user, null);
         }
+        // manually triggering the leaderboard
+        gameService.leaderboardService().check(user, gameTimer.result(), null);
     }
 }
