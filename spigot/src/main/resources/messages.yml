@@ -35,6 +35,8 @@ messages:
   beaten-score: "&aYou topped your old personal best score by %calu_score% seconds!"
   scored: "&eYou scored &a%scored% &eseconds!"
 
+  invalid-leaderboard: "&cLeaderboard %name% does not exist!"
+
   spectating: "&eYou are spectating &6%player%&e!"
   notify-spectate: "&6%player% &eis spectating!"
   no-longer-spectating: "&eYou're no longer spectating &6%player%!"

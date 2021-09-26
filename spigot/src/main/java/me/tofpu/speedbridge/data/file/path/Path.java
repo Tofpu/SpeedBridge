@@ -54,6 +54,8 @@ public class Path {
     public static final Value<String> MESSAGES_BEATEN_SCORE = new Value<>(MESSAGES + "beaten-score", "&aYou topped your old personal best score by %calu_score% seconds!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_SCORED = new Value<>(MESSAGES + "scored", "&eYou scored &a%scored% &eseconds!", PathType.MESSAGES);
 
+    public static final Value<String> MESSAGES_INVALID_LEADERBOARD = new Value<>(MESSAGES, "&cLeaderboard %name% does not exist!", PathType.MESSAGES);
+
     public static final Value<String> MESSAGES_SPECTATING = new Value<>(MESSAGES + "spectating", "&eYou are spectating &6%player%&e!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_NOTIFY_SPECTATING = new Value<>(MESSAGES + "notify-spectating", "&6%player% &eis spectating!", PathType.MESSAGES);
     public static final Value<String> MESSAGES_NO_LONGER_SPECTATING = new Value<>(MESSAGES + "no-longer-spectating", "&eYou're no longer spectating &6%player%!", PathType.MESSAGES);

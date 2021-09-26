@@ -109,8 +109,18 @@ public class MainCommand extends BridgeBaseCommand {
     @Subcommand("leaderboard")
     @CommandAlias("leaderboard")
     @Description("Lists the top 10 best performers")
-    public void onLeaderboard(final CommandSender player) {
-        player.sendMessage(leaderboardService.get(LeaderboardType.GLOBAL).print());
+    public void onLeaderboard(final CommandSender player,
+            final @Optional String type) {
+        final LeaderboardType leaderboardType =
+                type == null || type.isEmpty() ? LeaderboardType.GLOBAL :
+                        LeaderboardType.match(type);
+
+        if (leaderboardType == null) {
+            Util.message(player, Path.MESSAGES_INVALID_LEADERBOARD,
+                    new String[]{"%name%"}, type);
+            return;
+        }
+        player.sendMessage(leaderboardService.get(leaderboardType).print());
     }
 
     @Subcommand("score")
