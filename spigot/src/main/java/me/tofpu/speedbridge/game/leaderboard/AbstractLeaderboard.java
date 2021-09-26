@@ -4,6 +4,7 @@ import me.tofpu.speedbridge.api.lobby.BoardUser;
 import me.tofpu.speedbridge.api.leaderboard.Leaderboard;
 import me.tofpu.speedbridge.api.user.User;
 import me.tofpu.speedbridge.api.user.timer.Timer;
+import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public abstract class AbstractLeaderboard implements Leaderboard {
@@ -19,17 +21,48 @@ public abstract class AbstractLeaderboard implements Leaderboard {
 
     private final String identifier;
     private final int capacity;
+    private final boolean temporally;
     private BukkitTask bukkitTask;
 
     public AbstractLeaderboard(final String identifier, final int capacity) {
         this.identifier = identifier;
         this.capacity = capacity;
+        this.temporally = false;
         this.leaderboard = new ArrayList<>(capacity);
     }
 
-    @Override
-    public String identifier() {
-        return identifier;
+    public AbstractLeaderboard(final String identifier, final int capacity,
+            final boolean temporally) {
+        this.identifier = identifier;
+        this.capacity = capacity;
+        this.temporally = temporally;
+        this.leaderboard = new ArrayList<>(capacity);
+    }
+
+    private List<BoardUser> sortGet() {
+        final List<BoardUser> leaderboard = new ArrayList<>(this.leaderboard);
+        if (leaderboard.isEmpty()) return leaderboard;
+
+        int max;
+        for (int i = 0; i < leaderboard.size(); i++) {
+            max = i;
+            BoardUser playerMax = leaderboard.get(max);
+            BoardUser playerJ;
+
+            for (int j = i; j < leaderboard.size(); j++) {
+                playerJ = leaderboard.get(j);
+                if (playerJ.score() < playerMax.score()) {
+                    max = j;
+                    playerMax = leaderboard.get(max);
+                }
+            }
+            //Swap biggest and current locations
+            final BoardUser placeholder = leaderboard.get(i);
+            leaderboard.set(i, playerMax);
+            if (!placeholder.equals(playerMax)) leaderboard.set(max, placeholder);
+        }
+
+        return leaderboard;
     }
 
     public void start(Plugin plugin) {
@@ -71,58 +104,42 @@ public abstract class AbstractLeaderboard implements Leaderboard {
         }
     }
 
-    public void check(final User user) {
+    public void check(final User user, final double time) {
         final Player player = Bukkit.getPlayer(user.uniqueId());
         final Timer timer = user.properties().timer();
         if (player == null || timer == null) return;
 
         BoardUser boardUser = get(user.uniqueId());
         if (boardUser == null) {
-            boardUser = new BoardUserImpl.Builder().name(player.getName()).uniqueId(user.uniqueId()).result(timer == null ? null : timer.result()).build();
+            boardUser =
+                    new BoardUserImpl.Builder().name(player.getName()).uniqueId(user.uniqueId()).result(timer == null ? null : time).build();
         } else {
-            if (boardUser.score() == null || boardUser.score() > timer.result()) {
-                boardUser.score(timer.result());
+            if (boardUser.score() == null || boardUser.score() > time) {
+                boardUser.score(time);
             }
         }
         add(boardUser);
     }
 
-    public List<BoardUser> sortGet() {
-        final List<BoardUser> leaderboard = new ArrayList<>(this.leaderboard);
-        if (leaderboard.isEmpty()) return leaderboard;
+    public void remove(final User user) {
+        final BoardUser boardUser = get(user.uniqueId());
+        if (boardUser == null) return;
+        leaderboard.remove(boardUser);
+    }
 
-        int max;
-        for (int i = 0; i < leaderboard.size(); i++) {
-            max = i;
-            BoardUser playerMax = leaderboard.get(max);
-            BoardUser playerJ;
-
-            for (int j = i; j < leaderboard.size(); j++) {
-                playerJ = leaderboard.get(j);
-                if (playerJ.score() < playerMax.score()) {
-                    max = j;
-                    playerMax = leaderboard.get(max);
-                }
-            }
-            //Swap biggest and current locations
-            final BoardUser placeholder = leaderboard.get(i);
-            leaderboard.set(i, playerMax);
-            if (!placeholder.equals(playerMax)) leaderboard.set(max, placeholder);
-        }
-
-        return leaderboard;
+    @Override
+    public String identifier() {
+        return identifier;
     }
 
     @Override
     public String print(){
         final StringBuilder builder = new StringBuilder();
-        builder.append("&e").append(identifier).append(" ").append("Leaderboard");
+        builder.append(Path.LEADERBOARD_HEADER.getValue());
 
         for (int i = 0; i < positions().size(); i++) {
-            if (i >= capacity) break;
-
             if (builder.capacity() != 1) builder.append("\n");
-            builder.append("&e").append(i + 1).append(". ").append(parse(i));
+            builder.append(parse(i));
         }
 
         return Util.colorize(builder.toString());
@@ -130,9 +147,19 @@ public abstract class AbstractLeaderboard implements Leaderboard {
 
     @Override
     public String parse(final int slot){
-        if (leaderboard.size() <= slot) return "N/A";
-        final BoardUser user = leaderboard.get(slot);
-        return user == null ? "N/A" : Util.colorize(user.name() + " &a(" + user.score() + ")");
+        if (positions().size() <= slot) return "N/A";
+        final int position = slot + 1;
+        final BoardUser user = positions().get(slot);
+
+        return user == null ? "N/A" : Util.colorize(Util.WordReplacer.replace(Path.LEADERBOARD_STYLE.getValue(), new String[]{"{position}", "{name}", "{score}"}, position + "", user.name(), user.score() + ""));
+    }
+
+    public Optional<Double> parseScore(final UUID uniqueId) {
+        final BoardUser user = get(uniqueId);
+        if (user == null) return Optional.empty();
+        final Double score = user.score();
+
+        return Optional.ofNullable(score);
     }
 
     public List<BoardUser> positions() {
@@ -141,5 +168,9 @@ public abstract class AbstractLeaderboard implements Leaderboard {
 
     public int capacity() {
         return capacity;
+    }
+
+    public boolean isTemporally() {
+        return temporally;
     }
 }
