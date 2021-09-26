@@ -4,6 +4,7 @@ import me.tofpu.speedbridge.api.leaderboard.Leaderboard;
 import me.tofpu.speedbridge.api.leaderboard.LeaderboardService;
 import me.tofpu.speedbridge.api.leaderboard.LeaderboardType;
 import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.user.timer.Timer;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.game.Game;
@@ -37,19 +38,31 @@ public class LeaderboardServiceImpl implements LeaderboardService {
 
     @Override
     public AbstractLeaderboard get(final LeaderboardType type) {
-        for (final AbstractLeaderboard leaderboard : leaderboards){
-            if (!leaderboard.identifier().equalsIgnoreCase(type.name())) continue;
+        for (final AbstractLeaderboard leaderboard : leaderboards) {
+            if (!leaderboard.identifier().equalsIgnoreCase(type.name()))
+                continue;
             return leaderboard;
         }
         return null;
     }
 
     public void check(final User user, final Predicate<AbstractLeaderboard> filter) {
-        for (final AbstractLeaderboard leaderboard : leaderboards){
+        for (final AbstractLeaderboard leaderboard : leaderboards) {
             if (filter != null && filter.test(leaderboard)) continue;
-            leaderboard.check(user);
+
+            final Timer timer = user.properties().timer();
+            leaderboard.check(user, timer == null ? 0 : timer.result());
         }
     }
+
+    public void check(final User user, final double time, final Predicate<AbstractLeaderboard> filter) {
+        for (final AbstractLeaderboard leaderboard : leaderboards) {
+            if (filter != null && filter.test(leaderboard)) continue;
+
+            leaderboard.check(user, time);
+        }
+    }
+
 
     @Override
     public void compute(final Predicate<Leaderboard> filter, Consumer<Leaderboard> consumer){
@@ -78,7 +91,10 @@ public class LeaderboardServiceImpl implements LeaderboardService {
     }
 
     public void save() {
-        for (final AbstractLeaderboard leaderboard : leaderboards){
+        for (final AbstractLeaderboard leaderboard : leaderboards) {
+            // if the leaderboard is temporally, don't save
+            if (leaderboard.isTemporally()) continue;
+
             try (final FileWriter writer = new FileWriter(new File(directory, leaderboard.identifier() + ".json"))) {
                 writer.write(DataManager.GSON.toJson(leaderboard, AbstractLeaderboard.class));
             } catch (IOException e) {
