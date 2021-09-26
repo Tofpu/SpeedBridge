@@ -7,7 +7,6 @@ import com.github.requestpluginsforfree.dependency.impl.PlaceholderDependency;
 import me.tofpu.speedbridge.SpeedBridge;
 import me.tofpu.speedbridge.api.SpeedBridgeAPI;
 import me.tofpu.speedbridge.api.game.GameService;
-import me.tofpu.speedbridge.api.island.IslandService;
 import me.tofpu.speedbridge.api.leaderboard.LeaderboardService;
 import me.tofpu.speedbridge.api.lobby.LobbyService;
 import me.tofpu.speedbridge.api.user.UserService;
@@ -78,7 +77,7 @@ public class Game {
 
         this.listeners = new ArrayList<>(Arrays.asList(
                 new PlayerJoinListener(userService, lobbyService, leaderboardService),
-                new PlayerQuitListener(userService, gameService, dataManager),
+                new PlayerQuitListener(userService, gameService, leaderboardService, dataManager),
                 new PlayerInteractListener(userService, islandService, gameService),
                 new BlockPlaceListener(userService, islandService, gameService),
                 new BlockBreakListener(userService, islandService, gameService),

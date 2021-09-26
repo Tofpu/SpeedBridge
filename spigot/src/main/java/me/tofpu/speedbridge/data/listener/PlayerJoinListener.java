@@ -1,5 +1,6 @@
 package me.tofpu.speedbridge.data.listener;
 
+import me.tofpu.speedbridge.api.leaderboard.LeaderboardType;
 import me.tofpu.speedbridge.api.lobby.LobbyService;
 import me.tofpu.speedbridge.api.user.UserService;
 import me.tofpu.speedbridge.data.file.path.Path;
@@ -33,6 +34,8 @@ public class PlayerJoinListener implements Listener {
             Util.message(player, Path.MESSAGES_NO_LOBBY);
         }
 
-        leaderboardService.check(userService.getOrDefault(player.getUniqueId(), true), null);
+        leaderboardService.check(userService.getOrDefault(player.getUniqueId(), true), leaderboard -> leaderboard
+                .identifier()
+                .equalsIgnoreCase(LeaderboardType.SEASONAL.name()));
     }
 }
