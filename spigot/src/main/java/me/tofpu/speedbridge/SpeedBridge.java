@@ -1,7 +1,7 @@
 package me.tofpu.speedbridge;
 
-import me.tofpu.speedbridge.game.Game;
-import me.tofpu.speedbridge.game.leaderboard.AbstractLeaderboard;
+import me.tofpu.speedbridge.model.object.game.Game;
+import me.tofpu.speedbridge.model.object.leaderboard.AbstractLeaderboard;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SpeedBridge extends JavaPlugin {

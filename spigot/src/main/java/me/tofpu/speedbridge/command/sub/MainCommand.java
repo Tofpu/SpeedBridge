@@ -12,7 +12,7 @@ import me.tofpu.speedbridge.api.user.UserService;
 import me.tofpu.speedbridge.command.BridgeBaseCommand;
 import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.api.leaderboard.LeaderboardType;
-import me.tofpu.speedbridge.island.mode.ModeManager;
+import me.tofpu.speedbridge.model.service.ModeManager;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;

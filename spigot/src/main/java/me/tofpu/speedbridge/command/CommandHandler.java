@@ -7,8 +7,8 @@ import me.tofpu.speedbridge.api.game.SetupStage;
 import me.tofpu.speedbridge.api.island.mode.Mode;
 import me.tofpu.speedbridge.command.sub.AdminCommand;
 import me.tofpu.speedbridge.command.sub.MainCommand;
-import me.tofpu.speedbridge.game.Game;
-import me.tofpu.speedbridge.island.mode.ModeManager;
+import me.tofpu.speedbridge.model.object.game.Game;
+import me.tofpu.speedbridge.model.service.ModeManager;
 import me.tofpu.speedbridge.util.Util;
 
 public class CommandHandler {
