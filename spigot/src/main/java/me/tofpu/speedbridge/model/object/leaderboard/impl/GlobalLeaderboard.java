@@ -1,6 +1,6 @@
 package me.tofpu.speedbridge.model.object.leaderboard.impl;
 
-import me.tofpu.speedbridge.api.lobby.BoardUser;
+import me.tofpu.speedbridge.api.model.object.lobby.BoardUser;
 import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.model.object.leaderboard.AbstractLeaderboard;
 import me.tofpu.speedbridge.util.Util;

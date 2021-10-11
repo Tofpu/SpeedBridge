@@ -1,9 +1,9 @@
 package me.tofpu.speedbridge.model.object.game.runnable;
 
-import me.tofpu.speedbridge.api.game.GameService;
-import me.tofpu.speedbridge.api.island.Island;
-import me.tofpu.speedbridge.api.island.point.TwoSection;
-import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.model.service.GameService;
+import me.tofpu.speedbridge.api.model.object.island.Island;
+import me.tofpu.speedbridge.api.model.object.island.point.TwoSection;
+import me.tofpu.speedbridge.api.model.object.user.User;
 import me.tofpu.speedbridge.util.Cuboid;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

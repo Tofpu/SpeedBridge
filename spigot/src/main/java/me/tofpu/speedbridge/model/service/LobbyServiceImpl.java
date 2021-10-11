@@ -1,7 +1,7 @@
 package me.tofpu.speedbridge.model.service;
 
 import com.google.gson.Gson;
-import me.tofpu.speedbridge.api.lobby.LobbyService;
+import me.tofpu.speedbridge.api.model.service.LobbyService;
 import org.bukkit.Location;
 
 import java.io.File;

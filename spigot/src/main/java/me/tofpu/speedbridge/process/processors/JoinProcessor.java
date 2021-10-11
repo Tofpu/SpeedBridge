@@ -1,7 +1,7 @@
 package me.tofpu.speedbridge.process.processors;
 
-import me.tofpu.speedbridge.api.island.Island;
-import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.model.object.island.Island;
+import me.tofpu.speedbridge.api.model.object.user.User;
 import me.tofpu.speedbridge.process.ProcessType;
 import me.tofpu.speedbridge.process.Process;
 import me.tofpu.speedbridge.process.type.GameProcessor;

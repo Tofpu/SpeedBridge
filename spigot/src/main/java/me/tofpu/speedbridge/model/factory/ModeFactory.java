@@ -1,6 +1,6 @@
 package me.tofpu.speedbridge.model.factory;
 
-import me.tofpu.speedbridge.api.island.mode.Mode;
+import me.tofpu.speedbridge.api.model.object.mode.Mode;
 import me.tofpu.speedbridge.model.object.mode.ModeImpl;
 
 public class ModeFactory {

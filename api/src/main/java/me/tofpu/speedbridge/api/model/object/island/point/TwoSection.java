@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.api.island.point;
+package me.tofpu.speedbridge.api.model.object.island.point;
 
 import org.bukkit.Location;
 

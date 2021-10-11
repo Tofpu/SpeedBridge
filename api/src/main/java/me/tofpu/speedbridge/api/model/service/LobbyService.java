@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.api.lobby;
+package me.tofpu.speedbridge.api.model.service;
 
 import com.google.gson.Gson;
 import org.bukkit.Location;

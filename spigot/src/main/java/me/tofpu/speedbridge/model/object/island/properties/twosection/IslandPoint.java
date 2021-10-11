@@ -1,6 +1,6 @@
 package me.tofpu.speedbridge.model.object.island.properties.twosection;
 
-import me.tofpu.speedbridge.api.island.point.TwoSection;
+import me.tofpu.speedbridge.api.model.object.island.point.TwoSection;
 import org.bukkit.Location;
 
 public class IslandPoint implements TwoSection {

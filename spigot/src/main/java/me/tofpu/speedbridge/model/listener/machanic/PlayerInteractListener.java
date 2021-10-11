@@ -1,11 +1,11 @@
 package me.tofpu.speedbridge.model.listener.machanic;
 
-import me.tofpu.speedbridge.api.game.GameService;
-import me.tofpu.speedbridge.api.island.Island;
-import me.tofpu.speedbridge.api.island.IslandService;
-import me.tofpu.speedbridge.api.island.point.Point;
-import me.tofpu.speedbridge.api.user.User;
-import me.tofpu.speedbridge.api.user.UserService;
+import me.tofpu.speedbridge.api.model.service.GameService;
+import me.tofpu.speedbridge.api.model.object.island.Island;
+import me.tofpu.speedbridge.api.model.service.IslandService;
+import me.tofpu.speedbridge.api.model.object.island.point.Point;
+import me.tofpu.speedbridge.api.model.object.user.User;
+import me.tofpu.speedbridge.api.model.service.UserService;
 import me.tofpu.speedbridge.util.Util;
 import me.tofpu.speedbridge.util.XMaterial;
 import org.bukkit.Location;

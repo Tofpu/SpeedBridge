@@ -1,6 +1,6 @@
-package me.tofpu.speedbridge.api.island;
+package me.tofpu.speedbridge.api.model.object.island;
 
-import me.tofpu.speedbridge.api.island.point.Point;
+import me.tofpu.speedbridge.api.model.object.island.point.Point;
 
 import java.util.List;
 

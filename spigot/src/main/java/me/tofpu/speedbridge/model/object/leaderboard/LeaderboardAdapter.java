@@ -4,7 +4,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import me.tofpu.speedbridge.api.lobby.BoardUser;
+import me.tofpu.speedbridge.api.model.object.lobby.BoardUser;
 
 import java.io.IOException;
 import java.util.ArrayList;

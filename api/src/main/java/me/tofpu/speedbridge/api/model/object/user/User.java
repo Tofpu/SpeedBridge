@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.api.user;
+package me.tofpu.speedbridge.api.model.object.user;
 
 import org.bukkit.entity.Player;
 

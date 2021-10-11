@@ -1,15 +1,15 @@
 package me.tofpu.speedbridge.expansion;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.tofpu.speedbridge.api.game.GameService;
-import me.tofpu.speedbridge.api.island.Island;
-import me.tofpu.speedbridge.api.island.IslandService;
-import me.tofpu.speedbridge.api.leaderboard.Leaderboard;
-import me.tofpu.speedbridge.api.leaderboard.LeaderboardService;
-import me.tofpu.speedbridge.api.user.User;
-import me.tofpu.speedbridge.api.user.UserService;
-import me.tofpu.speedbridge.api.user.timer.Timer;
-import me.tofpu.speedbridge.api.leaderboard.LeaderboardType;
+import me.tofpu.speedbridge.api.model.service.GameService;
+import me.tofpu.speedbridge.api.model.object.island.Island;
+import me.tofpu.speedbridge.api.model.service.IslandService;
+import me.tofpu.speedbridge.api.model.object.leaderboard.Leaderboard;
+import me.tofpu.speedbridge.api.model.service.LeaderboardService;
+import me.tofpu.speedbridge.api.model.object.user.User;
+import me.tofpu.speedbridge.api.model.service.UserService;
+import me.tofpu.speedbridge.api.model.object.user.timer.Timer;
+import me.tofpu.speedbridge.api.model.object.leaderboard.LeaderboardType;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;

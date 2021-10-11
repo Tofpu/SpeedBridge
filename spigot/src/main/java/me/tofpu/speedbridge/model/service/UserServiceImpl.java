@@ -1,10 +1,12 @@
 package me.tofpu.speedbridge.model.service;
 
-import me.tofpu.speedbridge.api.user.User;
-import me.tofpu.speedbridge.api.user.UserService;
+import me.tofpu.speedbridge.api.model.object.user.User;
+import me.tofpu.speedbridge.api.model.repository.UserRepository;
+import me.tofpu.speedbridge.api.model.service.UserService;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.model.object.game.Game;
 import me.tofpu.speedbridge.model.object.user.UserImpl;
+import me.tofpu.speedbridge.model.repository.UserRepositoryImpl;
 
 import java.io.File;
 import java.io.FileReader;
@@ -16,11 +18,11 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class UserServiceImpl implements UserService {
-    private final List<User> users;
+    private final UserRepository repository;
     private File directory;
 
     public UserServiceImpl(){
-        this.users = new ArrayList<>();
+        this.repository = new UserRepositoryImpl();
     }
 
     public void initialize(final DataManager dataManager){

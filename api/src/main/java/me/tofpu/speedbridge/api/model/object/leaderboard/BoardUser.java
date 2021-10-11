@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.api.lobby;
+package me.tofpu.speedbridge.api.model.object.leaderboard;
 
 import java.util.UUID;
 

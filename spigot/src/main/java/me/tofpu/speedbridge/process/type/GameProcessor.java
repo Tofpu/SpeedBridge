@@ -1,7 +1,7 @@
 package me.tofpu.speedbridge.process.type;
 
-import me.tofpu.speedbridge.api.island.Island;
-import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.model.object.island.Island;
+import me.tofpu.speedbridge.api.model.object.user.User;
 import me.tofpu.speedbridge.process.ProcessType;
 import me.tofpu.speedbridge.model.service.GameServiceImpl;
 import org.bukkit.Location;

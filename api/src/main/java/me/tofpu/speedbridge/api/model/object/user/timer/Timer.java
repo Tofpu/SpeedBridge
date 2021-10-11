@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.api.user.timer;
+package me.tofpu.speedbridge.api.model.object.user.timer;
 
 /**
  * This represents timestamp for scoring purposes.

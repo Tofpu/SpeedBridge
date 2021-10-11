@@ -1,7 +1,7 @@
 package me.tofpu.speedbridge.model.object.leaderboard;
 
 import com.google.common.base.Objects;
-import me.tofpu.speedbridge.api.lobby.BoardUser;
+import me.tofpu.speedbridge.api.model.object.lobby.BoardUser;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;

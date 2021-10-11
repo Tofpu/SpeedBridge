@@ -1,8 +1,8 @@
 package me.tofpu.speedbridge.model.object.user;
 
 import com.google.common.base.Objects;
-import me.tofpu.speedbridge.api.user.User;
-import me.tofpu.speedbridge.api.user.UserProperties;
+import me.tofpu.speedbridge.api.model.object.user.User;
+import me.tofpu.speedbridge.api.model.object.user.UserProperties;
 import me.tofpu.speedbridge.model.object.user.properties.UserPropertiesFactory;
 import me.tofpu.speedbridge.model.object.user.properties.UserPropertiesImpl;
 import org.bukkit.Bukkit;

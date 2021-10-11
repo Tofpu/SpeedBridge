@@ -1,7 +1,7 @@
 package me.tofpu.speedbridge.model.object.mode;
 
 import com.google.common.collect.Lists;
-import me.tofpu.speedbridge.api.island.mode.Mode;
+import me.tofpu.speedbridge.api.model.object.mode.Mode;
 
 import java.util.ArrayList;
 import java.util.List;

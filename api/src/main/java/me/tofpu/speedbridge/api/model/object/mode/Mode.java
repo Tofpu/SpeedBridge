@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.api.island.mode;
+package me.tofpu.speedbridge.api.model.object.mode;
 
 import me.tofpu.speedbridge.api.util.Identifier;
 

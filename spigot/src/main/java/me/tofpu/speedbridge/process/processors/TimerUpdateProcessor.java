@@ -1,8 +1,8 @@
 package me.tofpu.speedbridge.process.processors;
 
-import me.tofpu.speedbridge.api.user.User;
-import me.tofpu.speedbridge.api.user.UserProperties;
-import me.tofpu.speedbridge.api.user.timer.Timer;
+import me.tofpu.speedbridge.api.model.object.user.User;
+import me.tofpu.speedbridge.api.model.object.user.UserProperties;
+import me.tofpu.speedbridge.api.model.object.user.timer.Timer;
 import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.process.ProcessType;
 import me.tofpu.speedbridge.process.type.GameProcessor;

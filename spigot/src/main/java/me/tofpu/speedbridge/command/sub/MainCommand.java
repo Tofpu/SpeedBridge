@@ -1,17 +1,17 @@
 package me.tofpu.speedbridge.command.sub;
 
 import co.aikar.commands.annotation.*;
-import me.tofpu.speedbridge.api.game.GameService;
-import me.tofpu.speedbridge.api.game.Result;
-import me.tofpu.speedbridge.api.island.mode.Mode;
-import me.tofpu.speedbridge.api.leaderboard.LeaderboardService;
-import me.tofpu.speedbridge.api.lobby.LobbyService;
-import me.tofpu.speedbridge.api.user.User;
-import me.tofpu.speedbridge.api.user.UserProperties;
-import me.tofpu.speedbridge.api.user.UserService;
+import me.tofpu.speedbridge.api.model.service.GameService;
+import me.tofpu.speedbridge.api.model.object.game.Result;
+import me.tofpu.speedbridge.api.model.object.mode.Mode;
+import me.tofpu.speedbridge.api.model.service.LeaderboardService;
+import me.tofpu.speedbridge.api.model.service.LobbyService;
+import me.tofpu.speedbridge.api.model.object.user.User;
+import me.tofpu.speedbridge.api.model.object.user.UserProperties;
+import me.tofpu.speedbridge.api.model.service.UserService;
 import me.tofpu.speedbridge.command.BridgeBaseCommand;
 import me.tofpu.speedbridge.data.file.path.Path;
-import me.tofpu.speedbridge.api.leaderboard.LeaderboardType;
+import me.tofpu.speedbridge.api.model.object.leaderboard.LeaderboardType;
 import me.tofpu.speedbridge.model.service.ModeManager;
 import me.tofpu.speedbridge.util.Util;
 import org.bukkit.Bukkit;

@@ -1,6 +1,6 @@
 package me.tofpu.speedbridge.process.item;
 
-import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.model.object.user.User;
 import me.tofpu.speedbridge.process.ProcessType;
 import me.tofpu.speedbridge.process.type.GameItemProcessor;
 import me.tofpu.speedbridge.util.Util;

@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.api.leaderboard;
+package me.tofpu.speedbridge.api.model.service;
 
 
 import java.util.function.Consumer;

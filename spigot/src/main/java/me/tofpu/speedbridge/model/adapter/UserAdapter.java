@@ -4,9 +4,9 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import me.tofpu.speedbridge.api.user.User;
-import me.tofpu.speedbridge.api.user.UserProperties;
-import me.tofpu.speedbridge.api.user.timer.Timer;
+import me.tofpu.speedbridge.api.model.object.user.User;
+import me.tofpu.speedbridge.api.model.object.user.UserProperties;
+import me.tofpu.speedbridge.api.model.object.user.timer.Timer;
 import me.tofpu.speedbridge.model.object.user.UserImpl;
 import me.tofpu.speedbridge.model.object.user.properties.timer.TimerFactory;
 

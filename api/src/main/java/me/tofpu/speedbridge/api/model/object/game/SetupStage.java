@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.api.game;
+package me.tofpu.speedbridge.api.model.object.game;
 
 /**
  * This includes a setup stage.

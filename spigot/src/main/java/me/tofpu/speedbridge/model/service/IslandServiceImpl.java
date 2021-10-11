@@ -1,10 +1,10 @@
 package me.tofpu.speedbridge.model.service;
 
-import me.tofpu.speedbridge.api.game.Result;
-import me.tofpu.speedbridge.api.island.Island;
-import me.tofpu.speedbridge.api.island.IslandService;
-import me.tofpu.speedbridge.api.island.mode.Mode;
-import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.model.object.game.Result;
+import me.tofpu.speedbridge.api.model.object.island.Island;
+import me.tofpu.speedbridge.api.model.service.IslandService;
+import me.tofpu.speedbridge.api.model.object.mode.Mode;
+import me.tofpu.speedbridge.api.model.object.user.User;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.model.object.game.Game;
 

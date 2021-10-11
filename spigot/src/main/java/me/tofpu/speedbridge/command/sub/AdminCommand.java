@@ -2,11 +2,11 @@ package me.tofpu.speedbridge.command.sub;
 
 import co.aikar.commands.annotation.*;
 import me.tofpu.speedbridge.SpeedBridge;
-import me.tofpu.speedbridge.api.game.GameService;
-import me.tofpu.speedbridge.api.game.Result;
-import me.tofpu.speedbridge.api.game.SetupStage;
-import me.tofpu.speedbridge.api.island.Island;
-import me.tofpu.speedbridge.api.lobby.LobbyService;
+import me.tofpu.speedbridge.api.model.service.GameService;
+import me.tofpu.speedbridge.api.model.object.game.Result;
+import me.tofpu.speedbridge.api.model.object.game.SetupStage;
+import me.tofpu.speedbridge.api.model.object.island.Island;
+import me.tofpu.speedbridge.api.model.service.LobbyService;
 import me.tofpu.speedbridge.command.BridgeBaseCommand;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.data.file.path.Path;

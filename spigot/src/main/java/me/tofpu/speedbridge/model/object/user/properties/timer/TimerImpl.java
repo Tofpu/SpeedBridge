@@ -1,6 +1,6 @@
 package me.tofpu.speedbridge.model.object.user.properties.timer;
 
-import me.tofpu.speedbridge.api.user.timer.Timer;
+import me.tofpu.speedbridge.api.model.object.user.timer.Timer;
 import me.tofpu.speedbridge.util.Util;
 
 import java.util.Objects;

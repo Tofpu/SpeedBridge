@@ -1,7 +1,7 @@
 package me.tofpu.speedbridge.model.listener.general;
 
-import me.tofpu.speedbridge.api.lobby.LobbyService;
-import me.tofpu.speedbridge.api.user.UserService;
+import me.tofpu.speedbridge.api.model.service.LobbyService;
+import me.tofpu.speedbridge.api.model.service.UserService;
 import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.model.object.leaderboard.LeaderboardServiceImpl;
 import me.tofpu.speedbridge.util.Util;

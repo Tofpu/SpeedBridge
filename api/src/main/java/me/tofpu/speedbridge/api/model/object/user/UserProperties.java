@@ -1,6 +1,6 @@
-package me.tofpu.speedbridge.api.user;
+package me.tofpu.speedbridge.api.model.object.user;
 
-import me.tofpu.speedbridge.api.user.timer.Timer;
+import me.tofpu.speedbridge.api.model.object.user.timer.Timer;
 
 /**
  * The user property. It includes information regarding the island they're in, timer, etc.

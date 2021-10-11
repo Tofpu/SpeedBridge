@@ -1,7 +1,7 @@
-package me.tofpu.speedbridge.api.island;
+package me.tofpu.speedbridge.api.model.service;
 
-import me.tofpu.speedbridge.api.island.mode.Mode;
-import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.model.object.mode.Mode;
+import me.tofpu.speedbridge.api.model.object.user.User;
 
 import java.util.List;
 

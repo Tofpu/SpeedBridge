@@ -1,6 +1,5 @@
-package me.tofpu.speedbridge.api.user;
+package me.tofpu.speedbridge.api.model.service;
 
-import java.io.File;
 import java.util.UUID;
 
 /**

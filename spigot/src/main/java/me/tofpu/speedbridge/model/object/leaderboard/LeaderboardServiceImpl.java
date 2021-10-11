@@ -1,9 +1,9 @@
 package me.tofpu.speedbridge.model.object.leaderboard;
 
-import me.tofpu.speedbridge.api.leaderboard.Leaderboard;
-import me.tofpu.speedbridge.api.leaderboard.LeaderboardService;
-import me.tofpu.speedbridge.api.leaderboard.LeaderboardType;
-import me.tofpu.speedbridge.api.user.User;
+import me.tofpu.speedbridge.api.model.object.leaderboard.Leaderboard;
+import me.tofpu.speedbridge.api.model.service.LeaderboardService;
+import me.tofpu.speedbridge.api.model.object.leaderboard.LeaderboardType;
+import me.tofpu.speedbridge.api.model.object.user.User;
 import me.tofpu.speedbridge.data.DataManager;
 import me.tofpu.speedbridge.data.file.path.Path;
 import me.tofpu.speedbridge.model.object.game.Game;

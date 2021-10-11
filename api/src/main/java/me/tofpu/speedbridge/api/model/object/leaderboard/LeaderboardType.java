@@ -1,4 +1,4 @@
-package me.tofpu.speedbridge.api.leaderboard;
+package me.tofpu.speedbridge.api.model.object.leaderboard;
 
 public enum LeaderboardType {
     GLOBAL, SESSION;

@@ -1,7 +1,7 @@
 package me.tofpu.speedbridge.model.object.island.properties;
 
-import me.tofpu.speedbridge.api.island.IslandProperties;
-import me.tofpu.speedbridge.api.island.point.Point;
+import me.tofpu.speedbridge.api.model.object.island.IslandProperties;
+import me.tofpu.speedbridge.api.model.object.island.point.Point;
 import me.tofpu.speedbridge.model.object.island.properties.point.PointImpl;
 import me.tofpu.speedbridge.model.object.island.properties.twosection.IslandSelection;
 
