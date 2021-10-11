@@ -70,10 +70,14 @@ public class BridgeExpansion extends PlaceholderExpansion {
         final Integer slot;
         switch (type) {
             case SCORE:
-                if (isNull || (timer = user.properties().timer()) == null) return "N/A";
+                if (isNull || (timer = user.properties().timer()) == null) {
+                    return "N/A";
+                }
                 return timer.result() + "";
             case BLOCKS:
-                if (isNull || ((slot = user.properties().islandSlot()) == null)) return "0";
+                if (isNull || ((slot = user.properties().islandSlot()) == null)) {
+                    return "0";
+                }
                 final Island island = islandService.getIslandBySlot(slot);
 
                 if (island == null) {
@@ -82,17 +86,23 @@ public class BridgeExpansion extends PlaceholderExpansion {
                     return island.placedBlocks().size() + "";
                 }
             case ISLAND:
-                if (isNull || ((slot = user.properties().islandSlot()) == null)) return "Lobby";
+                if (isNull || ((slot = user.properties().islandSlot()) == null)) {
+                    return "Lobby";
+                }
                 return slot + "";
             case LIVE_TIMER:
-                if (isNull || (timer = gameService.getTimer(user)) == null) return "0";
+                if (isNull || (timer = gameService.getTimer(user)) == null) {
+                    return "0";
+                }
                 return Util.toSeconds(timer.start()) + "";
             case LEADERBOARD:
                 if (args.length <= 1) return null;
-                final Leaderboard leaderboard = leaderboardService.get(LeaderboardType.GLOBAL);
+                final LeaderboardType leaderboardType = LeaderboardType.match(args[1]);
+                final Leaderboard leaderboard = leaderboardService.get(leaderboardType == null ? LeaderboardType.GLOBAL : leaderboardType);
 
-                final Integer integer = Util.parseInt(args[1]);
-                return integer == null ? "Provide a number!" : integer == 0 ? "Only number 1 or above is allowed!" : leaderboard.parse(integer - 1);
+                final Integer integer = Util.parseInt(leaderboardType == null ? args[1] : args[2]);
+                return integer == null ? "Provide a number!" : integer == 0 ? "Only number 1 or above is allowed!" : leaderboard
+                        .parse(integer - 1);
             default:
                 return "";
         }
