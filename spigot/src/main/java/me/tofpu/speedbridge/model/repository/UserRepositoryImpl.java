@@ -1,6 +1,7 @@
 package me.tofpu.speedbridge.model.repository;
 
 import com.google.inject.Inject;
+import me.tofpu.speedbridge.api.model.factory.UserFactory;
 import me.tofpu.speedbridge.api.model.object.user.User;
 import me.tofpu.speedbridge.api.model.repository.UserRepository;
 import me.tofpu.speedbridge.api.model.storage.Storage;
@@ -8,18 +9,20 @@ import me.tofpu.speedbridge.api.model.storage.Storage;
 import java.util.*;
 
 public class UserRepositoryImpl implements UserRepository {
+    private final UserFactory factory;
     private final Storage storage;
     private final List<User> users;
 
     @Inject
-    public UserRepositoryImpl(final Storage storage) {
+    public UserRepositoryImpl(final UserFactory factory, final Storage storage) {
+        this.factory = factory;
         this.storage = storage;
         this.users = new ArrayList<>();
     }
 
     @Override
     public User create(final UUID uniqueId) {
-        final User user = userFactory.createUser(uniqueId);
+        final User user = factory.createUser(uniqueId);
         register(user);
         return user;
     }
