@@ -1,22 +1,27 @@
 package me.tofpu.speedbridge.model.repository;
 
+import com.google.inject.Inject;
 import me.tofpu.speedbridge.api.model.object.user.User;
 import me.tofpu.speedbridge.api.model.repository.UserRepository;
+import me.tofpu.speedbridge.api.model.storage.Storage;
 
 import java.util.*;
 
 public class UserRepositoryImpl implements UserRepository {
+    private final Storage storage;
     private final List<User> users;
 
-    public UserRepositoryImpl() {
+    @Inject
+    public UserRepositoryImpl(final Storage storage) {
+        this.storage = storage;
         this.users = new ArrayList<>();
     }
 
     @Override
-    public User create(final UUID uuid) {
-
-
-        return register(user);
+    public User create(final UUID uniqueId) {
+        final User user = userFactory.createUser(uniqueId);
+        register(user);
+        return user;
     }
 
     @Override
@@ -27,7 +32,27 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> load(final UUID uniqueId) {
-        return Optional.empty();
+        return storage.loadUser(uniqueId);
+    }
+
+    @Override
+    public User findOrDefault(final UUID uniqueId) {
+        Optional<User> user = find(uniqueId);
+
+        for (int i = 0; i < 2; i++) {
+            if (user.isPresent()) {
+                break;
+            }
+            switch (i) {
+                case 1:
+                    user = load(uniqueId);
+                    break;
+                case 2:
+                    user = Optional.of(create(uniqueId));
+                    break;
+            }
+        }
+        return user.get();
     }
 
     @Override
@@ -41,12 +66,17 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public void save(final User user) {
+        storage.saveUser(user);
+    }
+
+    @Override
     public Collection<User> users() {
         return this.users;
     }
 
     @Override
     public void save() {
-
+        this.storage.saveUsers();
     }
 }

@@ -122,7 +122,7 @@ public class DataManager {
     }
 
     public void unloadUser(final UUID uuid) {
-        final User user = userService.get(uuid);
+        final User user = userService.find(uuid);
         if (user == null) return;
 
         userService.save(user);

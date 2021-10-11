@@ -67,7 +67,7 @@ public class Game {
         this.dataManager = new DataManager(speedBridge);
 
         this.islandService = new IslandServiceImpl();
-        this.userService = new UserServiceImpl();
+        this.userService = new UserServiceImpl(repository);
         this.lobbyService = new LobbyServiceImpl();
 
         this.leaderboardService = new LeaderboardServiceImpl();

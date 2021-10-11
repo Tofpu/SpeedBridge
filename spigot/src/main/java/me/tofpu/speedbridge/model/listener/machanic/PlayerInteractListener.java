@@ -49,7 +49,7 @@ public class PlayerInteractListener implements Listener {
                 break;
             case PHYSICAL:
                 // if the player is not not playing
-                final User user = userService.get(player.getUniqueId());
+                final User user = userService.find(player.getUniqueId());
                 final Island island = islandService.getIslandBySlot(user.properties()
                         .islandSlot());
 

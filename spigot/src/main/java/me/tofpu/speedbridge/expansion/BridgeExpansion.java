@@ -63,7 +63,7 @@ public class BridgeExpansion extends PlaceholderExpansion {
         final ExpansionType type = ExpansionType.match(args[0]);
         if (type == null) return "";
 
-        final User user = userService.get(player.getUniqueId());
+        final User user = userService.find(player.getUniqueId());
         boolean isNull = user == null;
 
         final Timer timer;

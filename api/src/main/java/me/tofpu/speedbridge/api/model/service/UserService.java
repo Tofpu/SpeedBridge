@@ -2,6 +2,7 @@ package me.tofpu.speedbridge.api.model.service;
 
 import me.tofpu.speedbridge.api.model.object.user.User;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -18,34 +19,27 @@ public interface UserService {
     User createUser(final UUID uniqueId);
 
     /**
-     * Removes this user from the user's list
+     * Saves this user to a file
      *
-     * @param uniqueId the player unique id that you would want to remove
+     * @param user the user instance that you would want to save
      */
-    void removeUser(final UUID uniqueId);
-
-    /**
-     * Removes this user from the user's list
-     *
-     * @param user the user instance that you would want to remove
-     */
-    void removeUser(final User user);
+    void save(final User user);
 
     /**
      * Looks up the loaded users associated with this unique id
      *
      * @param uniqueId the unique id of player
      *
-     * @return the users instance or a brand new one if not found
+     * @return the users instance, or a brand new one if not found
      */
-    User getOrDefault(final UUID uniqueId, final boolean loadFromFile);
+    User findOrDefault(final UUID uniqueId);
 
     /**
      * Looks up loaded users associated with this unique id
      *
      * @param uniqueId the unique id of player
      *
-     * @return the associated user or null if not found
+     * @return the associated user
      */
-    User get(final UUID uniqueId);
+    Optional<User> find(final UUID uniqueId);
 }

@@ -134,8 +134,8 @@ public class GameServiceImpl implements GameService {
 
     private boolean removeSpectator(final Iterator<?> iterator,
             final Player spectator, final Player target) {
-        final User spectatorUser = userService.get(spectator.getUniqueId());
-        final User targetUser = userService.get(target.getUniqueId());
+        final User spectatorUser = userService.find(spectator.getUniqueId());
+        final User targetUser = userService.find(target.getUniqueId());
 
         return removeSpectator(iterator, spectatorUser, targetUser);
     }
@@ -225,8 +225,8 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Result spectate(final Player issuer, final Player target) {
-        final User userIssuer = userService.get(issuer.getUniqueId());
-        final User userTarget = userService.get(target.getUniqueId());
+        final User userIssuer = userService.find(issuer.getUniqueId());
+        final User userTarget = userService.find(target.getUniqueId());
 
         // if userIssuer is null or is playing
         if (userIssuer == null || isPlaying(issuer)) {
@@ -242,7 +242,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public Result leave(final Player player) {
         // getting an instance of user associated with this player unique id
-        final User user = userService.get(player.getUniqueId());
+        final User user = userService.find(player.getUniqueId());
         // true if player is spectating, otherwise false
         final boolean spectating = user != null && isSpectating(user);
         // true if player is playing, otherwise false
@@ -259,7 +259,7 @@ public class GameServiceImpl implements GameService {
         // if the player is spectating a player
         if (spectating) {
             final User target =
-                    userService.get(spectators.get(user).takenBy()
+                    userService.find(spectators.get(user).takenBy()
                     .uniqueId());
             spectate(user, target);
         } else {
@@ -316,7 +316,7 @@ public class GameServiceImpl implements GameService {
     public boolean isPlaying(final Player player) {
         final User user;
         // checking if the user instance is null
-        if ((user = userService.get(player.getUniqueId())) == null) {
+        if ((user = userService.find(player.getUniqueId())) == null) {
             // since we have no user instance associated with
             // this player unique id, we're returning false
             return false;
@@ -328,7 +328,7 @@ public class GameServiceImpl implements GameService {
     public boolean isSpectating(final Player player) {
         final User user;
         // checking if the user instance is null
-        if ((user = userService.get(player.getUniqueId())) == null) {
+        if ((user = userService.find(player.getUniqueId())) == null) {
             // since we have no user instance associated with
             // this player unique id, we're returning false
             return false;
