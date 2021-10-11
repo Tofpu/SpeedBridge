@@ -68,7 +68,7 @@ public class Game {
 
         this.islandService = new IslandServiceImpl();
         this.userService = new UserServiceImpl(repository);
-        this.lobbyService = new LobbyServiceImpl();
+        this.lobbyService = new LobbyServiceImpl(repository);
 
         this.leaderboardService = new LeaderboardServiceImpl();
 

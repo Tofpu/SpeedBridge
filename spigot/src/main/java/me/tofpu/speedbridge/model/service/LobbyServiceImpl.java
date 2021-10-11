@@ -1,6 +1,9 @@
 package me.tofpu.speedbridge.model.service;
 
 import com.google.gson.Gson;
+import com.google.inject.Inject;
+import me.tofpu.speedbridge.api.model.object.lobby.Lobby;
+import me.tofpu.speedbridge.api.model.repository.LobbyRepository;
 import me.tofpu.speedbridge.api.model.service.LobbyService;
 import org.bukkit.Location;
 
@@ -10,38 +13,24 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class LobbyServiceImpl implements LobbyService {
-    private Location location;
+    private final LobbyRepository repository;
 
-    @Override
-    public Location getLobbyLocation() {
-        return location;
+    @Inject
+    public LobbyServiceImpl(final LobbyRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public void setLobbyLocation(final Location location) {
-        this.location = location;
+    public void load() {
+        repository.load();
+    }
+
+    public Lobby lobby() {
+        return repository.lobby();
     }
 
     @Override
-    public boolean hasLobbyLocation() {
-        return location != null;
-    }
-
-    @Override
-    public void save(final Gson gson, final File lobbyFile) {
-        try (final FileWriter writer = new FileWriter(lobbyFile)) {
-            if (hasLobbyLocation()) writer.write(gson.toJson(getLobbyLocation(), Location.class));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void load(final Gson gson, final File lobbyFile) {
-        try (final FileReader reader = new FileReader(lobbyFile)) {
-            setLobbyLocation(gson.fromJson(reader, Location.class));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void save() {
+        repository.save();
     }
 }
