@@ -28,7 +28,7 @@ public class IslandRepositoryImpl implements IslandRepository {
     }
 
     @Override
-    public void load() {
+    public void loadAll() {
         final Collection<Island> islands = storage.loadIslands();
         this.islands.addAll(islands);
     }
@@ -110,7 +110,7 @@ public class IslandRepositoryImpl implements IslandRepository {
     }
 
     @Override
-    public void save() {
+    public void saveAll() {
         storage.saveIslands();
     }
 

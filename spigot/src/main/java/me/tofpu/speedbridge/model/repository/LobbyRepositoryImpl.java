@@ -18,7 +18,7 @@ public class LobbyRepositoryImpl implements LobbyRepository {
     }
 
     @Override
-    public void load() {
+    public void loadAll() {
         final Optional<Lobby> lobby = storage.loadLobby();
 
         lobby.flatMap(SpawnPoint::location).ifPresent(this.lobby::location);
@@ -30,7 +30,7 @@ public class LobbyRepositoryImpl implements LobbyRepository {
     }
 
     @Override
-    public void save() {
+    public void saveAll() {
         storage.saveLobby();
     }
 }

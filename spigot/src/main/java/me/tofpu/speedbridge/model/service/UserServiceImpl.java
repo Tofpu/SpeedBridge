@@ -40,6 +40,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public void saveAll() {
-        repository.save();
+        repository.saveAll();
     }
 }

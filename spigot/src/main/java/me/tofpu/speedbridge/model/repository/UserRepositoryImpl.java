@@ -79,7 +79,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void save() {
+    public void saveAll() {
         this.storage.saveUsers();
     }
 }

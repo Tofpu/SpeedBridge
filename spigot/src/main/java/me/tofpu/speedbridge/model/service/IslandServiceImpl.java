@@ -7,13 +7,7 @@ import me.tofpu.speedbridge.api.model.repository.IslandRepository;
 import me.tofpu.speedbridge.api.model.service.IslandService;
 import me.tofpu.speedbridge.api.model.object.mode.Mode;
 import me.tofpu.speedbridge.api.model.object.user.User;
-import me.tofpu.speedbridge.data.DataManager;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.*;
 
 public class IslandServiceImpl implements IslandService {
@@ -60,10 +54,10 @@ public class IslandServiceImpl implements IslandService {
     }
 
     public void saveAll() {
-        repository.save();
+        repository.saveAll();
     }
 
     public void loadAll() {
-        repository.load();
+        repository.loadAll();
     }
 }
