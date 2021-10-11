@@ -1,7 +1,7 @@
 package me.tofpu.speedbridge.api.leaderboard;
 
 public enum LeaderboardType {
-    GLOBAL, SEASONAL;
+    GLOBAL, SESSION;
 
     public static LeaderboardType match(final String identifier) {
         for (LeaderboardType type : values()){
