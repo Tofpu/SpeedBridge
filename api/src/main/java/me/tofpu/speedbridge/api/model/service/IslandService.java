@@ -1,9 +1,12 @@
 package me.tofpu.speedbridge.api.model.service;
 
+import me.tofpu.speedbridge.api.model.object.game.Result;
+import me.tofpu.speedbridge.api.model.object.island.Island;
 import me.tofpu.speedbridge.api.model.object.mode.Mode;
 import me.tofpu.speedbridge.api.model.object.user.User;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This handles everything that is island related.
@@ -20,9 +23,9 @@ public interface IslandService {
     /**
      * Removes tis island instance from the island's list
      *
-     * @param island the island instance you want removed
+     * @param slot the island slot you want removed
      */
-    void removeIsland(final Island island);
+    Result removeIsland(final int slot);
 
     /**
      * Looks up the loaded islands associated with this slot
@@ -31,7 +34,7 @@ public interface IslandService {
      *
      * @return the island instance associated with this slot
      */
-    Island getIslandBySlot(final int slot);
+    Optional<Island> getIslandBySlot(final int slot);
 
     /**
      * Looks up the loaded islands associated with this user
@@ -40,14 +43,14 @@ public interface IslandService {
      *
      * @return the island instance associated with this user
      */
-    Island getIslandByUser(final User user);
+    Optional<Island> getIslandByUser(final User user);
 
     /**
      * A list of available islands
      *
      * @return a list of available islands
      */
-    List<Island> getAvailableIslands();
+    Optional<Island> getAvailableIslands();
 
     /**
      * A list of available islands associated with this mode
@@ -56,5 +59,5 @@ public interface IslandService {
      *
      * @return a list of available islands associated with this mode
      */
-    List<Island> getAvailableIslands(final Mode mode);
+    Optional<Island> getAvailableIslands(final Mode mode);
 }
