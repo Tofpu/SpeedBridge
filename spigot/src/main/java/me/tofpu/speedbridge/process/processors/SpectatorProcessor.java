@@ -2,6 +2,7 @@ package me.tofpu.speedbridge.process.processors;
 
 import me.tofpu.speedbridge.api.model.object.user.User;
 import me.tofpu.speedbridge.data.file.path.Path;
+import me.tofpu.speedbridge.model.handler.GameHandler;
 import me.tofpu.speedbridge.process.ProcessType;
 import me.tofpu.speedbridge.process.type.GameProcessor;
 import me.tofpu.speedbridge.process.Process;
@@ -26,7 +27,7 @@ public class SpectatorProcessor extends GameProcessor {
     private Team team;
 
     @Override
-    public void process(final GameServiceImpl gameService,
+    public void process(final GameHandler gameHandler,
             final Location location, final ProcessType type,
             final User... users) {
         final User spectator = users[0];
@@ -64,7 +65,7 @@ public class SpectatorProcessor extends GameProcessor {
                 Util.message(spectatorPlayer, Path.MESSAGES_SPECTATING, new String[]{"%player%"}, targetPlayer
                         .getName());
 
-                gameService.messageSpectator(target, Util.WordReplacer.replace(Path.MESSAGES_NOTIFY_SPECTATING
+                gameHandler.messageSpectator(target, Util.WordReplacer.replace(Path.MESSAGES_NOTIFY_SPECTATING
                         .getValue(), new String[]{"%player%"},
                         spectatorPlayer.getName()), true);
                 break;
@@ -87,7 +88,7 @@ public class SpectatorProcessor extends GameProcessor {
                 // notifying the respective players
                 Util.message(spectatorPlayer, Path.MESSAGES_NO_LONGER_SPECTATING, new String[]{"%player%"}, targetPlayer.getName());
 
-                gameService.messageSpectator(target,
+                gameHandler.messageSpectator(target,
                         Util.WordReplacer.replace(Path.MESSAGES_NOTIFY_NOT_SPECTATING
                         .getValue(), new String[]{"%player%"},
                                 spectatorPlayer.getName()), true);

@@ -4,6 +4,7 @@ import me.tofpu.speedbridge.api.model.service.GameService;
 import me.tofpu.speedbridge.api.model.object.island.Island;
 import me.tofpu.speedbridge.api.model.object.island.point.TwoSection;
 import me.tofpu.speedbridge.api.model.object.user.User;
+import me.tofpu.speedbridge.model.service.GameServiceImpl;
 import me.tofpu.speedbridge.util.Cuboid;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -21,14 +22,14 @@ public class GameRunnable implements Runnable {
     private BukkitTask task;
     private boolean paused = true;
 
-    public GameRunnable(final Plugin plugin, final GameService gameService, final Map<User, Island> players, final Map<User, Island> spectators) {
+    public GameRunnable(final Plugin plugin, final GameServiceImpl gameService) {
         this.plugin = plugin;
         this.gameService = gameService;
 
         this.maps = new Map[2];
 
-        this.maps[0] = players;
-        this.maps[1] = spectators;
+        this.maps[0] = gameService.players();;
+        this.maps[1] = gameService.spectators();
     }
 
     private void check(final Map.Entry<User, Island> entry, boolean spectate) {

@@ -1,76 +1,19 @@
 package me.tofpu.speedbridge.api.model.service;
 
+import me.tofpu.speedbridge.api.model.object.game.Result;
 import me.tofpu.speedbridge.api.model.object.island.Island;
 import me.tofpu.speedbridge.api.model.object.mode.Mode;
 import me.tofpu.speedbridge.api.model.object.user.User;
 import me.tofpu.speedbridge.api.model.object.user.timer.Timer;
 import org.bukkit.entity.Player;
 
+import java.util.Optional;
+
 /**
  * This handles everything game related. From joining to resetting islands back to their state.
  */
 public interface GameService {
-    /**
-     * This method will look for any available island
-     * and have the player join the island.
-     *
-     * @param player the player instance that trying to join
-     *
-     * @return the result of the action
-     * @see #join(Player, Mode)
-     */
-    Result join(final Player player);
-
-    /**
-     * This method will look for an island available
-     * associated with this slot.
-     *
-     * @param player the player instance that's trying to join
-     * @param slot the island slot that the player is trying to join
-     *
-     * @return the result of the action
-     * <p>
-     * INVALID_LOBBY - if the lobby location were not defined
-     * <p>
-     * INVALID_ISLAND - if the island instance didn't exist
-     * <p>
-     * FULL - if the island is already taken
-     * <p>
-     * DENY - if the player instance is null (shouldn't happen)
-     * <p>
-     * SUCCESS - If the action was successful
-     * @see Result
-     */
-    Result join(final Player player, final int slot);
-
-    /**
-     * This method will look for an island associated with this mode.
-     * <p></p>
-     * Here is the current joining process:
-     * <p>
-     * If the mode were null, it'll try the default mode defined by the settings
-     * and if the default mode were still null, it'll look for any other available
-     * island for the player to join.
-     *
-     * @param player the player instance
-     * @param mode the mode instance
-     *
-     * @return the result of the action
-     * <p>
-     * INVALID_LOBBY - if the lobby location were not defined
-     * <p>
-     * INVALID_ISLAND - if the island instance didn't exist
-     * <p>
-     * DENY - if the player instance is null (shouldn't happen)
-     * <p>
-     * FULL - if the mode defined slots islands were all taken
-     * <p>
-     * NONE - If there is no available island, at all
-     * <p>
-     * SUCCESS - If the action was successful
-     * @see Result
-     */
-    Result join(final Player player, final Mode mode);
+    Result join(final JoinAlgorithm algorithm, final Player player);
 
     /**
      * This method will teleport the issuer to the target
@@ -154,7 +97,7 @@ public interface GameService {
      *
      * @return a cached timer associated with this user
      */
-    Timer getTimer(final User user);
+    Optional<Timer> getTimer(final User user);
 
     /**
      * This method is for primarily checking against the cached timer
@@ -198,4 +141,48 @@ public interface GameService {
      * @param slot the island's slot
      */
     void resetIsland(final int slot);
+
+    enum JoinType {
+        RANDOM, SELECTIVE, CATEGORY
+    }
+
+    public static class JoinAlgorithm {
+        public static final JoinAlgorithm RANDOM = new JoinAlgorithm();
+        public static JoinAlgorithm of(final int slot) {
+            return new JoinAlgorithm(slot);
+        }
+        public static JoinAlgorithm of(final Mode mode) {
+            return new JoinAlgorithm(mode);
+        }
+
+        private final JoinType type;
+        private int slot;
+        private Mode mode;
+
+        private JoinAlgorithm() {
+            this.type = JoinType.RANDOM;
+        }
+
+        private JoinAlgorithm(final int slot) {
+            this.type = JoinType.SELECTIVE;
+            this.slot = slot;
+        }
+
+        private JoinAlgorithm(final Mode mode) {
+            this.type = JoinType.CATEGORY;
+            this.mode = mode;
+        }
+
+        public JoinType type() {
+            return this.type;
+        }
+
+        public int slot() {
+            return this.slot;
+        }
+
+        public Mode mode() {
+            return this.mode;
+        }
+    }
 }
