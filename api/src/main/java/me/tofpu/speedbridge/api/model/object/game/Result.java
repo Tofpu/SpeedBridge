@@ -1,36 +1,42 @@
 package me.tofpu.speedbridge.api.model.object.game;
 
-/**
- * The result of an action.
- */
-public enum Result {
-    /**
-     * The action were successful.
-     */
-    SUCCESS,
+public class Result {
+    public static Result of(final TransactionResult result) {
+        return new Result(result);
+    }
 
-    /**
-     * The action failed for some reason, check the method for more information.
-     */
-    FAIL,
+    public static Result of(final TransactionResult result,
+            TransactionReason reason) {
+        return new Result(result, reason);
+    }
+    
+    private final TransactionResult result;
+    private final TransactionReason reason;
 
-    /**
-     * The island were full/not-available.
-     */
-    FULL,
+    private Result(final TransactionResult result) {
+        this(result, TransactionReason.NONE);
+    }
 
-    /**
-     * There were no other available islands.
-     */
-    NONE,
+    private Result(final TransactionResult result, final TransactionReason reason) {
+        this.result = result;
+        this.reason = reason;
+    }
 
-    /**
-     * There were no defined lobby location.
-     */
-    INVALID_LOBBY,
+    public TransactionResult result() {
+        return result;
+    }
 
-    /**
-     * The island did not exist.
-     */
-    INVALID_ISLAND;
+    public TransactionReason reason() {
+        return reason;
+    }
+
+    enum TransactionResult {
+        SUCCESS, FAIL
+    }
+
+    enum TransactionReason {
+        INVALID_LOBBY,
+        INVALID_ISLAND,
+        NONE;
+    }
 }
