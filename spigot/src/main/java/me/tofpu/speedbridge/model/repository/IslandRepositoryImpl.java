@@ -62,15 +62,15 @@ public class IslandRepositoryImpl implements IslandRepository {
     }
 
     @Override
-    public Optional<Island> findIslandBy(final SearchAlgorithm searchType) {
-        switch (searchType.type()) {
+    public Optional<Island> findIslandBy(final SearchAlgorithm algorithm) {
+        switch (algorithm.type()) {
             case AVAILABILITY:
             case SLOT:
-                return findIslandBy(searchType.slot());
+                return findIslandBy(algorithm.slot());
             case USER:
-                return findIslandBy(searchType.user());
+                return findIslandBy(algorithm.user());
             case MODE:
-                return findIslandBy(searchType.mode());
+                return findIslandBy(algorithm.mode());
         }
         return Optional.empty();
     }

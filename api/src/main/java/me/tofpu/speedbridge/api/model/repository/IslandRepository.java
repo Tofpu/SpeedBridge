@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface IslandRepository extends Repository, Loadable,
         Registrable<Island,
         Integer>, Removable<Island, Integer>, Savable {
-    Optional<Island> findIslandBy(final SearchAlgorithm type);
+    Optional<Island> findIslandBy(final SearchAlgorithm algorithm);
     Optional<Island> revert();
     Collection<Island> islands();
 
@@ -24,11 +24,8 @@ public interface IslandRepository extends Repository, Loadable,
     }
 
     class SearchAlgorithm {
-        private final SearchType type;
-        private int slot;
-        private User user;
-        private Mode mode;
-
+        public static final SearchAlgorithm AVAILABILITY =
+                new SearchAlgorithm();
         public static SearchAlgorithm of(final int slot) {
             return new SearchAlgorithm(slot);
         }
@@ -37,8 +34,17 @@ public interface IslandRepository extends Repository, Loadable,
             return new SearchAlgorithm(user);
         }
 
+        private final SearchType type;
+        private int slot;
+        private User user;
+        private Mode mode;
+
         public static SearchAlgorithm of(final Mode mode) {
             return new SearchAlgorithm(mode);
+        }
+
+        private SearchAlgorithm() {
+            this.type = SearchType.AVAILABILITY;
         }
 
         private SearchAlgorithm(final int slot) {

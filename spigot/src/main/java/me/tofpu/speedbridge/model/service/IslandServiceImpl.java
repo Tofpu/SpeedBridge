@@ -18,6 +18,10 @@ public class IslandServiceImpl implements IslandService {
         this.repository = repository;
     }
 
+    public void loadAll() {
+        repository.loadAll();
+    }
+
     @Override
     public void addIsland(final Island island) {
         repository.register(island);
@@ -29,35 +33,16 @@ public class IslandServiceImpl implements IslandService {
         return island.isPresent() ? Result.SUCCESS : Result.INVALID_ISLAND;
     }
 
+    @Override
+    public Optional<Island> findIslandBy(final IslandRepository.SearchAlgorithm algorithm) {
+        return repository.findIslandBy(algorithm);
+    }
+
     public Optional<Island> revert() {
         return repository.revert();
     }
 
-    @Override
-    public Optional<Island> getIslandBySlot(final int slot) {
-        return repository.findIslandBy(IslandRepository.SearchAlgorithm.of(slot));
-    }
-
-    @Override
-    public Optional<Island> getIslandByUser(final User takenBy) {
-        return repository.findIslandBy(IslandRepository.SearchAlgorithm.of(takenBy));
-    }
-
-    @Override
-    public Optional<Island> getAvailableIslands() {
-        return repository.findIslandBy(IslandRepository.SearchAlgorithm.of(-1));
-    }
-
-    @Override
-    public Optional<Island> getAvailableIslands(final Mode mode) {
-        return repository.findIslandBy(IslandRepository.SearchAlgorithm.of(mode));
-    }
-
     public void saveAll() {
         repository.saveAll();
-    }
-
-    public void loadAll() {
-        repository.loadAll();
     }
 }
