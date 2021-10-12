@@ -7,6 +7,8 @@ public class Result {
             TransactionReason.INVALID_LOBBY);
     public final static Result INVALID_ISLAND = of(TransactionResult.FAIL,
             TransactionReason.INVALID_ISLAND);
+    public final static Result BUSY = of(TransactionResult.FAIL,
+            TransactionReason.BUSY);
 
     public static Result of(final TransactionResult result) {
         return new Result(result);
@@ -44,6 +46,7 @@ public class Result {
     enum TransactionReason {
         INVALID_LOBBY,
         INVALID_ISLAND,
+        BUSY,
         NONE;
     }
 }
