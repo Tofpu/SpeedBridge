@@ -9,7 +9,7 @@ For more information, please visit the [wiki](https://github.com/request-plugins
 
 Support
 ---
-If you need support, please join the [discord](https://discord.gg/yGkS3Dh) server.
+If you need support, please join the [discord](https://discord.gg/rjks6D5Ynq) server.
 
 Contribute
 ---
