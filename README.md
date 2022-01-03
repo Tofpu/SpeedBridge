@@ -15,7 +15,7 @@ Contribute
 ---
  Are you willing to contribute? You can do the following:
 * Leave a like and a review on the [resource's](https://www.spigotmc.org/resources/speedbridge-1-free-bridge-trainer-rpf.95918/) page.
-* Join the [discord](https://discord.gg/yGkS3Dh) to assist others in need. 
+* Join the [discord](hhttps://discord.gg/rjks6D5Ynq) to assist others in need. 
 * Assist users who have created an issue in the [issues](https://github.com/request-plugins-for-free/SpeedBridge/issue/) page.
 * Contribute to the [wiki](https://github.com/request-plugins-for-free/SpeedBridge/wiki) page.
 * Take a look at the open [issues](https://github.com/request-plugins-for-free/SpeedBridge/issues) page and submit fix bugs and/or suggestions.
