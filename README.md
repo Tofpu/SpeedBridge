@@ -7,6 +7,10 @@ What is SpeedBridge?
 
 For more information, please visit the [wiki](https://github.com/request-plugins-for-free/SpeedBridge/wiki) page.
 
+Second Generation of SpeedBridge
+---
+You can view the second generation of SpeedBridge in the making at [GitHub](https://speedbridge.tofpu.me/github)
+
 Support
 ---
 If you need support, please join the [discord](https://discord.gg/rjks6D5Ynq) server.
