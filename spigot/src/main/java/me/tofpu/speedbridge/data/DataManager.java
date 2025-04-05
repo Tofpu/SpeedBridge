@@ -150,8 +150,12 @@ public class DataManager {
     public void shutdown() {
         islandService.saveAll(true);
         userService.saveAll(true);
-        lobbyService.save(GSON, files[4]);
+        saveLobbyService();
         leaderboardService.save();
+    }
+
+    public void saveLobbyService() {
+        lobbyService.save(GSON, files[4]);
     }
 
     public File[] getFiles() {

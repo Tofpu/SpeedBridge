@@ -156,6 +156,7 @@ public class AdminCommand extends BridgeBaseCommand {
         }
         if (stage == SetupStage.LOBBY) {
             lobbyService.setLobbyLocation(player.getLocation());
+            dataManager.saveLobbyService();
             Util.message(player, Path.MESSAGES_LOBBY_LOCATION);
             return;
         }
